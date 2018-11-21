@@ -12,3 +12,12 @@ elif [ "$numships" -eq 1 ]; then
 else
   printf "Multiple ships found: %s\\n" "${ships}"
 fi
+
+# look at log entries in gophermap
+# compare against files in ship directory
+# store list of unpublished logs
+logs=$(grep "^[01]$ships" "/var/gopher/gophermap" | awk -F'\t' '{print $2}')
+files=$(find "/var/gopher/$ships" -type f | sed 's|/var/gopher||')
+uniq=$(printf "%s\\n%s" "$logs" "$files" | uniq -u)
+
+printf "uniques: %s\\n" "$uniq"
