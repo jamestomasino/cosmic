@@ -3,6 +3,12 @@
 user=$(whoami)
 ships=$(find /var/gopher -user "$user" -type d -exec basename {} \;)
 numships=$(echo "${ships}" | wc -l)
+tmp="$HOME/.cosmiclog"
+
+finish () {
+  rm -f "$tmp"
+}
+trap finish EXIT
 
 check_yn () {
   read -r answer
@@ -22,13 +28,22 @@ check_log () {
   logs=$(grep "^[01]$ship" "/var/gopher/gophermap" | awk -F'\t' '{print $2}')
   files=$(find "/var/gopher/$ship" -type f | sed 's|/var/gopher||')
   uniq=$(printf "%s\\n%s" "$logs" "$files" | uniq -u)
+
   if [ -z "$uniq" ]; then
     printf "No messages.\\n"
   else
+    # check each unpublished message for sending
     for u in $uniq; do
-      printf "Send message %s: [yn] " "$(basename "$u" | sed 's/\.[^.]*$//')"
+      printf "Send message %s? " "$(basename "$u" | sed 's/\.[^.]*$//')"
       res=$(check_yn)
       if [ "$res" -eq 1 ]; then
+        # prompt for title and prepare output
+        printf "Title for message %s? " "$(basename "$u" | sed 's/\.[^.]*$//')"
+        read -r title
+        output=$(printf "0%s - %s\\t%s\\n" "$ship" "$title" "$u")
+        sed -e "s|^LOG|LOG\\n${output}|" "/var/gopher/gophermap" > "$tmp"
+        cat "$tmp" > "/var/gopher/gophermap"
+        rm "$tmp"
         printf "   .... Sent.\\n"
       else 
         printf "   .... Skiped.\\n"
@@ -37,7 +52,7 @@ check_log () {
   fi
 }
 
-printf "Initializing QEC...\\n\\n"
+printf "Initializing QEC...\\n"
 printf "Ready to transmit for %s\\n" "${user}"
 if [ "$numships" -eq 0 ]; then
   printf "No registered ships found in system.\\n"
