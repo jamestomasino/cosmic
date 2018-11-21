@@ -1,0 +1,26 @@
+#!/bin/sh
+
+run_user=$(id -u)
+if [ "$run_user" -eq 0 ]; then
+  n="$1"
+  k="$2"
+  if [ ! -z "$n" ]; then
+    user_exists=$(id -u "${n}" 2> /dev/null)
+    if [ -z "${user_exists}" ]; then
+      printf "Adding new user %s\\n" "${n}"
+      newpw=$(pwgen -1B 10)
+      pwcrypt=$(perl -e "print crypt('${newpw}', 'sa');")
+      useradd -m -G users,www-data -p "$pwcrypt" -s /bin/bash "${n}" || exit 1
+      sed -e "s/newusername/$1/g" -e "s/newpassword/$newpw/" /etc/welcomemail.tmpl | sendmail "${n}" "tomasino"
+    fi
+    if [ ! -z "${k}" ]; then
+      printf "%s\\n" "${k}" >> "/home/${n}/.ssh/authorized_keys"
+    else
+      ${EDITOR:-vim} "/home/${n}/.ssh/authorized_keys"
+    fi
+  else
+    printf "Specify a user.\\n"
+  fi
+else
+  printf "You must be root to run this script.\\n"
+fi
