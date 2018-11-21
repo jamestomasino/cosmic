@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+ships=$(find /var/gopher -user "$(whoami)" -type d -print)
+echo -e "$ships"
