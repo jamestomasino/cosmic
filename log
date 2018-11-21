@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# TODO: create new messages for ship using templates
+# TODO: better isolate listings.gophermap from accidental clobbering
+
 user=$(whoami)
 ships=$(find /var/gopher -user "$user" -type d -exec basename {} \;)
 numships=$(echo "${ships}" | wc -l)
