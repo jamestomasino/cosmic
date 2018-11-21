@@ -1,4 +1,14 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-ships=$(find /var/gopher -user "$(whoami)" -type d -print)
-echo -e "$ships"
+user=$(whoami)
+ships=$(find /var/gopher -user "$user" -type d -exec basename {} \;)
+numships=$(echo "${ships}" | wc -l)
+printf "Initializing QEC...\\n\\n"
+printf "Ready to transmit for %s\\n" "${user}"
+if [ "$numships" -eq 0 ]; then
+  printf "No ships found in system.\\n"
+elif [ "$numships" -eq 1 ]; then
+  printf "Ship found: %s\\n" "${ships}"
+else
+  printf "Multiple ships found: %s\\n" "${ships}"
+fi
