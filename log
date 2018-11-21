@@ -3,21 +3,49 @@
 user=$(whoami)
 ships=$(find /var/gopher -user "$user" -type d -exec basename {} \;)
 numships=$(echo "${ships}" | wc -l)
+
+check_yn () {
+  read -r answer
+  if [ "$answer" != "${answer#[Yy]}" ] ; then
+    printf 1 # true
+  else
+    printf 0 # false
+  fi
+}
+
+check_log () {
+  ship="$1"
+  printf "Checking for outbound messages on ship: %s\\n" "${ship}"
+  # look at log entries in gophermap
+  # compare against files in ship directory
+  # store list of unpublished logs
+  logs=$(grep "^[01]$ship" "/var/gopher/gophermap" | awk -F'\t' '{print $2}')
+  files=$(find "/var/gopher/$ship" -type f | sed 's|/var/gopher||')
+  uniq=$(printf "%s\\n%s" "$logs" "$files" | uniq -u)
+  if [ -z "$uniq" ]; then
+    printf "No messages.\\n"
+  else
+    for u in $uniq; do
+      printf "Send message %s: [yn] " "$(basename "$u" | sed 's/\.[^.]*$//')"
+      res=$(check_yn)
+      if [ "$res" -eq 1 ]; then
+        printf "   .... Sent.\\n"
+      else 
+        printf "   .... Skiped.\\n"
+      fi
+    done
+  fi
+}
+
 printf "Initializing QEC...\\n\\n"
 printf "Ready to transmit for %s\\n" "${user}"
 if [ "$numships" -eq 0 ]; then
-  printf "No ships found in system.\\n"
+  printf "No registered ships found in system.\\n"
 elif [ "$numships" -eq 1 ]; then
-  printf "Ship found: %s\\n" "${ships}"
+  check_log "$ships"
 else
-  printf "Multiple ships found: %s\\n" "${ships}"
+  for f in $ships; do
+    check_log "$f"
+  done
 fi
 
-# look at log entries in gophermap
-# compare against files in ship directory
-# store list of unpublished logs
-logs=$(grep "^[01]$ships" "/var/gopher/gophermap" | awk -F'\t' '{print $2}')
-files=$(find "/var/gopher/$ships" -type f | sed 's|/var/gopher||')
-uniq=$(printf "%s\\n%s" "$logs" "$files" | uniq -u)
-
-printf "uniques: %s\\n" "$uniq"
