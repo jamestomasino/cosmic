@@ -25,7 +25,7 @@ check_log () {
   # look at log entries in gophermap
   # compare against files in ship directory
   # store list of unpublished logs
-  logs=$(grep "^[01]$ship" "/var/gopher/gophermap" | awk -F'\t' '{print $2}')
+  logs=$(grep "^[01]$ship" "/var/gopher/listing.gophermap" | awk -F'\t' '{print $2}')
   files=$(find "/var/gopher/$ship" -type f | sed 's|/var/gopher||')
   uniq=$(printf "%s\\n%s" "$logs" "$files" | uniq -u)
 
@@ -40,10 +40,7 @@ check_log () {
         # prompt for title and prepare output
         printf "Title for message %s? " "$(basename "$u" | sed 's/\.[^.]*$//')"
         read -r title
-        output=$(printf "0%s - %s\\t%s\\n" "$ship" "$title" "$u")
-        sed -e "s|^LOG|LOG\\n${output}|" "/var/gopher/gophermap" > "$tmp"
-        cat "$tmp" > "/var/gopher/gophermap"
-        rm "$tmp"
+        printf "0%s - %s\\t%s\\n" "$ship" "$title" "$u" | cat - /var/gopher/listing.gophermap > "$tmp" && cat "$tmp" > /var/gopher/listing.gophermap && rm "$tmp"
         printf "   .... Sent.\\n"
       else 
         printf "   .... Skiped.\\n"
