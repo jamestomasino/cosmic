@@ -8,7 +8,16 @@ if [ "$run_user" -eq 0 ]; then
     user_exists=$(id -u "${n}" 2> /dev/null)
     if [ ! -z "${user_exists}" ]; then
       if [ ! -z "${s}" ]; then
-        printf "Creating ship '%s' for user '%s'\\n" "${s}" "${n}"
+        path="/var/gopher/${s}"
+        if [ ! -d "$path" ]; then
+          printf "Creating ship '%s' for user '%s'\\n" "${s}" "${n}"
+          mkdir "$path"
+          chmod 755 "$path"
+          chown -R "${n}" "$path"
+        else
+          owner=$(stat -c %U "$path")
+          printf "That ship or colony already exists and is owned by %s\\n" "$owner"
+        fi
       else
         printf "Specificy a ship or colony name.\\n"
       fi
