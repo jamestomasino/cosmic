@@ -20,3 +20,7 @@ fi
 if [ ! -L "/etc/welcomemail.tmpl" ]; then
   ln -s "${DIR}/welcomemail.tmpl" "/etc/welcomemail.tmpl"
 fi
+
+if [ ! -L "/etc/newship.tmpl" ]; then
+  ln -s "${DIR}/newship.tmpl" "/etc/newship.tmpl"
+fi
