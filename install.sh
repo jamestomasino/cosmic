@@ -28,3 +28,7 @@ fi
 if [ ! -L "/etc/newship.tmpl" ]; then
   ln -s "${DIR}/newship.tmpl" "/etc/newship.tmpl"
 fi
+
+if [ ! -L "/etc/motd" ]; then
+  ln -s "${DIR}/motd" "/etc/motd"
+fi

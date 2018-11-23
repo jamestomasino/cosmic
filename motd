@@ -1,0 +1,15 @@
+
+
+   _. _  __._ _ * _.  .  , _   . _. _  _ 
+  (_.(_)_) [ | )|(_.   \/ (_)\_|(_](_](/,
+                             ._|   ._|
+
+
+New additions:
+
+  - 'log' command provides basic posting to the relay
+  - https enabled with letsencrypt (soon to be gopherproxy enabled)
+  - planning started on RSS feed for the relay
+
+Requests or advice? Send a local mail to 'tomasino'.
+
