@@ -11,11 +11,16 @@ if [ "$run_user" -eq 0 ]; then
         path="/var/gopher/${s}"
         if [ ! -d "$path" ]; then
           printf "Creating ship '%s' for user '%s'\\n" "${s}" "${n}"
+          # create ship directory in gopher and give ownership to user
           mkdir "$path"
           chmod 755 "$path"
           chown -R "${n}" "$path"
+          # create a symlink in user's home dir for easy access
           mkdir -p "/home/${n}/ships"
           ln -s "$path" "/home/${n}/ships/${s}"
+          # add a symlink to web dir
+          ln -s "$path" "/var/www/html/${s}"
+          # notify user by email
           sed -e "s/username/${n}/g" -e "s/shipname/${s}/" /etc/newship.tmpl | sendmail "${n}" "tomasino"
         else
           owner=$(stat -c %U "$path")
