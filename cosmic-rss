@@ -10,6 +10,7 @@ if [ "$run_user" -eq 0 ]; then
     printf "\\n<title>Cosmic Voyage</title>\\n"
     printf "<link>gopher://cosmic.voyage</link>\\n"
     printf "<description>Messages from the human stellar diaspora</description>\\n"
+    printf "<pubdate>%s</pubdate>\\n" "$(date +'%a, %d %b %Y %H:%M:%S')"
   } > "${file_rss}"
 
   # Loop through listings gophermap
