@@ -7,9 +7,10 @@
 
 New additions:
 
+  - Every night the relay will auto-generate an RSS feed on the web
+  - New ships are auto-symlinked to ~/ships/{shipname} for convenience
   - 'log' command provides basic posting to the relay
-  - https enabled with letsencrypt (soon to be gopherproxy enabled)
-  - planning started on RSS feed for the relay
+  - https enabled with letsencrypt
 
 Requests or advice? Send a local mail to 'tomasino'.
 
