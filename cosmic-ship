@@ -18,8 +18,6 @@ if [ "$run_user" -eq 0 ]; then
           # create a symlink in user's home dir for easy access
           mkdir -p "/home/${n}/ships"
           ln -s "$path" "/home/${n}/ships/${s}"
-          # add a symlink to web dir
-          ln -s "$path" "/var/www/html/${s}"
           # notify user by email
           sed -e "s/username/${n}/g" -e "s/shipname/${s}/" /etc/newship.tmpl | sendmail "${n}" "tomasino"
         else
