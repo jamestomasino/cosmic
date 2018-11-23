@@ -24,7 +24,7 @@ if [ "$run_user" -eq 0 ]; then
       printf "<item>\\n"
       printf "  <title>%s</title>\\n" "$title"
       printf "  <author>%s</author>\\n" "$owner"
-      printf "  <link>gopher://cosmic.voyage/0/%s</link>\\n" "$log"
+      printf "  <link>gopher://cosmic.voyage/0%s</link>\\n" "$log"
       printf "  <pubdate>%s</pubdate>\\n" "$(date -d "$(stat -c %y "/var/gopher${log}")" +'%a, %d %b %Y %H:%M:%S')"
       printf "  <description><![CDATA[<pre>\\n"
       cat "/var/gopher${log}"
