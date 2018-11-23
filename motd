@@ -7,7 +7,8 @@
 
 New additions:
 
-  - Every night the relay will auto-generate an RSS feed on the web
+  - Web version is live! It updates every night at midnight
+  - RSS feed is live! It updates every night at midnight
   - New ships are auto-symlinked to ~/ships/{shipname} for convenience
   - 'log' command provides basic posting to the relay
   - https enabled with letsencrypt
