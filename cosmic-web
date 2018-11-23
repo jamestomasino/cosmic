@@ -17,7 +17,7 @@ if [ "$run_user" -eq 0 ]; then
     <meta name=theme-color content=#ffffff>
     <title>Cosmic Voyage</title>
     <link rel=”canonical” href=”https://cosmic.voyage”>
-    <link href="styles.css" rel="stylesheet" type="text/css">
+    <link rel="alternate" type="application/rss+xml" title="Cosmic Voyage" href="/rss.xml">
   </head>
   <body>
     <div id="page-wrapper">
