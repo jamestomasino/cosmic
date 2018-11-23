@@ -9,6 +9,10 @@ if [ ! -L "/usr/local/bin/cosmic-user" ]; then
   ln -s "${DIR}/cosmic-user" "/usr/local/bin/cosmic-user"
 fi
 
+if [ ! -L "/usr/local/bin/cosmic-rss" ]; then
+  ln -s "${DIR}/cosmic-rss" "/usr/local/bin/cosmic-rss"
+fi
+
 if [ ! -L "/usr/local/bin/cosmic-ship" ]; then
   ln -s "${DIR}/cosmic-ship" "/usr/local/bin/cosmic-ship"
 fi
