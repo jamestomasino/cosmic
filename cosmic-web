@@ -16,34 +16,64 @@ if [ "$run_user" -eq 0 ]; then
     <meta name=msapplication-TileColor content=#ffffff>
     <meta name=theme-color content=#ffffff>
     <title>Cosmic Voyage</title>
+    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono" rel="stylesheet">
+    <link href="/styles.css" rel="stylesheet" type="text/css">
     <link rel=”canonical” href=”https://cosmic.voyage”>
     <link rel="alternate" type="application/rss+xml" title="Cosmic Voyage" href="/rss.xml">
   </head>
   <body>
-    <div id="page-wrapper">
+    <div class="page-wrapper">
+    <div class="inner-wrapper">
 END
   } > "${file_html}"
 
   # Add intro text
-  printf "<div class=\"intro\"><pre>" >> "${file_html}"
   cat "/var/gopher/intro.gophermap" >> "${file_html}"
-  printf "</pre></div>" >> "${file_html}"
 
   # Loop through listings gophermap
-  printf "<div class=\"listings\"><pre>" >> "${file_html}"
-  printf "Transmission log (newest first):\\n" >> "${file_html}"
+  printf "\\n\\nTransmission log (newest first):\\n" >> "${file_html}"
   while read -r line; do
     log=$(printf "%s" "$line" | awk -F'\t' '{print $2}')
+    loghtml=$(printf "%s" "$log" | sed 's/\.[^.]*$//')
+    logdir=$(dirname "$log")
     title=$(printf "%s" "$line" | awk -F'\t' '{print $1}' | sed 's|^.||')
+    # print link in listings
+    printf "<a href=\"%s.html\">%s</a>\\n" "$loghtml" "$title" >> "${file_html}"
+
+    # create entry
+    entry_html="/var/www/html${loghtml}.html"
+    mkdir -p "/var/www/html${logdir}"
     {
-      printf "<a href=\"%s\">%s</a>\\n" "$log" "$title"
-    } >> "${file_html}"
+      cat > /dev/stdout << ENTRY
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset=utf-8>
+    <meta http-equiv=X-UA-Compatible content="IE=edge">
+    <meta name=viewport content="shrink-to-fit=no,width=device-width,height=device-height,initial-scale=1,user-scalable=0,minimum-scale=1,maximum-scale=1">
+    <meta name=msapplication-TileColor content=#ffffff>
+    <meta name=theme-color content=#ffffff>
+    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono" rel="stylesheet">
+    <link href="/styles.css" rel="stylesheet" type="text/css">
+ENTRY
+    } > "${entry_html}"
+
+    {
+      printf "    <title>%s</title>\\n" "$title"
+      printf "    <link rel=\"canonical\" href=\"https://cosmic.voyage%s.html\">\\n" "$loghtml"
+
+      printf "</head>\\n<body>\\n<div class=\"page-wrapper\"><div class=\"inner-wrapper\">\\n"
+      cat "/var/gopher${log}"
+      # close up the entry footer
+      printf "</div></body></html>"
+    } >> "${entry_html}"
+
   done < "/var/gopher/listing.gophermap"
-  printf "</pre></div>" >> "${file_html}"
+  printf "</div></div>" >> "${file_html}"
 
   # close up the footer
   {
-    printf "</div></body></html>"
+    printf "</div></div></body></html>"
   } >> "${file_html}"
 else
   printf "You must be root to run this script.\\n"
