@@ -12,14 +12,43 @@ if [ "$run_user" -eq 0 ]; then
   <head>
     <meta charset=utf-8>
     <meta http-equiv=X-UA-Compatible content="IE=edge">
-    <meta name=viewport content="shrink-to-fit=no,width=device-width,height=device-height,initial-scale=1,user-scalable=0,minimum-scale=1,maximum-scale=1">
+    <meta name=viewport content="shrink-to-fit=no,width=device-width,height=device-height,initial-scale=1,user-scalable=1">
     <meta name=msapplication-TileColor content=#ffffff>
     <meta name=theme-color content=#ffffff>
     <title>Cosmic Voyage</title>
     <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono" rel="stylesheet">
-    <link href="/styles.css" rel="stylesheet" type="text/css">
     <link rel="canonical" href="https://cosmic.voyage">
     <link rel="alternate" type="application/rss+xml" title="Cosmic Voyage" href="/rss.xml">
+    <style>
+      body, html {
+        color: rgb(62, 231, 123);
+        background-color: #000;
+        font-size: 12px;
+      }
+
+      a, a:visited, a:hover, a:active {
+        color: rgb(62, 231, 123);
+      }
+
+      .page-wrapper {
+        text-align: center;
+      }
+
+      .inner-wrapper {
+        display: inline-block;
+        text-align: left;
+        white-space: pre;
+        font-family: 'IBM Plex Mono', monospace;
+        margin: 0 auto;
+        width: auto;
+      }
+
+      @media screen and (min-width: 700px) {
+        body, html {
+          font-size: 16px;
+        }
+      }
+    </style>
   </head>
   <body>
     <div class="page-wrapper">
@@ -50,11 +79,40 @@ END
   <head>
     <meta charset=utf-8>
     <meta http-equiv=X-UA-Compatible content="IE=edge">
-    <meta name=viewport content="shrink-to-fit=no,width=device-width,height=device-height,initial-scale=1,user-scalable=0,minimum-scale=1,maximum-scale=1">
+    <meta name=viewport content="shrink-to-fit=no,width=device-width,height=device-height,initial-scale=1,user-scalable=1">
     <meta name=msapplication-TileColor content=#ffffff>
     <meta name=theme-color content=#ffffff>
     <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono" rel="stylesheet">
-    <link href="/styles.css" rel="stylesheet" type="text/css">
+    <style>
+      body, html {
+        color: rgb(62, 231, 123);
+        background-color: #000;
+        font-size: 12px;
+      }
+
+      a, a:visited, a:hover, a:active {
+        color: rgb(62, 231, 123);
+      }
+
+      .page-wrapper {
+        text-align: center;
+      }
+
+      .inner-wrapper {
+        display: inline-block;
+        text-align: left;
+        white-space: pre;
+        font-family: 'IBM Plex Mono', monospace;
+        margin: 0 auto;
+        width: auto;
+      }
+
+      @media screen and (min-width: 700px) {
+        body, html {
+          font-size: 16px;
+        }
+      }
+    </style>
 ENTRY
     } > "${entry_html}"
 
