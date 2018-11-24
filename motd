@@ -5,13 +5,19 @@
                              ._|   ._|
 
 
-New additions:
-
+Nov 24:
+  - Try the "cosmic-roster" command!
   - Ships with spaces in names should now log properly
+
+Nov 23:
   - Installed weechat and irssi in case users want to hang here
+
+Nov 22:
   - Web version is live! It updates every night at midnight
   - RSS feed is live! It updates every night at midnight
   - New ships are auto-symlinked to ~/ships/{shipname} for convenience
+
+Nov 21:
   - 'log' command provides basic posting to the relay
   - https enabled with letsencrypt
 
