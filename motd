@@ -7,6 +7,7 @@
 
 New additions:
 
+  - Ships with spaces in names should now log properly
   - Installed weechat and irssi in case users want to hang here
   - Web version is live! It updates every night at midnight
   - RSS feed is live! It updates every night at midnight
