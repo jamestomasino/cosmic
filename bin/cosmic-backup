@@ -1,0 +1,7 @@
+#!/bin/sh
+
+rsync -avzh --delete --exclude=".*" /var/gopher/ /var/cosmic-backup/gopher/
+cd /var/cosmic-backup/gopher/ || exit
+git add .
+git commit -m 'backup'
+git push origin master
