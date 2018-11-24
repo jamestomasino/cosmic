@@ -21,6 +21,10 @@ if [ ! -L "/usr/local/bin/cosmic-ship" ]; then
   ln -s "${DIR}/cosmic-ship" "/usr/local/bin/cosmic-ship"
 fi
 
+if [ ! -L "/usr/local/bin/cosmic-roster" ]; then
+  ln -s "${DIR}/cosmic-roster" "/usr/local/bin/cosmic-roster"
+fi
+
 if [ ! -L "/usr/local/bin/log" ]; then
   ln -s "${DIR}/log" "/usr/local/bin/log"
 fi
