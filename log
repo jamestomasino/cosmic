@@ -23,7 +23,7 @@ check_yn () {
 }
 
 check_log () {
-  ship="$1"
+  ship="$*"
   printf "Checking for outbound messages on ship: %s\\n" "${ship}"
   # look at log entries in gophermap
   # compare against files in ship directory
@@ -33,10 +33,13 @@ check_log () {
   uniq=$(printf "%s\\n%s" "$logs" "$files" | uniq -u)
 
   if [ -z "$uniq" ]; then
-    printf "No messages.\\n"
+    printf "   .... No messages.\\n"
   else
     # check each unpublished message for sending
-    for u in $uniq; do
+    IFS='
+'
+    for u in $uniq
+    do
       printf "Send message %s? " "$(basename "$u" | sed 's/\.[^.]*$//')"
       res=$(check_yn)
       if [ "$res" -eq 1 ]; then
@@ -49,6 +52,7 @@ check_log () {
         printf "   .... Skiped.\\n"
       fi
     done
+    unset IFS
   fi
 }
 
@@ -59,8 +63,11 @@ if [ "$numships" -eq 0 ]; then
 elif [ "$numships" -eq 1 ]; then
   check_log "$ships"
 else
-  for f in $ships; do
-    check_log "$f"
+    IFS='
+'
+  for f in $ships
+  do
+    check_log "$(basename "$f")"
   done
+  unset IFS
 fi
-
