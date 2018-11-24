@@ -1,25 +1,25 @@
 
-
    _. _  __._ _ * _.  .  , _   . _. _  _ 
   (_.(_)_) [ | )|(_.   \/ (_)\_|(_](_](/,
                              ._|   ._|
 
-
-Nov 24:
-  - Try the "cosmic-roster" command!
+Nov 24, 2018:
+  - You can create private notes in your ship directory
+    by starting the file with a '.' so it won't be picked
+    up by the 'log' command.
+  - Try the 'cosmic-roster' command!
   - Ships with spaces in names should now log properly
 
-Nov 23:
+Nov 23, 2018:
   - Installed weechat and irssi in case users want to hang here
 
-Nov 22:
+Nov 22, 2018:
   - Web version is live! It updates every night at midnight
   - RSS feed is live! It updates every night at midnight
   - New ships are auto-symlinked to ~/ships/{shipname} for convenience
 
-Nov 21:
+Nov 21, 2018:
   - 'log' command provides basic posting to the relay
   - https enabled with letsencrypt
 
 Requests or advice? Send a local mail to 'tomasino'.
-
