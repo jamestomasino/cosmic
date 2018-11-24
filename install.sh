@@ -24,6 +24,9 @@ fi
 if [ ! -L "/usr/local/bin/cosmic-roster" ]; then
   ln -s "${DIR}/cosmic-roster" "/usr/local/bin/cosmic-roster"
 fi
+if [ ! -L "/usr/local/bin/motd" ]; then
+  ln -s "${DIR}/cosmic-motd" "/usr/local/bin/motd"
+fi
 
 if [ ! -L "/usr/local/bin/log" ]; then
   ln -s "${DIR}/log" "/usr/local/bin/log"
