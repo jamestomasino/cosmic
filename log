@@ -28,7 +28,7 @@ check_log () {
   # look at log entries in gophermap
   # compare against files in ship directory
   # store list of unpublished logs
-  logs=$(grep "^[01]$ship" "/var/gopher/listing.gophermap" | awk -F'\t' '{print $2}')
+  logs=$(grep "^0${ship}" "/var/gopher/listing.gophermap" | awk -F'\t' '{print $2}')
   files=$(find "/var/gopher/$ship" -type f | sed 's|/var/gopher||')
   uniq=$(printf "%s\\n%s" "$logs" "$files" | uniq -u)
 
