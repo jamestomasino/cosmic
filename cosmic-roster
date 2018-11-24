@@ -1,0 +1,20 @@
+#!/bin/sh
+
+finish () {
+  if [ -f "$temp_roster" ]; then
+    rm "$temp_roster"
+  fi
+}
+trap finish EXIT
+
+# use temp file for accumulator
+temp_roster=$(mktemp -t "$(basename "$0").roster.XXXXXXX") || exit 1
+
+# find all ship folders
+find "/var/gopher/" -maxdepth 1 ! -path "/var/gopher/" -type d | while read -r shipdir
+do
+  owner=$(stat -c %U "$shipdir")
+  printf "%s|%s\\n" "$owner" "$(basename "$shipdir")" >> "$temp_roster"
+done
+
+sort "$temp_roster" | column -s "|" -t
