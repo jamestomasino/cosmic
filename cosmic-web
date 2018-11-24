@@ -52,7 +52,7 @@ if [ "$run_user" -eq 0 ]; then
   </head>
   <body>
     <div class="page-wrapper">
-    <div class="inner-wrapper">
+    <pre class="inner-wrapper">
 END
   } > "${file_html}"
 
@@ -120,15 +120,15 @@ ENTRY
       printf "    <title>%s</title>\\n" "$title"
       printf "    <link rel=\"canonical\" href=\"https://cosmic.voyage%s.html\">\\n" "$loghtml"
 
-      printf "</head>\\n<body>\\n<div class=\"page-wrapper\"><div class=\"inner-wrapper\">\\n"
+      printf "</head>\\n<body>\\n<div class=\"page-wrapper\"><pre class=\"inner-wrapper\">\\n"
       printf "<a href="/">&lt;&lt;&lt; BACK TO RELAY ONE</a>\\n\\n\\n"
       cat "/var/gopher${log}"
       # close up the entry footer
-      printf "</div></div></body></html>"
+      printf "</pre></div></body></html>"
     } >> "${entry_html}"
 
   done < "/var/gopher/listing.gophermap"
-  printf "</div>" >> "${file_html}"
+  printf "</pre>" >> "${file_html}"
 
   # close up the footer
   {
