@@ -3,6 +3,9 @@
   (_.(_)_) [ | )|(_.   \/ (_)\_|(_](_](/,
                              ._|   ._|
 
+Nov 25, 2018:
+  - Web & RSS update on the hour instead of daily
+
 Nov 24, 2018:
   - You can create private notes in your ship directory
     by starting the file with a '.' so it won't be picked
