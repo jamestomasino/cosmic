@@ -17,4 +17,9 @@ do
   printf "%s|%s\\n" "$owner" "$(basename "$shipdir")" >> "$temp_roster"
 done
 
-sort "$temp_roster" | column -s "|" -t
+
+if [ "$1" = "count" ]; then
+  sort "$temp_roster" | awk 'FS="|" {print $1}' | uniq -c
+else
+  sort "$temp_roster" | column -s "|" -t
+fi
