@@ -4,6 +4,7 @@
                              ._|   ._|
 
 Nov 25, 2018:
+  - We now have a local IRC server! It connects to tilde.chat
   - Web & RSS update on the hour instead of daily
 
 Nov 24, 2018:
