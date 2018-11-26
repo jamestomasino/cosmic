@@ -15,6 +15,9 @@ if [ "$run_user" -eq 0 ]; then
           mkdir "$path"
           chmod 755 "$path"
           chown -R "${n}" "$path"
+          # create ship listings dir and link to ship gophermap
+          mkdir "/var/gopher/ships/${s}"
+          ln -s "/var/gopher/ships/${s}/gophermap" "/var/gopher/ships/ship/gophermap"
           # create a symlink in user's home dir for easy access
           mkdir -p "/home/${n}/ships"
           ln -s "$path" "/home/${n}/ships/${s}"
