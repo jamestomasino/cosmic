@@ -16,7 +16,7 @@ if [ "$run_user" -eq 0 ]; then
     <meta name=msapplication-TileColor content=#ffffff>
     <meta name=theme-color content=#ffffff>
     <title>Cosmic Voyage</title>
-    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"> 
     <link rel="canonical" href="https://cosmic.voyage">
     <link rel="alternate" type="application/rss+xml" title="Cosmic Voyage" href="/rss.xml">
     <style>
@@ -27,6 +27,8 @@ if [ "$run_user" -eq 0 ]; then
       }
 
       a, a:visited, a:hover, a:active {
+        text-decoration: none;
+        font-weight: bold;
         color: rgb(62, 231, 123);
       }
 
@@ -38,7 +40,7 @@ if [ "$run_user" -eq 0 ]; then
         display: inline-block;
         text-align: left;
         white-space: pre;
-        font-family: 'IBM Plex Mono', monospace;
+        font-family: 'Inconsolata', monospace;
         margin: 0 auto;
         width: auto;
       }
@@ -82,7 +84,7 @@ END
     <meta name=viewport content="shrink-to-fit=no,width=device-width,height=device-height,initial-scale=1,user-scalable=1">
     <meta name=msapplication-TileColor content=#ffffff>
     <meta name=theme-color content=#ffffff>
-    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"> 
     <style>
       body, html {
         color: rgb(62, 231, 123);
@@ -91,6 +93,8 @@ END
       }
 
       a, a:visited, a:hover, a:active {
+        text-decoration: none;
+        font-weight: bold;
         color: rgb(62, 231, 123);
       }
 
@@ -102,7 +106,7 @@ END
         display: inline-block;
         text-align: left;
         white-space: pre;
-        font-family: 'IBM Plex Mono', monospace;
+        font-family: 'Inconsolata', monospace;
         margin: 0 auto;
         width: auto;
       }
