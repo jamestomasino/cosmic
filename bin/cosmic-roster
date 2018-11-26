@@ -11,7 +11,7 @@ trap finish EXIT
 temp_roster=$(mktemp -t "$(basename "$0").roster.XXXXXXX") || exit 1
 
 # find all ship folders
-find "/var/gopher/" -maxdepth 1 ! -path "/var/gopher/" -type d | while read -r shipdir
+find "/var/gopher/" -maxdepth 1 ! -path "/var/gopher/" ! -path "/var/gopher/ships" -type d | while read -r shipdir
 do
   owner=$(stat -c %U "$shipdir")
   printf "%s|%s\\n" "$owner" "$(basename "$shipdir")" >> "$temp_roster"
