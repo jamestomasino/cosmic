@@ -3,6 +3,10 @@
   (_.(_)_) [ | )|(_.   \/ (_)\_|(_](_](/,
                              ._|   ._|
 
+Nov 27, 2018:
+  - 'roster' command alias for 'cosmic-roster', adds optional 'count'
+    argument to see number of ships. Optional username arg to filter.
+
 Nov 26, 2018:
   - Ships have individual pages and logs. Add a '.description' file
     to your ship directory to give your ship page a header
