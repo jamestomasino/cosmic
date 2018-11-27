@@ -6,7 +6,7 @@ if [ "$run_user" -eq 0 ]; then
   SCRIPTPATH=$(dirname "$SCRIPT")
 
   file_html="/var/www/html/index.html"
-  web_header_html="${SCRIPTPATH}/../files/web-header.tmpl"
+  web_header_html="${SCRIPTPATH}/../templates/webheader.tmpl"
   ships_html="/var/www/html/ships/index.html"
   error_html="/var/www/html/error.html"
   html_dir="/var/www/html"
