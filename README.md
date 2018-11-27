@@ -2,7 +2,7 @@
 
 ## bin
 
-### Administration
+For admin:
 
 - `cosmic-backup` cron-run backup of /var/gopher to git repo
 - `cosmic-rss` cron-run creation of rss feed for web and gopher
@@ -10,11 +10,11 @@
 - `cosmic-user` create a new user and scaffold them into the story
 - `cosmic-web` cron-run creation of html version of the story
 
-### User
+For users:
 
 - `cosmic-log` aliased as `log` - submit messages to the QEC relay
-- `cosmic-roster` aliased as `roster` - show current users and their ships
 - `cosmic-motd` aliased as `motd` - pretty-prints the motd
+- `cosmic-roster` aliased as `roster` - show current users and their ships
 
 ## files
 
