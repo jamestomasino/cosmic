@@ -18,7 +18,7 @@ if [ "$run_user" -eq 0 ]; then
     # Intro text
     cat "/var/gopher/intro.gophermap"
     # Ship listings
-    printf "\\n\\n<a href=\"/ships\">🢒 Ships, Outposts, and Colonies</a>\\n"
+    printf "\\n\\n<a href=\"/ships\">🢒 Ships, Colonies, Outposts</a>\\n"
     # Logs
     printf "\\nTransmission log (newest first):\\n"
   } >> "${file_html}"
@@ -45,10 +45,12 @@ if [ "$run_user" -eq 0 ]; then
       printf "</pre></div></body></html>"
     } >> "${entry_html}"
   done < "/var/gopher/listing.gophermap"
-  printf "</pre>" >> "${file_html}"
   # footer
   {
-    printf "</div></body></html>"
+    printf "</pre>\\n"
+    printf "</div>\\n"
+    printf "</body>\\n"
+    printf "</html>"
   } >> "${file_html}"
 
   # Generate ship pages
@@ -64,6 +66,11 @@ if [ "$run_user" -eq 0 ]; then
     printf "<body>"
     printf "<div class=\"page-wrapper\">"
     printf "<pre class=\"inner-wrapper\">"
+    ship_intro="/var/gopher/ships/ships.gophermap"
+    if [ -f "$ship_intro" ]; then
+      cat "$ship_intro"
+      printf "\\n"
+    fi
   } >> "${ships_html}"
   # Add header info to html output
   find "/var/gopher/" -maxdepth 1 ! -path "/var/gopher/" ! -path "/var/gopher/ships" -type d -print | sed 's|/var/gopher/||' | sort | while read -r ship
@@ -93,11 +100,12 @@ if [ "$run_user" -eq 0 ]; then
       grep "^0${ship}" "/var/gopher/listing.gophermap" | sed "s|0${ship} - ||" | awk -F"\\t" '{f=$2; gsub(".txt", ".html", f); printf "<a href=\"%s\">🢒 %s</a>\n", f, $1}'
       printf "</div></body></html>"
     } >> "${ship_html}"
-
   done
   # Footer
   {
-    printf "</div></body></html>"
+    printf "</div>\\n"
+    printf "</body>\\n"
+    printf "</html>n"
   } >> "${ships_html}"
 
 else
