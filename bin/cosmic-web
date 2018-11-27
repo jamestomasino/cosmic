@@ -4,140 +4,102 @@ run_user=$(id -u)
 if [ "$run_user" -eq 0 ]; then
   file_html="/var/www/html/index.html"
 
-  # Add header info to html output
+  # Add standard header
+  cat "/home/tomasino/cosmic/files/web-header.tmpl" > "${file_html}"
+  # Custom header elements and body start
   {
-  cat > /dev/stdout << END
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset=utf-8>
-    <meta http-equiv=X-UA-Compatible content="IE=edge">
-    <meta name=viewport content="shrink-to-fit=no,width=device-width,height=device-height,initial-scale=1,user-scalable=1">
-    <meta name=msapplication-TileColor content=#ffffff>
-    <meta name=theme-color content=#ffffff>
-    <title>Cosmic Voyage</title>
-    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"> 
-    <link rel="canonical" href="https://cosmic.voyage">
-    <link rel="alternate" type="application/rss+xml" title="Cosmic Voyage" href="/rss.xml">
-    <style>
-      body, html {
-        color: rgb(62, 231, 123);
-        background-color: #000;
-        font-size: 12px;
-      }
-
-      a, a:visited, a:hover, a:active {
-        text-decoration: none;
-        font-weight: bold;
-        color: rgb(62, 231, 123);
-      }
-
-      .page-wrapper {
-        text-align: center;
-      }
-
-      .inner-wrapper {
-        display: inline-block;
-        text-align: left;
-        white-space: pre;
-        font-family: 'Inconsolata', monospace;
-        margin: 0 auto;
-        width: auto;
-      }
-
-      @media screen and (min-width: 700px) {
-        body, html {
-          font-size: 16px;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="page-wrapper">
-    <pre class="inner-wrapper">
-END
-  } > "${file_html}"
-
-  # Add intro text
-  cat "/var/gopher/intro.gophermap" >> "${file_html}"
-
+    printf "<title>Cosmic Voyage</title>"
+    printf "<link rel=\"canonical\" href=\"https://cosmic.voyage\">"
+    printf "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"Cosmic Voyage\" href=\"/rss.xml\">"
+    printf "</head>"
+    printf "<body>"
+    printf "<div class=\"page-wrapper\">"
+    printf "<pre class=\"inner-wrapper\">"
+    # Intro text
+    cat "/var/gopher/intro.gophermap"
+    # Ship listings
+    printf "\\n\\n<a href=\"/ships\">🢒 Ships, Outposts, and Colonies</a>\\n"
+    # Logs
+    printf "\\nTransmission log (newest first):\\n"
+  } >> "${file_html}"
   # Loop through listings gophermap
-  printf "\\n\\nTransmission log (newest first):\\n" >> "${file_html}"
   while read -r line; do
     log=$(printf "%s" "$line" | awk -F'\t' '{print $2}')
     loghtml=$(printf "%s" "$log" | sed 's/\.[^.]*$//')
     logdir=$(dirname "$log")
     title=$(printf "%s" "$line" | awk -F'\t' '{print $1}' | sed 's|^.||')
     # print link in listings
-    printf "<a href=\"%s.html\">%s</a>\\n" "$loghtml" "$title" >> "${file_html}"
+    printf "<a href=\"%s.html\">🢒 %s</a>\\n" "$loghtml" "$title" >> "${file_html}"
 
     # create entry
     entry_html="/var/www/html${loghtml}.html"
     mkdir -p "/var/www/html${logdir}"
-    {
-      cat > /dev/stdout << ENTRY
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset=utf-8>
-    <meta http-equiv=X-UA-Compatible content="IE=edge">
-    <meta name=viewport content="shrink-to-fit=no,width=device-width,height=device-height,initial-scale=1,user-scalable=1">
-    <meta name=msapplication-TileColor content=#ffffff>
-    <meta name=theme-color content=#ffffff>
-    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"> 
-    <style>
-      body, html {
-        color: rgb(62, 231, 123);
-        background-color: #000;
-        font-size: 12px;
-      }
-
-      a, a:visited, a:hover, a:active {
-        text-decoration: none;
-        font-weight: bold;
-        color: rgb(62, 231, 123);
-      }
-
-      .page-wrapper {
-        text-align: center;
-      }
-
-      .inner-wrapper {
-        display: inline-block;
-        text-align: left;
-        white-space: pre;
-        font-family: 'Inconsolata', monospace;
-        margin: 0 auto;
-        width: auto;
-      }
-
-      @media screen and (min-width: 700px) {
-        body, html {
-          font-size: 16px;
-        }
-      }
-    </style>
-ENTRY
-    } > "${entry_html}"
-
+    cat "/home/tomasino/cosmic/files/web-header.tmpl" > "${entry_html}"
     {
       printf "    <title>%s</title>\\n" "$title"
       printf "    <link rel=\"canonical\" href=\"https://cosmic.voyage%s.html\">\\n" "$loghtml"
-
       printf "</head>\\n<body>\\n<div class=\"page-wrapper\"><pre class=\"inner-wrapper\">\\n"
-      printf "<a href="/">&lt;&lt;&lt; BACK TO RELAY ONE</a>\\n\\n\\n"
+      printf "<a href=\"/\">&lt;&lt;&lt; BACK TO RELAY ONE</a>\\n\\n\\n"
       cat "/var/gopher${log}"
       # close up the entry footer
       printf "</pre></div></body></html>"
     } >> "${entry_html}"
-
   done < "/var/gopher/listing.gophermap"
   printf "</pre>" >> "${file_html}"
-
-  # close up the footer
+  # footer
   {
     printf "</div></body></html>"
   } >> "${file_html}"
+
+  # Generate ship pages
+  ships_html="/var/www/html/ships/index.html"
+  mkdir -p "/var/www/html/ships"
+  # Add header info to html output
+  cat "/home/tomasino/cosmic/files/web-header.tmpl" > "${ships_html}"
+  # Custom header elements and body start
+  {
+    printf "<title>Cosmic Voyage - Ships</title>"
+    printf "<link rel=\"canonical\" href=\"https://cosmic.voyage/ships\">"
+    printf "</head>"
+    printf "<body>"
+    printf "<div class=\"page-wrapper\">"
+    printf "<pre class=\"inner-wrapper\">"
+  } >> "${ships_html}"
+  # Add header info to html output
+  find "/var/gopher/" -maxdepth 1 ! -path "/var/gopher/" ! -path "/var/gopher/ships" -type d -print | sed 's|/var/gopher/||' | sort | while read -r ship
+  do
+    printf "<a href=\"/ships/%s/\">🢒 %s</a>\\n" "$ship" "$ship" >> "$ships_html"
+    # Create individual ship log page
+    ship_html="/var/www/html/ships/${ship}/index.html"
+    mkdir -p "/var/www/html/ships/${ship}"
+    # Add header info to html output
+    cat "/home/tomasino/cosmic/files/web-header.tmpl" > "${ship_html}"
+    # Custom header elements and body start
+    {
+      printf "<title>Cosmic Voyage - %s</title>" "$ship"
+      printf "<link rel=\"canonical\" href=\"https://cosmic.voyage/ships/%s\">" "$ship"
+      printf "</head>"
+      printf "<body>"
+      printf "<div class=\"page-wrapper\">"
+      printf "<pre class=\"inner-wrapper\">"
+      # Contents
+      printf "<a href=\"/ships\">&lt;&lt;&lt; BACK TO RELAY ONE SHIP LIST</a>\\n\\n\\n"
+      desc="/var/gopher/${ship}/.description"
+      if [ -f "$desc" ]; then
+        cat "$desc"
+        printf "\\n"
+      fi
+      printf "%s - Ship Log\\n" "$ship"
+      grep "^0${ship}" "/var/gopher/listing.gophermap" | sed "s|0${ship} - ||" | awk -F"\\t" '{f=$2; gsub(".txt", ".html", f); printf "<a href=\"%s\">🢒 %s</a>\n", f, $1}'
+      printf "</div></body></html>"
+    } >> "${ship_html}"
+
+  done
+  # Footer
+  {
+    printf "</div></body></html>"
+  } >> "${ships_html}"
+
 else
   printf "You must be root to run this script.\\n"
 fi
