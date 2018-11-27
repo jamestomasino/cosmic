@@ -75,31 +75,34 @@ if [ "$run_user" -eq 0 ]; then
   # Add header info to html output
   find "/var/gopher/" -maxdepth 1 ! -path "/var/gopher/" ! -path "/var/gopher/ships" ! -path "/var/gopher/log" -type d -print | sed 's|/var/gopher/||' | sort | while read -r ship
   do
-    printf "<a href=\"/ships/%s/\">🢒 %s</a>\\n" "$ship" "$ship" >> "$ships_html"
-    # Create individual ship log page
-    ship_html="/var/www/html/ships/${ship}/index.html"
-    mkdir -p "/var/www/html/ships/${ship}"
-    # Add header info to html output
-    cat "/home/tomasino/cosmic/files/web-header.tmpl" > "${ship_html}"
-    # Custom header elements and body start
-    {
-      printf "<title>Cosmic Voyage - %s</title>" "$ship"
-      printf "<link rel=\"canonical\" href=\"https://cosmic.voyage/ships/%s\">" "$ship"
-      printf "</head>"
-      printf "<body>"
-      printf "<div class=\"page-wrapper\">"
-      printf "<pre class=\"inner-wrapper\">"
-      # Contents
-      printf "<a href=\"/ships\">&lt;&lt;&lt; BACK TO RELAY ONE SHIP LIST</a>\\n\\n\\n"
-      desc="/var/gopher/${ship}/.description"
-      if [ -f "$desc" ]; then
-        cat "$desc"
-        printf "\\n"
-      fi
-      printf "%s - Ship Log\\n" "$ship"
-      grep "^0${ship}" "/var/gopher/listing.gophermap" | sed "s|0${ship} - ||" | awk -F"\\t" '{f=$2; gsub(".txt", ".html", f); printf "<a href=\"%s\">🢒 %s</a>\n", f, $1}'
-      printf "</div></body></html>"
-    } >> "${ship_html}"
+    entry_num=$(grep -c "^0${ship}" "/var/gopher/listing.gophermap")
+    if [ "$entry_num" != "0" ]; then
+      printf "<a href=\"/ships/%s/\">🢒 %s (%s)</a>\\n" "$ship" "$ship" "$entry_num" >> "$ships_html"
+      # Create individual ship log page
+      ship_html="/var/www/html/ships/${ship}/index.html"
+      mkdir -p "/var/www/html/ships/${ship}"
+      # Add header info to html output
+      cat "/home/tomasino/cosmic/files/web-header.tmpl" > "${ship_html}"
+      # Custom header elements and body start
+      {
+        printf "<title>Cosmic Voyage - %s</title>" "$ship"
+        printf "<link rel=\"canonical\" href=\"https://cosmic.voyage/ships/%s\">" "$ship"
+        printf "</head>"
+        printf "<body>"
+        printf "<div class=\"page-wrapper\">"
+        printf "<pre class=\"inner-wrapper\">"
+        # Contents
+        printf "<a href=\"/ships\">&lt;&lt;&lt; BACK TO RELAY ONE SHIP LIST</a>\\n\\n\\n"
+        desc="/var/gopher/${ship}/.description"
+        if [ -f "$desc" ]; then
+          cat "$desc"
+          printf "\\n"
+        fi
+        printf "%s - Ship Log\\n" "$ship"
+        grep "^0${ship}" "/var/gopher/listing.gophermap" | sed "s|0${ship} - ||" | awk -F"\\t" '{f=$2; gsub(".txt", ".html", f); printf "<a href=\"%s\">🢒 %s</a>\n", f, $1}'
+        printf "</div></body></html>"
+      } >> "${ship_html}"
+    fi
   done
   # Footer
   {
