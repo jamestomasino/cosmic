@@ -18,9 +18,9 @@ if [ "$run_user" -eq 0 ]; then
     # Intro text
     cat "/var/gopher/intro.gophermap"
     # Ship listings
-    printf "\\n\\n<a href=\"/ships\">🢒 Ships, Colonies, Outposts</a>\\n"
+    printf "\\n<a href=\"/ships\">🢒 Ships, Colonies, Outposts</a>\\n\\n"
     # Logs
-    printf "\\nTransmission log (newest first):\\n"
+    printf "Transmission Log:\\n"
   } >> "${file_html}"
   # Loop through listings gophermap
   while read -r line; do
