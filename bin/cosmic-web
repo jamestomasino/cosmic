@@ -73,7 +73,7 @@ if [ "$run_user" -eq 0 ]; then
     fi
   } >> "${ships_html}"
   # Add header info to html output
-  find "/var/gopher/" -maxdepth 1 ! -path "/var/gopher/" ! -path "/var/gopher/ships" -type d -print | sed 's|/var/gopher/||' | sort | while read -r ship
+  find "/var/gopher/" -maxdepth 1 ! -path "/var/gopher/" ! -path "/var/gopher/ships" ! -path "/var/gopher/log" -type d -print | sed 's|/var/gopher/||' | sort | while read -r ship
   do
     printf "<a href=\"/ships/%s/\">🢒 %s</a>\\n" "$ship" "$ship" >> "$ships_html"
     # Create individual ship log page
@@ -105,7 +105,7 @@ if [ "$run_user" -eq 0 ]; then
   {
     printf "</div>\\n"
     printf "</body>\\n"
-    printf "</html>n"
+    printf "</html>"
   } >> "${ships_html}"
 
 else
