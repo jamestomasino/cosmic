@@ -2,10 +2,24 @@
 
 run_user=$(id -u)
 if [ "$run_user" -eq 0 ]; then
+  SCRIPT=$(readlink -f "$0")
+  SCRIPTPATH=$(dirname "$SCRIPT")
+
   file_html="/var/www/html/index.html"
+  web_header_html="${SCRIPTPATH}/../files/web-header.tmpl"
+  ships_html="/var/www/html/ships/index.html"
+  error_html="/var/www/html/error.html"
+  html_dir="/var/www/html"
+  gopher_dir="/var/gopher"
+
+  # Clear web folder
+  rm -rf "${html_dir:-/var/www/html}/*"
+  # Generate RSS
+  # shellcheck source=cosmic-rss
+  . "${SCRIPTPATH}/cosmic-rss"
 
   # Add standard header
-  cat "/home/tomasino/cosmic/files/web-header.tmpl" > "${file_html}"
+  cat "$web_header_html" > "${file_html}"
   # Custom header elements and body start
   {
     printf "<title>Cosmic Voyage</title>"
@@ -16,9 +30,9 @@ if [ "$run_user" -eq 0 ]; then
     printf "<div class=\"page-wrapper\">"
     printf "<pre class=\"inner-wrapper\">"
     # Intro text
-    cat "/var/gopher/intro.gophermap"
+    cat "${gopher_dir}/intro.gophermap"
     # Ship listings
-    printf "\\n<a href=\"/ships\">🢒 Ships, Colonies, Outposts</a>\\n\\n"
+    printf "\\n<a href=\"/ships\">>> Ships, Colonies, Outposts</a>\\n\\n"
     # Logs
     printf "Transmission Log:\\n"
   } >> "${file_html}"
@@ -29,22 +43,22 @@ if [ "$run_user" -eq 0 ]; then
     logdir=$(dirname "$log")
     title=$(printf "%s" "$line" | awk -F'\t' '{print $1}' | sed 's|^.||')
     # print link in listings
-    printf "<a href=\"%s.html\">🢒 %s</a>\\n" "$loghtml" "$title" >> "${file_html}"
+    printf "<a href=\"%s.html\">>> %s</a>\\n" "$loghtml" "$title" >> "${file_html}"
 
     # create entry
-    entry_html="/var/www/html${loghtml}.html"
-    mkdir -p "/var/www/html${logdir}"
-    cat "/home/tomasino/cosmic/files/web-header.tmpl" > "${entry_html}"
+    entry_html="${html_dir}${loghtml}.html"
+    mkdir -p "${html_dir}${logdir}"
+    cat "$web_header_html" > "${entry_html}"
     {
       printf "    <title>%s</title>\\n" "$title"
       printf "    <link rel=\"canonical\" href=\"https://cosmic.voyage%s.html\">\\n" "$loghtml"
       printf "</head>\\n<body>\\n<div class=\"page-wrapper\"><pre class=\"inner-wrapper\">\\n"
-      printf "<a href=\"/\">&lt;&lt;&lt; BACK TO RELAY ONE</a>\\n\\n\\n"
-      cat "/var/gopher${log}"
+      printf "<a href=\"/\">&lt;&lt; BACK TO RELAY ONE</a>\\n\\n\\n"
+      cat "${gopher_dir}${log}"
       # close up the entry footer
       printf "</pre></div></body></html>"
     } >> "${entry_html}"
-  done < "/var/gopher/listing.gophermap"
+  done < "${gopher_dir}/listing.gophermap"
   # footer
   {
     printf "</pre>\\n"
@@ -54,10 +68,9 @@ if [ "$run_user" -eq 0 ]; then
   } >> "${file_html}"
 
   # Generate ship pages
-  ships_html="/var/www/html/ships/index.html"
-  mkdir -p "/var/www/html/ships"
+  mkdir -p "${html_dir}/ships"
   # Add header info to html output
-  cat "/home/tomasino/cosmic/files/web-header.tmpl" > "${ships_html}"
+  cat "$web_header_html" > "${ships_html}"
   # Custom header elements and body start
   {
     printf "<title>Cosmic Voyage - Ships</title>"
@@ -66,23 +79,24 @@ if [ "$run_user" -eq 0 ]; then
     printf "<body>"
     printf "<div class=\"page-wrapper\">"
     printf "<pre class=\"inner-wrapper\">"
-    ship_intro="/var/gopher/ships/ships.gophermap"
+    printf "<a href=\"/\">&lt;&lt; BACK TO RELAY ONE</a>\\n"
+    ship_intro="${gopher_dir}/ships/ships.gophermap"
     if [ -f "$ship_intro" ]; then
       cat "$ship_intro"
       printf "\\n"
     fi
   } >> "${ships_html}"
   # Add header info to html output
-  find "/var/gopher/" -maxdepth 1 ! -path "/var/gopher/" ! -path "/var/gopher/ships" ! -path "/var/gopher/log" -type d -print | sed 's|/var/gopher/||' | sort | while read -r ship
+  find "${gopher_dir}/" -maxdepth 1 ! -path "${gopher_dir}/" ! -path "${gopher_dir}/ships" ! -path "${gopher_dir}/log" -type d -print | sed 's|/var/gopher/||' | sort | while read -r ship
   do
-    entry_num=$(grep -c "^0${ship}" "/var/gopher/listing.gophermap")
+    entry_num=$(grep -c "^0${ship}" "${gopher_dir}/listing.gophermap")
     if [ "$entry_num" != "0" ]; then
-      printf "<a href=\"/ships/%s/\">🢒 %s (%s)</a>\\n" "$ship" "$ship" "$entry_num" >> "$ships_html"
+      printf "<a href=\"/ships/%s/\">>> %s (%s)</a>\\n" "$ship" "$ship" "$entry_num" >> "$ships_html"
       # Create individual ship log page
-      ship_html="/var/www/html/ships/${ship}/index.html"
-      mkdir -p "/var/www/html/ships/${ship}"
+      ship_html="${html_dir}/ships/${ship}/index.html"
+      mkdir -p "${html_dir}/ships/${ship}"
       # Add header info to html output
-      cat "/home/tomasino/cosmic/files/web-header.tmpl" > "${ship_html}"
+      cat "$web_header_html" > "${ship_html}"
       # Custom header elements and body start
       {
         printf "<title>Cosmic Voyage - %s</title>" "$ship"
@@ -92,14 +106,14 @@ if [ "$run_user" -eq 0 ]; then
         printf "<div class=\"page-wrapper\">"
         printf "<pre class=\"inner-wrapper\">"
         # Contents
-        printf "<a href=\"/ships\">&lt;&lt;&lt; BACK TO RELAY ONE SHIP LIST</a>\\n\\n\\n"
-        desc="/var/gopher/${ship}/.description"
+        printf "<a href=\"/ships\">&lt;&lt; BACK TO RELAY ONE SHIP LIST</a>\\n\\n\\n"
+        desc="${gopher_dir}/${ship}/.description"
         if [ -f "$desc" ]; then
           cat "$desc"
           printf "\\n"
         fi
         printf "%s - Ship Log\\n" "$ship"
-        grep "^0${ship}" "/var/gopher/listing.gophermap" | sed "s|0${ship} - ||" | awk -F"\\t" '{f=$2; gsub(".txt", ".html", f); printf "<a href=\"%s\">🢒 %s</a>\n", f, $1}'
+        grep "^0${ship}" "${gopher_dir}/listing.gophermap" | sed "s|0${ship} - ||" | awk -F"\\t" '{f=$2; gsub(".txt", ".html", f); printf "<a href=\"%s\">>> %s</a>\n", f, $1}'
         printf "</div></body></html>"
       } >> "${ship_html}"
     fi
@@ -112,10 +126,9 @@ if [ "$run_user" -eq 0 ]; then
   } >> "${ships_html}"
 
   # Print error page
-  error_html="/var/www/html/error.html"
-  cat "/home/tomasino/cosmic/files/web-header.tmpl" > "${error_html}"
+  cat "$web_header_html" > "${error_html}"
   {
-    printf "</head><body><div class=\"page-wrapper\"><pre class=\"inner-wrapper\"><a href=\"/\">&lt;&lt;&lt; BACK TO RELAY ONE</a>"
+    printf "</head><body><div class=\"page-wrapper\"><pre class=\"inner-wrapper\"><a href=\"/\">&lt;&lt; BACK TO RELAY ONE</a>"
     printf "\\n\\n\\nERROR. TRANSMISSION NOT FOUND.</pre></div></body></html>"
   } >> "${error_html}"
 else
