@@ -43,3 +43,8 @@ fi
 if [ ! -L "/etc/motd" ]; then
   ln -s "${DIR}/files/motd" "/etc/motd"
 fi
+
+# Manpages
+if [ ! -L "/usr/share/man/man1/log.1" ]; then
+  ln -s "${DIR}/man/cosmic-log.1" "/usr/share/man/man1/log.1"
+fi
