@@ -3,6 +3,7 @@
 run_user=$(id -u)
 if [ "$run_user" -eq 0 ]; then
   file_rss="/var/www/html/rss.xml"
+  gopher_rss="/var/gopher/rss.xml"
 
   # Add header info to xml output
   {
@@ -38,6 +39,7 @@ if [ "$run_user" -eq 0 ]; then
     printf "</channel>\\n"
     printf "</rss>\\n"
   } >> "${file_rss}"
+  cp "${file_rss}" "${gopher_rss}"
 else
   printf "You must be root to run this script.\\n"
 fi
