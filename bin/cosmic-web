@@ -111,6 +111,13 @@ if [ "$run_user" -eq 0 ]; then
     printf "</html>"
   } >> "${ships_html}"
 
+  # Print error page
+  error_html="/var/www/html/error.html"
+  cat "/home/tomasino/cosmic/files/web-header.tmpl" > "${error_html}"
+  {
+    printf "</head><body><div class=\"page-wrapper\"><pre class=\"inner-wrapper\"><a href=\"/\">&lt;&lt;&lt; BACK TO RELAY ONE</a>"
+    printf "\\n\\n\\nERROR. TRANSMISSION NOT FOUND.</pre></div></body></html>"
+  } >> "${error_html}"
 else
   printf "You must be root to run this script.\\n"
 fi

@@ -3,6 +3,10 @@
   (_.(_)_) [ | )|(_.   \/ (_)\_|(_](_](/,
                              ._|   ._|
 
+Nov 26, 2018:
+  - Ships have individual pages and logs. Add a '.description' file
+    to your ship directory to give your ship page a header
+
 Nov 25, 2018:
   - We now have a local IRC server! It connects to tilde.chat
   - Web & RSS update on the hour instead of daily
