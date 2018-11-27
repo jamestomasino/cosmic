@@ -24,7 +24,7 @@ check_yn () {
 
 check_log () {
   ship="$*"
-  printf "Checking for outbound messages on ship: %s\\n" "${ship}"
+  printf ">> %s" "${ship}"
   # look at log entries in gophermap
   # compare against files in ship directory
   # store list of unpublished logs
@@ -33,31 +33,31 @@ check_log () {
   uniq=$(printf "%s\\n%s" "$logs" "$files" | sort | uniq -u)
 
   if [ -z "$uniq" ]; then
-    printf "   .... No messages.\\n"
+    printf " .... No messages.\\n"
   else
     # check each unpublished message for sending
     IFS='
 '
     for u in $uniq
     do
-      printf "Send message %s? " "$(basename "$u" | sed 's/\.[^.]*$//')"
+      printf "\\n   Send message %s? " "$(basename "$u" | sed 's/\.[^.]*$//')"
       res=$(check_yn)
       if [ "$res" -eq 1 ]; then
         # prompt for title and prepare output
         printf "Title for message %s? " "$(basename "$u" | sed 's/\.[^.]*$//')"
         read -r title
         printf "0%s - %s\\t%s\\n" "$ship" "$title" "$u" | cat - /var/gopher/listing.gophermap > "$tmp" && cat "$tmp" > /var/gopher/listing.gophermap && rm "$tmp"
-        printf "   .... Sent.\\n"
+        printf "   %s .... Sent.\\n" "$(basename "$u" | sed 's/\.[^.]*$//')"
       else 
-        printf "   .... Skiped.\\n"
+        printf "   %s .... Skipped.\\n" "$(basename "$u" | sed 's/\.[^.]*$//')"
       fi
     done
     unset IFS
   fi
 }
 
-printf "Initializing QEC...\\n"
-printf "Ready to transmit for %s\\n" "${user}"
+printf "INITIALIZING QEC...\\n"
+printf "Ready to transmit for [%s]\\n" "${user}"
 if [ "$numships" -eq 0 ]; then
   printf "No registered ships found in system.\\n"
 elif [ "$numships" -eq 1 ]; then
