@@ -131,6 +131,8 @@ if [ "$run_user" -eq 0 ]; then
     printf "</head><body><div class=\"page-wrapper\"><pre class=\"inner-wrapper\"><a href=\"/\">&lt;&lt; BACK TO RELAY ONE</a>"
     printf "\\n\\n\\nERROR. TRANSMISSION NOT FOUND.</pre></div></body></html>"
   } >> "${error_html}"
+  # copy favicon
+  cp "${SCRIPTPATH}/../files/favicon.ico" "${html_dir}"
 else
   printf "You must be root to run this script.\\n"
 fi
