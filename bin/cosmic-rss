@@ -7,11 +7,11 @@ if [ "$run_user" -eq 0 ]; then
 
   # Add header info to xml output
   {
-    printf '<?xml version="1.0"?><rss version="2.0"><channel>'
+    printf '<?xml version="1.0"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel>'
+    printf '<atom:link href="https://cosmic.voyage/rss.xml" rel="self" type="application/rss+xml" />'
     printf "\\n<title>Cosmic Voyage</title>\\n"
-    printf "<link>gopher://cosmic.voyage</link>\\n"
+    printf "<link>https://cosmic.voyage</link>\\n"
     printf "<description>Messages from the human stellar diaspora</description>\\n"
-    printf "<pubdate>%s</pubdate>\\n" "$(date +'%a, %d %b %Y %H:%M:%S')"
   } > "${file_rss}"
 
   # Loop through listings gophermap
@@ -24,11 +24,12 @@ if [ "$run_user" -eq 0 ]; then
     {
       printf "<item>\\n"
       printf "  <title>%s</title>\\n" "$title"
-      printf "  <author>%s</author>\\n" "$owner"
-      printf "  <link>gopher://cosmic.voyage/0%s</link>\\n" "$log"
-      printf "  <pubdate>%s</pubdate>\\n" "$(date -d "$(stat -c %y "/var/gopher${log}")" +'%a, %d %b %Y %H:%M:%S')"
+      printf "  <author>%s@cosmic.voyage (%s)</author>\\n" "$owner" "$owner"
+      printf "  <link>https://cosmic.voyage%s</link>\\n" "$(printf "%s" "$log" | sed 's|.txt$|.html|' | sed 's|\ |%20|')"
+      printf "  <guid>https://cosmic.voyage%s</guid>\\n" "$(printf "%s" "$log" | sed 's|.txt$|.html|' | sed 's|\ |%20|')"
+      printf "  <pubDate>%s GMT</pubDate>\\n" "$(date -d "$(stat -c %y "/var/gopher${log}")" +'%a, %d %b %Y %H:%M:%S')"
       printf "  <description><![CDATA[<pre>\\n"
-      cat "/var/gopher${log}"
+      sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g; s/'"'"'/\&#39;/g' "/var/gopher${log}"
       printf "</pre>]]></description>\\n"
       printf "</item>\\n"
     } >> "${file_rss}"

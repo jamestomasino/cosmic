@@ -54,7 +54,7 @@ if [ "$run_user" -eq 0 ]; then
       printf "    <link rel=\"canonical\" href=\"https://cosmic.voyage%s.html\">\\n" "$loghtml"
       printf "</head>\\n<body>\\n<div class=\"page-wrapper\"><pre class=\"inner-wrapper\">\\n"
       printf "<a href=\"/\">&lt;&lt; BACK TO RELAY ONE</a>\\n\\n\\n"
-      cat "${gopher_dir}${log}"
+      sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g; s/'"'"'/\&#39;/g' "${gopher_dir}${log}"
       # close up the entry footer
       printf "</pre></div></body></html>"
     } >> "${entry_html}"
