@@ -134,5 +134,5 @@ if [ "$run_user" -eq 0 ]; then
   # copy favicon
   cp "${SCRIPTPATH}/../files/favicon.ico" "${html_dir}"
 else
-  printf "You must be root to run this script.\\n"
+  exec sudo "$0" "$@"
 fi

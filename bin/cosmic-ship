@@ -37,5 +37,5 @@ if [ "$run_user" -eq 0 ]; then
     printf "Specify a user.\\n"
   fi
 else
-  printf "You must be root to run this script.\\n"
+  exec sudo "$0" "$@"
 fi
