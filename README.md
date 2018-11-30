@@ -19,9 +19,18 @@ For users:
 ## files
 
 - `motd` message of the day, records recent updates to the system
+- `favicon.ico` website favicon for https://cosmic.voyage
 
 ## templates
 
 - `web-header.tmpl` - template for web generation
 - `newship.tmpl` - email template for adding new ship for user
 - `welcomeemail.tmpl` - email template for new users added to system
+
+## manpages
+
+- `cosmic-log` aliased as `log`
+
+## bash-completion
+
+- `cosmic-log` aliased as `log`
