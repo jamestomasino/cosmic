@@ -48,3 +48,9 @@ fi
 if [ ! -L "/usr/share/man/man1/log.1" ]; then
   ln -s "${DIR}/man/cosmic-log.1" "/usr/share/man/man1/log.1"
 fi
+
+# BASH completion
+if [ ! -L "/etc/bash_completion.d/log" ]; then
+  ln -s "${DIR}/completion/cosmic-log.d" "/etc/bash_completion.d/log"
+  chmod 644 "/etc/bash_completion.d/log"
+fi
