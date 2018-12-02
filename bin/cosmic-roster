@@ -22,5 +22,5 @@ if [ "$#" -ne 1 ]; then
 elif [ "$1" = "count" ]; then
   sort "$temp_roster" | awk 'FS="|" {print $1}' | uniq -c
 else
-  sort "$temp_roster" | column -s "|" -t | grep "$*"
+  sort "$temp_roster" | column -s "|" -t | grep -i "$*"
 fi
