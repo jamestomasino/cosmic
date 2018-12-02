@@ -3,6 +3,9 @@
 # TODO: create new messages for ship using templates
 # TODO: better isolate listings.gophermap from accidental clobbering
 
+SCRIPT=$(readlink -f "$0")
+SCRIPTPATH=$(dirname "$SCRIPT")
+
 die () {
   msg="$1"
   code="$2"
@@ -123,12 +126,14 @@ check_log () {
       printf "\\n   Send message %s? " "$(basename "$u" | sed 's/\.[^.]*$//')"
       if yesno; then
         # prompt for title and prepare output
-        printf "Title for message %s? " "$(basename "$u" | sed 's/\.[^.]*$//')"
+        printf "\\n   Title for message %s? " "$(basename "$u" | sed 's/\.[^.]*$//')"
         read -r title
         printf "0%s - %s\\t%s\\n" "$ship" "$title" "$u" | cat - /var/gopher/listing.gophermap > "$tmp" && cat "$tmp" > /var/gopher/listing.gophermap && rm "$tmp"
-        printf "   %s .... Sent.\\n" "$(basename "$u" | sed 's/\.[^.]*$//')"
+        printf "\\n   %s .... Sent.\\n" "$(basename "$u" | sed 's/\.[^.]*$//')"
+        # shellcheck source=cosmic-log
+        . "${SCRIPTPATH}/cosmic-log"
       else 
-        printf "   %s .... Skipped.\\n" "$(basename "$u" | sed 's/\.[^.]*$//')"
+        printf "\\n   %s .... Skipped.\\n" "$(basename "$u" | sed 's/\.[^.]*$//')"
       fi
     done
     unset IFS
