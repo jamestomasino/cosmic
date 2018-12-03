@@ -3,35 +3,13 @@
   (_.(_)_) [ | )|(_.   \/ (_)\_|(_](_](/,
                              ._|   ._|
 
+Dec 03, 2018:
+  - 'log -n' helper to create new messages. See 'log -h'
+  - Fixed log bug that would recursively propmt for messages
+  - Fixed log bug for files ending in .txt~
+
 Nov 27, 2018:
   - 'roster' command alias for 'cosmic-roster', adds optional 'count'
     argument to see number of ships. Optional username arg to filter.
-
-Nov 26, 2018:
-  - Ships have individual pages and logs. Add a '.description' file
-    to your ship directory to give your ship page a header
-
-Nov 25, 2018:
-  - We now have a local IRC server! It connects to tilde.chat
-  - Web & RSS update on the hour instead of daily
-
-Nov 24, 2018:
-  - You can create private notes in your ship directory
-    by starting the file with a '.' so it won't be picked
-    up by the 'log' command.
-  - Try the 'cosmic-roster' command!
-  - Ships with spaces in names should now log properly
-
-Nov 23, 2018:
-  - Installed weechat and irssi in case users want to hang here
-
-Nov 22, 2018:
-  - Web version is live! It updates every night at midnight
-  - RSS feed is live! It updates every night at midnight
-  - New ships are auto-symlinked to ~/ships/{shipname} for convenience
-
-Nov 21, 2018:
-  - 'log' command provides basic posting to the relay
-  - https enabled with letsencrypt
 
 Requests or advice? Send a local mail to 'tomasino'.
