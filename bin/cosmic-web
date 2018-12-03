@@ -1,11 +1,41 @@
 #!/bin/sh
 
+entry_index () {
+  line="$1"
+  index=$2
+  log=$(printf "%s" "$line" | awk -F'\t' '{print $2}')
+  loghtml=$(printf "%s" "$log" | sed 's/\.[^.]*$//')
+  logdir=$(dirname "$log")
+  title=$(printf "%s" "$line" | awk -F'\t' '{print $1}' | sed 's|^.||')
+
+  # print link in listings
+  if [ $index -lt 20 ]; then 
+    printf "<a href=\"%s.html\">>> %s</a>\\n" "$loghtml" "$title" >> "${file_html}"
+  fi
+  printf "<a href=\"%s.html\">>> %s</a>\\n" "$loghtml" "$title" >> "${log_html}"
+
+  # create entry
+  entry_html="${html_dir}${loghtml}.html"
+  mkdir -p "${html_dir}${logdir}"
+  cat "$web_header_html" > "${entry_html}"
+  {
+    printf "    <title>%s</title>\\n" "$title"
+    printf "    <link rel=\"canonical\" href=\"https://cosmic.voyage%s.html\">\\n" "$loghtml"
+    printf "</head>\\n<body>\\n<div class=\"page-wrapper\"><pre class=\"inner-wrapper\">\\n"
+    printf "<a href=\"/log\">&lt;&lt; BACK TO RELAY ONE LOG</a>\\n\\n\\n"
+    sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g; s/'"'"'/\&#39;/g' "${gopher_dir}${log}"
+    # close up the entry footer
+    printf "</pre></div></body></html>"
+  } >> "${entry_html}"
+}
+
 run_user=$(id -u)
 if [ "$run_user" -eq 0 ]; then
   SCRIPT=$(readlink -f "$0")
   SCRIPTPATH=$(dirname "$SCRIPT")
 
   file_html="/var/www/html/index.html"
+  log_html="/var/www/html/log/index.html"
   web_header_html="${SCRIPTPATH}/../templates/webheader.tmpl"
   ships_html="/var/www/html/ships/index.html"
   error_html="/var/www/html/error.html"
@@ -18,8 +48,13 @@ if [ "$run_user" -eq 0 ]; then
   # shellcheck source=cosmic-rss
   . "${SCRIPTPATH}/cosmic-rss"
 
+  # prep directories
+  mkdir -p "$(dirname "${log_html}")"
+
   # Add standard header
   cat "$web_header_html" > "${file_html}"
+  cat "$web_header_html" > "${log_html}"
+
   # Custom header elements and body start
   {
     printf "<title>Cosmic Voyage</title>"
@@ -32,32 +67,31 @@ if [ "$run_user" -eq 0 ]; then
     # Intro text
     cat "${gopher_dir}/intro.gophermap"
     # Ship listings
-    printf "\\n<a href=\"/ships\">>> Ships, Colonies, Outposts</a>\\n\\n"
+    printf "\\n<a href=\"/ships\">>> Ships, Colonies, Outposts</a>\\n"
+    printf "<a href=\"/log\">>> Transmission Log</a>\\n"
+    printf "<a href=\"/rss.xml\">>> RSS Feed</a>\\n\\n"
     # Logs
-    printf "Transmission Log:\\n"
+    printf "Most recent log entries:\\n"
   } >> "${file_html}"
-  # Loop through listings gophermap
-  while read -r line; do
-    log=$(printf "%s" "$line" | awk -F'\t' '{print $2}')
-    loghtml=$(printf "%s" "$log" | sed 's/\.[^.]*$//')
-    logdir=$(dirname "$log")
-    title=$(printf "%s" "$line" | awk -F'\t' '{print $1}' | sed 's|^.||')
-    # print link in listings
-    printf "<a href=\"%s.html\">>> %s</a>\\n" "$loghtml" "$title" >> "${file_html}"
 
-    # create entry
-    entry_html="${html_dir}${loghtml}.html"
-    mkdir -p "${html_dir}${logdir}"
-    cat "$web_header_html" > "${entry_html}"
-    {
-      printf "    <title>%s</title>\\n" "$title"
-      printf "    <link rel=\"canonical\" href=\"https://cosmic.voyage%s.html\">\\n" "$loghtml"
-      printf "</head>\\n<body>\\n<div class=\"page-wrapper\"><pre class=\"inner-wrapper\">\\n"
-      printf "<a href=\"/\">&lt;&lt; BACK TO RELAY ONE</a>\\n\\n\\n"
-      sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g; s/'"'"'/\&#39;/g' "${gopher_dir}${log}"
-      # close up the entry footer
-      printf "</pre></div></body></html>"
-    } >> "${entry_html}"
+  # Custom header elements and body start
+  {
+    printf "<title>Cosmic Voyage - Transmission Log</title>"
+    printf "<link rel=\"canonical\" href=\"https://cosmic.voyage/log\">"
+    printf "</head>"
+    printf "<body>"
+    printf "<div class=\"page-wrapper\">"
+    printf "<pre class=\"inner-wrapper\">"
+    printf "<a href=\"/\">&lt;&lt; BACK TO RELAY ONE</a>\\n\\n"
+    # Intro text
+    cat "${gopher_dir}/log/intro.gophermap"
+  } >> "${log_html}" 
+
+  # Loop through listings gophermap
+  loop=0
+  while read -r line; do
+    loop=$((loop+1))
+    entry_index "$line" $loop
   done < "${gopher_dir}/listing.gophermap"
   # footer
   {
@@ -65,7 +99,7 @@ if [ "$run_user" -eq 0 ]; then
     printf "</div>\\n"
     printf "</body>\\n"
     printf "</html>"
-  } >> "${file_html}"
+  } | tee -a "${log_html}" >> "${file_html}"
 
   # Generate ship pages
   mkdir -p "${html_dir}/ships"
