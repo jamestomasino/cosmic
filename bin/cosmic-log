@@ -112,7 +112,7 @@ check_log () {
   # compare against files in ship directory
   # store list of unpublished logs
   logs=$(grep "^0${ship}" "/var/gopher/listing.gophermap" | awk -F'\t' '{print $2}')
-  files=$(find "/var/gopher/$ship" -name "*.txt" -not -path '*/\.*' -type f | sed 's|/var/gopher||')
+  files=$(find "/var/gopher/$ship" -regex ".*\\.txt$" -not -path '*/\.*' -type f | sed 's|/var/gopher||')
   uniq=$(printf "%s\\n%s" "$logs" "$files" | sort | uniq -u)
 
   if [ -z "$uniq" ]; then
