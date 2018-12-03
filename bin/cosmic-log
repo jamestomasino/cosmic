@@ -85,6 +85,8 @@ show_help () {
   printf "  -v                          Show current version info\\n"
   printf "  -d                          Debug mode\\n"
   printf "  -s [shipname]               Only log messages for ship named\\n"
+  printf "  -n [filename]               Create new message with filename\\n"
+  printf "                              (Users with multiple ships must use -s)\\n"
   printf "\\n"
   printf "Passing no options will enter interactive mode.\\n\\n"
   printf "\\n"
