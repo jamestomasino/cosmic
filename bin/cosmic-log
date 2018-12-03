@@ -128,10 +128,14 @@ check_log () {
         # prompt for title and prepare output
         printf "\\n   Title for message %s? " "$(basename "$u" | sed 's/\.[^.]*$//')"
         read -r title
-        printf "0%s - %s\\t%s\\n" "$ship" "$title" "$u" | cat - /var/gopher/listing.gophermap > "$tmp" && cat "$tmp" > /var/gopher/listing.gophermap && rm "$tmp"
-        printf "\\n   %s .... Sent.\\n" "$(basename "$u" | sed 's/\.[^.]*$//')"
-        # shellcheck source=cosmic-log
-        . "${SCRIPTPATH}/cosmic-log"
+        if [ ! -z "$title" ]; then
+          printf "0%s - %s\\t%s\\n" "$ship" "$title" "$u" | cat - /var/gopher/listing.gophermap > "$tmp" && cat "$tmp" > /var/gopher/listing.gophermap && rm "$tmp"
+          printf "\\n   %s .... Sent.\\n" "$(basename "$u" | sed 's/\.[^.]*$//')"
+          # shellcheck source=cosmic-log
+          . "${SCRIPTPATH}/cosmic-log"
+        else 
+          printf "\\n   %s .... No title, abort.\\n" "$(basename "$u" | sed 's/\.[^.]*$//')"
+        fi
       else 
         printf "\\n   %s .... Skipped.\\n" "$(basename "$u" | sed 's/\.[^.]*$//')"
       fi
