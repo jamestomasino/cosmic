@@ -68,10 +68,10 @@ if [ "$run_user" -eq 0 ]; then
     cat "${gopher_dir}/intro.gophermap"
     # Ship listings
     printf "\\n<a href=\"/ships\">>> Ships, Colonies, Outposts</a>\\n"
-    printf "<a href=\"/log\">>> Transmission Log</a>\\n"
+    printf "<a href=\"/log\">>> Complete Transmission Log</a>\\n"
     printf "<a href=\"/rss.xml\">>> RSS Feed</a>\\n\\n"
     # Logs
-    printf "Most recent log entries:\\n"
+    printf "Most recent (20) log entries:\\n"
   } >> "${file_html}"
 
   # Custom header elements and body start
