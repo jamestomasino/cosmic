@@ -67,8 +67,8 @@ if [ "$run_user" -eq 0 ]; then
     # Intro text
     cat "${gopher_dir}/intro.gophermap"
     # Ship listings
-    printf "\\n<a href=\"/ships\">>> Ships, Colonies, Outposts</a>\\n"
-    printf "<a href=\"/log\">>> Complete Transmission Log</a>\\n"
+    printf "\\n<a href=\"/log\">>> Complete Transmission Log</a>\\n"
+    printf "<a href=\"/ships\">>> Ships, Colonies, Outposts</a>\\n"
     printf "<a href=\"/rss.xml\">>> RSS Feed</a>\\n\\n"
     # Logs
     printf "Most recent (20) log entries:\\n"
