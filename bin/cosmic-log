@@ -139,8 +139,6 @@ check_log () {
         if [ ! -z "$title" ]; then
           printf "0%s - %s\\t%s\\n" "$ship" "$title" "$u" | cat - /var/gopher/listing.gophermap > "$tmp" && cat "$tmp" > /var/gopher/listing.gophermap && rm "$tmp"
           printf "\\n   %s - %s .... Sent.\\n" "$(basename "$u" | sed 's/\.[^.]*$//')" "$title"
-          # shellcheck source=cosmic-log
-          . "${SCRIPTPATH}/cosmic-web"
         else
           printf "   %s .... No title, abort.\\n" "$(basename "$u" | sed 's/\.[^.]*$//')"
         fi
