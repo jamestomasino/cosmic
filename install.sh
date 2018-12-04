@@ -40,9 +40,6 @@ fi
 if [ ! -L "/etc/newship.tmpl" ]; then
   ln -s "${DIR}/templates/newship.tmpl" "/etc/newship.tmpl"
 fi
-if [ ! -L "/etc/motd" ]; then
-  ln -s "${DIR}/files/motd" "/etc/motd"
-fi
 
 # Manpages
 if [ ! -L "/usr/share/man/man1/log.1" ]; then
