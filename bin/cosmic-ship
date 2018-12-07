@@ -37,5 +37,16 @@ if [ "$run_user" -eq 0 ]; then
     printf "Specify a user.\\n"
   fi
 else
-  exec sudo "$0" "$@"
+  if [ "$#" -eq 1 ]; then
+    user=$(whoami)
+    if id "$1" >/dev/null 2>&1; then
+      printf "Expected 1 argument: \"<ship name>\"\\n"
+    else
+      exec sudo "$0" "$user" "$1"
+    fi 
+  elif [ "$#" -eq 2 ]; then
+    exec sudo "$0" "$@"
+  else
+    printf "Expected 1 argument: \"<ship name>\"\\n"
+  fi
 fi

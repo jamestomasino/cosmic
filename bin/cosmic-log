@@ -1,10 +1,6 @@
 #!/bin/sh
 
-# TODO: create new messages for ship using templates
 # TODO: better isolate listings.gophermap from accidental clobbering
-
-SCRIPT=$(readlink -f "$0")
-SCRIPTPATH=$(dirname "$SCRIPT")
 
 die () {
   msg="$1"
