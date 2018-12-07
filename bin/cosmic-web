@@ -167,6 +167,8 @@ if [ "$run_user" -eq 0 ]; then
   } >> "${error_html}"
   # copy favicon
   cp "${SCRIPTPATH}/../files/favicon.ico" "${html_dir}"
+  # Let user's know it's done
+  printf "Web and RSS rebuilt\\n"
 else
   exec sudo "$0" "$@"
 fi
