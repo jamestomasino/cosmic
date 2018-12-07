@@ -1,0 +1,45 @@
+#!/bin/sh
+
+run_user=$(id -u)
+if [ "$run_user" -eq 0 ]; then
+  n="$1"
+  s="$2"
+  newship="$3"
+
+  if [ ! -z "$n" ]; then
+    user_exists=$(id -u "${n}" 2> /dev/null)
+    if [ ! -z "${user_exists}" ]; then
+      if [ ! -z "${s}" ]; then
+        path="/var/gopher/${s}"
+        if [ -d "$path" ]; then
+          if [ ! -z "${newship}" ]; then
+            newpath="/var/gopher/${newship}"
+            if [ ! -d "$newpath" ]; then
+              printf "Rename ship '%s' to '%s' for user '%s'\\n" "${s}" "${newship}" "${n}"
+              mv "$path" "$newpath"
+              mv "/var/gopher/ships/${s}" "/var/gopher/ships/${newship}"
+              rm "/home/${n}/ships/${s}"
+              ln -s "$path" "/home/${n}/ships/${newship}"
+            else
+              owner=$(stat -c %U "$newpath")
+              printf "That ship or colony already exists and is owned by %s\\n" "$owner"
+            fi
+          else
+            printf "Please provide a new ship name.\\n"
+          fi
+        else
+          printf "No ship by that name exists.\\n"
+        fi
+      else
+        printf "Specificy a ship or colony name.\\n"
+      fi
+    else
+      printf "User not found.\\n"
+    fi
+  else
+    printf "Specify a user.\\n"
+  fi
+else
+  exec sudo "$0" "$@"
+fi
+
