@@ -18,9 +18,9 @@ do
 done
 
 if [ "$#" -ne 1 ]; then
-  sort "$temp_roster" | column -s "|" -t
+  sort "$temp_roster" | column -s "%%" -t
 elif [ "$1" = "count" ]; then
-  sort "$temp_roster" | awk 'FS="|" {print $1}' | uniq -c
+  sort "$temp_roster" | awk 'FS="%%" {print $1}' | uniq -c
 else
-  sort "$temp_roster" | column -s "|" -t | grep -i "$*"
+  sort "$temp_roster" | column -s "%%" -t | grep -i "$*"
 fi
