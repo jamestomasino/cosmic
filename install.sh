@@ -12,6 +12,9 @@ fi
 if [ ! -L "/usr/local/bin/cosmic-rmship" ]; then
   ln -s "${DIR}/bin/cosmic-rmship" "/usr/local/bin/cosmic-rmship"
 fi
+if [ ! -L "/usr/local/bin/cosmic-mvship" ]; then
+  ln -s "${DIR}/bin/cosmic-mvship" "/usr/local/bin/cosmic-mvship"
+fi
 
 # User runnable commands
 if [ ! -L "/usr/local/bin/cosmic-roster" ]; then
