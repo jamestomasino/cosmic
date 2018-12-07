@@ -1,4 +1,12 @@
 
+  Dec 07, 2018:
+    - 'rules' prints our very serious cosmic rules.
+    - 'cosmic-ship "new ship name"' will make a new ship. You don't need
+      help from tomasino anymore. Make ships on your own! If you screw up
+      then tomasino can help you remove or rename them.
+    - IRC bot's !roster command is getting some work done to remove the
+      unicode characters and surround nicks in underscores.
+
   Dec 03, 2018:
     - 'log -n' helper to create new messages. See 'log -h'
     - Fixed log bug that would recursively propmt for messages
