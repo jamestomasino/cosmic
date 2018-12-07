@@ -9,14 +9,8 @@ DIR=$(cd "$DIR" && pwd -P)
 if [ ! -L "/usr/local/bin/cosmic-user" ]; then
   ln -s "${DIR}/bin/cosmic-user" "/usr/local/bin/cosmic-user"
 fi
-if [ ! -L "/usr/local/bin/cosmic-rss" ]; then
-  ln -s "${DIR}/bin/cosmic-rss" "/usr/local/bin/cosmic-rss"
-fi
-if [ ! -L "/usr/local/bin/cosmic-web" ]; then
-  ln -s "${DIR}/bin/cosmic-web" "/usr/local/bin/cosmic-web"
-fi
-if [ ! -L "/usr/local/bin/cosmic-ship" ]; then
-  ln -s "${DIR}/bin/cosmic-ship" "/usr/local/bin/cosmic-ship"
+if [ ! -L "/usr/local/bin/cosmic-rmship" ]; then
+  ln -s "${DIR}/bin/cosmic-rmship" "/usr/local/bin/cosmic-rmship"
 fi
 
 # User runnable commands
@@ -31,6 +25,15 @@ if [ ! -L "/usr/local/bin/motd" ]; then
 fi
 if [ ! -L "/usr/local/bin/log" ]; then
   ln -s "${DIR}/bin/cosmic-log" "/usr/local/bin/log"
+fi
+if [ ! -L "/usr/local/bin/cosmic-ship" ]; then
+  ln -s "${DIR}/bin/cosmic-ship" "/usr/local/bin/cosmic-ship"
+fi
+if [ ! -L "/usr/local/bin/cosmic-rss" ]; then
+  ln -s "${DIR}/bin/cosmic-rss" "/usr/local/bin/cosmic-rss"
+fi
+if [ ! -L "/usr/local/bin/cosmic-web" ]; then
+  ln -s "${DIR}/bin/cosmic-web" "/usr/local/bin/cosmic-web"
 fi
 
 # Files

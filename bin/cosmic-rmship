@@ -1,0 +1,32 @@
+#!/bin/sh
+
+run_user=$(id -u)
+if [ "$run_user" -eq 0 ]; then
+  n="$1"
+  s="$2"
+  if [ ! -z "$n" ]; then
+    user_exists=$(id -u "${n}" 2> /dev/null)
+    if [ ! -z "${user_exists}" ]; then
+      if [ ! -z "${s}" ]; then
+        path="/var/gopher/${s}"
+        if [ -d "$path" ]; then
+          printf "Removing ship '%s' for user '%s'\\n" "${s}" "${n}"
+          rm -rf "$path"
+          rm -rf "/var/gopher/ships/${s}"
+          rm "/home/${n}/ships/${s}"
+        else
+          printf "No ship by that name exists.\\n"
+        fi
+      else
+        printf "Specificy a ship or colony name.\\n"
+      fi
+    else
+      printf "User not found.\\n"
+    fi
+  else
+    printf "Specify a user.\\n"
+  fi
+else
+  exec sudo "$0" "$@"
+fi
+
