@@ -26,6 +26,9 @@ fi
 if [ ! -L "/usr/local/bin/motd" ]; then
   ln -s "${DIR}/bin/cosmic-motd" "/usr/local/bin/motd"
 fi
+if [ ! -L "/usr/local/bin/rules" ]; then
+  ln -s "${DIR}/bin/cosmic-rules" "/usr/local/bin/rules"
+fi
 if [ ! -L "/usr/local/bin/log" ]; then
   ln -s "${DIR}/bin/cosmic-log" "/usr/local/bin/log"
 fi
@@ -45,6 +48,9 @@ if [ ! -L "/etc/welcomemail.tmpl" ]; then
 fi
 if [ ! -L "/etc/newship.tmpl" ]; then
   ln -s "${DIR}/templates/newship.tmpl" "/etc/newship.tmpl"
+fi
+if [ ! -L "/etc/rules" ]; then
+  ln -s "${DIR}/files/rules" "/etc/rules"
 fi
 
 # Manpages
