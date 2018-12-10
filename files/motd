@@ -1,5 +1,6 @@
 
   Dec 12, 2018:
+    - run 'faq' to see our new FAQ system!
     - 'listing' script will show most recent 10 logs.
     - New text editors added: 'jed', and 'ne' were added to the system:
       Full list: jed, ne, joe, vim, neovim, emacs, ed, nano, kakoune
@@ -11,14 +12,5 @@
       then tomasino can help you remove or rename them.
     - IRC bot's !roster command is getting some work done to remove the
       unicode characters and surround nicks in underscores.
-
-  Dec 03, 2018:
-    - 'log -n' helper to create new messages. See 'log -h'
-    - Fixed log bug that would recursively propmt for messages
-    - Fixed log bug for files ending in .txt~
-
-  Nov 27, 2018:
-    - 'roster' command alias for 'cosmic-roster', adds optional 'count'
-      argument to see number of ships. Optional username arg to filter.
 
   Requests or advice? Send a local mail to 'tomasino'.
