@@ -1,4 +1,9 @@
 
+  Dec 12, 2018:
+    - 'listing' script will show most recent 10 logs.
+    - New text editors added: 'jed', and 'ne' were added to the system:
+      Full list: jed, ne, joe, vim, neovim, emacs, ed, nano, kakoune
+
   Dec 07, 2018:
     - 'rules' prints our very serious cosmic rules.
     - 'cosmic-ship "new ship name"' will make a new ship. You don't need
