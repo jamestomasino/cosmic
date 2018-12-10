@@ -1,0 +1,4 @@
+#!/bin/sh
+chgrp -R users /var/wiki/
+find /var/wiki/* -type f -exec chmod 664 {} \;
+find /var/wiki/* -type d -exec chmod 775 {} \;
