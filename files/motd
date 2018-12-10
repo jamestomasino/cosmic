@@ -1,6 +1,6 @@
 
   Dec 12, 2018:
-    - run 'faq' to see our new FAQ system!
+    - run 'wiki' or 'faq' to see our new wiki system!
     - 'latest' script will show most recent 10 logs.
     - New text editors added: 'jed', and 'ne' were added to the system:
       Full list: jed, ne, joe, vim, neovim, emacs, ed, nano, kakoune
