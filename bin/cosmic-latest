@@ -1,0 +1,3 @@
+#!/bin/sh
+
+head "/var/gopher/listing.gophermap" | sed "s|\\t.*||" | sed "s|^0||" | awk -F" - " '{f=$2; gsub(".txt", ".html", f); printf ">>> %s - %s\n", $1, f}'
