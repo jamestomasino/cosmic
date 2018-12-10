@@ -41,6 +41,9 @@ fi
 if [ ! -L "/usr/local/bin/cosmic-web" ]; then
   ln -s "${DIR}/bin/cosmic-web" "/usr/local/bin/cosmic-web"
 fi
+if [ ! -L "/usr/local/bin/latest" ]; then
+  ln -s "${DIR}/bin/cosmic-latest" "/usr/local/bin/latest"
+fi
 
 # Files
 if [ ! -L "/etc/welcomemail.tmpl" ]; then
