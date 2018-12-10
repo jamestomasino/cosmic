@@ -1,7 +1,8 @@
 #!/bin/sh
 
 rsync -avzh --delete --exclude=".*" /var/gopher/ /var/cosmic-backup/gopher/
-cd /var/cosmic-backup/gopher/ || exit
+rsync -avzh --delete --exclude=".*" /var/wiki/ /var/cosmic-backup/wiki/
+cd /var/cosmic-backup || exit
 git add .
 git commit -m 'backup'
 git push origin master
