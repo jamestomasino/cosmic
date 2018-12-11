@@ -44,6 +44,15 @@ fi
 if [ ! -L "/usr/local/bin/latest" ]; then
   ln -s "${DIR}/bin/cosmic-latest" "/usr/local/bin/latest"
 fi
+if [ ! -L "/usr/local/bin/wiki" ]; then
+  ln -s "${DIR}/bin/cosmic-wiki" "/usr/local/bin/wiki"
+fi
+if [ ! -L "/usr/local/bin/faq" ]; then
+  ln -s "${DIR}/bin/cosmic-faq" "/usr/local/bin/faq"
+fi
+if [ ! -L "/usr/local/bin/qec" ]; then
+  ln -s "${DIR}/bin/cosmic-qec" "/usr/local/bin/qec"
+fi
 
 # Files
 if [ ! -L "/etc/welcomemail.tmpl" ]; then

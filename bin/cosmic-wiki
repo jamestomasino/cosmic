@@ -1,0 +1,2 @@
+#!/bin/sh
+/usr/bin/lynx -display_charset=utf8 --lss=/dev/null /var/wiki/index.html
