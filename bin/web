@@ -36,7 +36,7 @@ if [ "$run_user" -eq 0 ]; then
 
   file_html="/var/www/html/index.html"
   log_html="/var/www/html/log/index.html"
-  web_header_html="${SCRIPTPATH}/../templates/webheader.tmpl"
+  web_header_html="/etc/templates/webheader.tmpl"
   ships_html="/var/www/html/ships/index.html"
   error_html="/var/www/html/error.html"
   html_dir="/var/www/html"

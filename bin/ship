@@ -22,7 +22,7 @@ if [ "$run_user" -eq 0 ]; then
           mkdir -p "/home/${n}/ships"
           ln -s "$path" "/home/${n}/ships/${s}"
           # notify user by email
-          sed -e "s/username/${n}/g" -e "s/shipname/${s}/" /etc/newship.tmpl | sendmail "${n}" "tomasino"
+          sed -e "s/username/${n}/g" -e "s/shipname/${s}/" /etc/templates/newship.tmpl | sendmail "${n}" "tomasino"
         else
           owner=$(stat -c %U "$path")
           printf "That ship or colony already exists and is owned by %s\\n" "$owner"
