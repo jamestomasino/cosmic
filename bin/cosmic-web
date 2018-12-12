@@ -62,6 +62,7 @@ if [ "$run_user" -eq 0 ]; then
     printf "<title>Cosmic Voyage</title>"
     printf "<link rel=\"canonical\" href=\"https://cosmic.voyage\">"
     printf "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"Cosmic Voyage\" href=\"/rss.xml\">"
+    printf "<meta name=\"description\" content=\"Cosmic Voyage is a public-access unix system and 'tilde' community based around a collaborative science-fiction universe. Users write stories as the people aboard ships, colonies, and outposts, using the only remaining free, interconnected network that unites the dispersed peoples of the stars.\">"
     printf "</head>"
     printf "<body>"
     printf "<div class=\"page-wrapper\">"
