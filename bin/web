@@ -47,8 +47,8 @@ if [ "$run_user" -eq 0 ]; then
   # Clear web folder
   rm -rf "${html_dir:-/var/www/html}/*"
   # Generate RSS
-  # shellcheck source=cosmic-rss
-  . "${SCRIPTPATH}/cosmic-rss"
+  # shellcheck source=rss
+  . "${SCRIPTPATH}/rss"
 
   # prep directories
   mkdir -p "$(dirname "${log_html}")"
