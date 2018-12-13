@@ -8,17 +8,17 @@ entry_index () {
   logdir=$(dirname "$log")
   title=$(printf "%s" "$line" | awk -F'\t' '{print $1}' | sed 's|^.||')
   itemnum=$((logcount-index+1))
-  page=$(( ((index)/logs_per_page) + 1 ))
+  page=$((((index)/logs_per_page)+1))
   if [ "$page" -ne 1 ]; then
-    entry_log_html="/var/www/html/log/index-${page}.html"
+    entry_index_html="/var/www/html/log/index-${page}.html"
   else
-    entry_log_html="${log_html}"
+    entry_index_html="${log_html}"
   fi
   # print link in listings
   if [ "$index" -lt 20 ]; then 
-    printf "<a href=\"%s.html\">%s >> %s</a>\\n" "$loghtml" "$itemnum" "$title" >> "${file_html}"
+    printf "<a href=\"%s.html\">%s >> %s</a>\\n" "$loghtml" "$itemnum" "$title" >> "${root_index_html}"
   fi
-  printf "<a href=\"%s.html\">%s >> %s</a>\\n" "$loghtml" "$itemnum" "$title" >> "${entry_log_html}"
+  printf "<a href=\"%s.html\">%s >> %s</a>\\n" "$loghtml" "$itemnum" "$title" >> "${entry_index_html}"
 
   # create entry
   entry_html="${html_dir}${loghtml}.html"
@@ -40,7 +40,7 @@ if [ "$run_user" -eq 0 ]; then
   SCRIPT=$(readlink -f "$0")
   SCRIPTPATH=$(dirname "$SCRIPT")
 
-  file_html="/var/www/html/index.html"
+  root_index_html="/var/www/html/index.html"
   log_html="/var/www/html/log/index.html"
   web_header_html="/etc/templates/webheader.tmpl"
   ships_html="/var/www/html/ships/index.html"
@@ -51,7 +51,7 @@ if [ "$run_user" -eq 0 ]; then
   logs_per_page=100
 
   # Clear web folder
-  rm -rf "${html_dir:-/var/www/html}/*"
+  rm -rf "/var/www/html/*"
   # Generate RSS
   # shellcheck source=rss
   . "${SCRIPTPATH}/rss"
@@ -60,7 +60,7 @@ if [ "$run_user" -eq 0 ]; then
   mkdir -p "$(dirname "${log_html}")"
 
   # Add standard header
-  cat "$web_header_html" > "${file_html}"
+  cat "$web_header_html" > "${root_index_html}"
 
   # Custom header elements and body start
   {
@@ -79,7 +79,7 @@ if [ "$run_user" -eq 0 ]; then
     printf "<a href=\"/rss.xml\">>> RSS Feed</a>\\n\\n"
     # Logs
     printf "Most recent log entries:\\n"
-  } >> "${file_html}"
+  } >> "${root_index_html}"
 
   pages=$((logcount / logs_per_page + 1))
   for i in $(seq 1 $pages); do
@@ -144,7 +144,7 @@ if [ "$run_user" -eq 0 ]; then
     printf "</div>\\n"
     printf "</body>\\n"
     printf "</html>"
-  } >> "${file_html}"
+  } >> "${root_index_html}"
 
   # Generate ship pages
   mkdir -p "${html_dir}/ships"
