@@ -8,11 +8,17 @@ entry_index () {
   logdir=$(dirname "$log")
   title=$(printf "%s" "$line" | awk -F'\t' '{print $1}' | sed 's|^.||')
   itemnum=$((logcount-index+1))
+  page=$(( ((index)/logs_per_page) + 1 ))
+  if [ "$page" -ne 1 ]; then
+    entry_log_html="/var/www/html/log/index-${page}.html"
+  else
+    entry_log_html="${log_html}"
+  fi
   # print link in listings
   if [ "$index" -lt 20 ]; then 
     printf "<a href=\"%s.html\">%s >> %s</a>\\n" "$loghtml" "$itemnum" "$title" >> "${file_html}"
   fi
-  printf "<a href=\"%s.html\">%s >> %s</a>\\n" "$loghtml" "$itemnum" "$title" >> "${log_html}"
+  printf "<a href=\"%s.html\">%s >> %s</a>\\n" "$loghtml" "$itemnum" "$title" >> "${entry_log_html}"
 
   # create entry
   entry_html="${html_dir}${loghtml}.html"
@@ -42,6 +48,7 @@ if [ "$run_user" -eq 0 ]; then
   html_dir="/var/www/html"
   gopher_dir="/var/gopher"
   logcount=$(wc -l "${gopher_dir}/listing.gophermap" | awk '{print $1}')
+  logs_per_page=100
 
   # Clear web folder
   rm -rf "${html_dir:-/var/www/html}/*"
@@ -54,7 +61,6 @@ if [ "$run_user" -eq 0 ]; then
 
   # Add standard header
   cat "$web_header_html" > "${file_html}"
-  cat "$web_header_html" > "${log_html}"
 
   # Custom header elements and body start
   {
@@ -75,18 +81,26 @@ if [ "$run_user" -eq 0 ]; then
     printf "Most recent log entries:\\n"
   } >> "${file_html}"
 
-  # Custom header elements and body start
-  {
-    printf "<title>Cosmic Voyage - Transmission Log</title>"
-    printf "<link rel=\"canonical\" href=\"https://cosmic.voyage/log\">"
-    printf "</head>"
-    printf "<body>"
-    printf "<div class=\"page-wrapper\">"
-    printf "<pre class=\"inner-wrapper\">"
-    printf "<a href=\"/\">&lt;&lt; BACK TO RELAY ONE</a>\\n\\n"
-    # Intro text
-    cat "${gopher_dir}/log/intro.gophermap"
-  } >> "${log_html}" 
+  pages=$((logcount / logs_per_page + 1))
+  for i in $(seq 1 $pages); do
+    local_log_html="${log_html}"
+    if [ "$i" -gt 1 ]; then
+      local_log_html="/var/www/html/log/index-${i}.html"
+    fi
+    cat "$web_header_html" > "${local_log_html}"
+    # Custom header elements and body start
+    {
+      printf "<title>Cosmic Voyage - Transmission Log</title>"
+      printf "<link rel=\"canonical\" href=\"https://cosmic.voyage/log\">"
+      printf "</head>"
+      printf "<body>"
+      printf "<div class=\"page-wrapper\">"
+      printf "<pre class=\"inner-wrapper\">"
+      printf "<a href=\"/\">&lt;&lt; BACK TO RELAY ONE</a>\\n\\n"
+      # Intro text
+      cat "${gopher_dir}/log/intro.gophermap"
+    } >> "$local_log_html"
+  done
 
   # Loop through listings gophermap
   loop=0
@@ -94,13 +108,43 @@ if [ "$run_user" -eq 0 ]; then
     loop=$((loop+1))
     entry_index "$line" $loop
   done < "${gopher_dir}/listing.gophermap"
-  # footer
+
+  for i in $(seq 1 $pages); do
+    next=$((i+1))
+    prev=$((i-1))
+    if [ "$i" -gt 1 ]; then
+      local_log_html="/var/www/html/log/index-${i}.html"
+    else
+      local_log_html="${log_html}"
+    fi
+
+    # If there are more pages or previous pages, add nav
+    printf "\\n" >> "${local_log_html}"
+    if [ "$i" -lt "$pages" ]; then
+      printf "<a href=\"index-%s.html\">>> Older Entries</a>\\n" "$next" >> "${local_log_html}"
+    fi
+    if [ "$i" -gt 1 ]; then
+      if [ "$prev" -eq 1 ]; then
+        printf "<a href=\"index.html\">>> Newer Entries</a>\\n" >> "${local_log_html}"
+      else
+        printf "<a href=\"index-%s.html\">>> Newer Entries</a>\\n" "$prev" >> "${local_log_html}"
+      fi
+    fi
+
+    {
+      printf "</pre>\\n"
+      printf "</div>\\n"
+      printf "</body>\\n"
+      printf "</html>"
+    } >> "${local_log_html}"
+  done
+
   {
     printf "</pre>\\n"
     printf "</div>\\n"
     printf "</body>\\n"
     printf "</html>"
-  } | tee -a "${log_html}" >> "${file_html}"
+  } >> "${file_html}"
 
   # Generate ship pages
   mkdir -p "${html_dir}/ships"
