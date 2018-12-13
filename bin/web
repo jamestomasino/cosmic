@@ -7,12 +7,12 @@ entry_index () {
   loghtml=$(printf "%s" "$log" | sed 's/\.[^.]*$//')
   logdir=$(dirname "$log")
   title=$(printf "%s" "$line" | awk -F'\t' '{print $1}' | sed 's|^.||')
-
+  itemnum=$((logcount-index))
   # print link in listings
-  if [ $index -lt 20 ]; then 
-    printf "<li><a href=\"%s.html\">>> %s</a></li>\\n" "$loghtml" "$title" >> "${file_html}"
+  if [ "$index" -lt 20 ]; then 
+    printf "<a href=\"%s.html\">%s >> %s</a>\\n" "$loghtml" "$itemnum" "$title" >> "${file_html}"
   fi
-  printf "<li><a href=\"%s.html\">>> %s</a></li>\\n" "$loghtml" "$title" >> "${log_html}"
+  printf "<a href=\"%s.html\">%s >> %s</a>\\n" "$loghtml" "$itemnum" "$title" >> "${log_html}"
 
   # create entry
   entry_html="${html_dir}${loghtml}.html"
@@ -41,7 +41,6 @@ if [ "$run_user" -eq 0 ]; then
   error_html="/var/www/html/error.html"
   html_dir="/var/www/html"
   gopher_dir="/var/gopher"
-
   logcount=$(wc -l "${gopher_dir}/listing.gophermap" | awk '{print $1}')
 
   # Clear web folder
@@ -74,7 +73,6 @@ if [ "$run_user" -eq 0 ]; then
     printf "<a href=\"/rss.xml\">>> RSS Feed</a>\\n\\n"
     # Logs
     printf "Most recent log entries:\\n"
-    printf "<ol reversed start=\"%s\">" "$logcount"
   } >> "${file_html}"
 
   # Custom header elements and body start
@@ -88,7 +86,6 @@ if [ "$run_user" -eq 0 ]; then
     printf "<a href=\"/\">&lt;&lt; BACK TO RELAY ONE</a>\\n\\n"
     # Intro text
     cat "${gopher_dir}/log/intro.gophermap"
-    printf "<ol reversed>"
   } >> "${log_html}" 
 
   # Loop through listings gophermap
@@ -99,7 +96,6 @@ if [ "$run_user" -eq 0 ]; then
   done < "${gopher_dir}/listing.gophermap"
   # footer
   {
-    printf "</ol>\\n"
     printf "</pre>\\n"
     printf "</div>\\n"
     printf "</body>\\n"
@@ -152,9 +148,8 @@ if [ "$run_user" -eq 0 ]; then
           printf "\\n"
         fi
         printf "%s - Ship Log\\n" "$ship"
-        printf "<ol reversed>"
-        grep "^0${ship}" "${gopher_dir}/listing.gophermap" | sed "s|0${ship} - ||" | awk -F"\\t" '{f=$2; gsub(".txt", ".html", f); printf "<li><a href=\"%s\">>> %s</a></li>\n", f, $1}'
-        printf "</ol></div></body></html>"
+        grep "^0${ship}" "${gopher_dir}/listing.gophermap" | sed "s|0${ship} - ||" | awk -F"\\t" '{f=$2; gsub(".txt", ".html", f); printf "<a href=\"%s\">>> %s</a>\n", f, $1}'
+        printf "</div></body></html>"
       } >> "${ship_html}"
     fi
   done
