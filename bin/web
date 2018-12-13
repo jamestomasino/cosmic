@@ -7,7 +7,7 @@ entry_index () {
   loghtml=$(printf "%s" "$log" | sed 's/\.[^.]*$//')
   logdir=$(dirname "$log")
   title=$(printf "%s" "$line" | awk -F'\t' '{print $1}' | sed 's|^.||')
-  itemnum=$((logcount-index))
+  itemnum=$((logcount-index+1))
   # print link in listings
   if [ "$index" -lt 20 ]; then 
     printf "<a href=\"%s.html\">%s >> %s</a>\\n" "$loghtml" "$itemnum" "$title" >> "${file_html}"
