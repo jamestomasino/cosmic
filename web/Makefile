@@ -15,7 +15,10 @@ htmlize := echo
 # Canonical LISTING_FILE
 LISTING_FILE := $(SRC_DIR)/listing.gophermap
 LISTING_COUNT != wc -l $(LISTING_FILE) | awk '{print $$1}'
-LISTING_LIST != awk -F '\t' '{gsub(" ","\\ ",$$2); gsub(".txt", "", $$2); gsub("^0", "", $$1); printf "<a href=\047%s.html\047>%s >> %s</a>\\n", $$2, $(LISTING_COUNT)-NR+1, $$1}' $(LISTING_FILE)
+LISTING_LIST != awk -F '\t' '{gsub(" ","\\ ",$$2); gsub(".txt","",$$2); gsub("^0", "", $$1); printf "<a href=\047%s.html\047>%s >> %s</a>\\n", $$2, $(LISTING_COUNT)-NR+1, $$1}' $(LISTING_FILE)
+SHIPS_LIST != awk -F '\t' '{gsub(" ","\\ ",$$2); gsub("^0","",$$1); gsub("-.*", "", $$1); gsub("/?[^/]*/?$$", "", $$2); print $$1 $$2}' $(LISTING_FILE) | sort | uniq -c
+#SHIPS_FILES != awk -F '\t' '{gsub(" ","-",$$2); gsub("/?[^/]*/?$$", "", $$2); printf "%s/index.html\n", $$2}' $(LISTING_FILE) | sort -u
+
 # Source TXT and transpiled HTML
 SRC_TXT_FILES != awk -v src="$(SRC_DIR)" -F "\t" '{printf "%s%s\n", src, $$2}' "$(LISTING_FILE)" | sed 's|\ |\\ |g'
 DST_HTML_FILES := $(SRC_TXT_FILES:$(SRC_DIR)/%.txt=$(DST_DIR)/%.html)
@@ -28,7 +31,11 @@ addstyle= $(MUTE)cat $(WEB_STYLE) >> $@
 
 .PHONY: all clean
 
-all: $(DST_DIR)/index.html $(DST_DIR)/log/index.html $(DST_HTML_FILES) $(DST_DIR)/error.html
+all: $(DST_DIR)/index.html $(DST_DIR)/log/index.html $(DST_HTML_FILES) $(DST_DIR)/error.html $(DST_DIR)$(SHIPS_FILES)
+
+test:
+	$(info $$SHIPS_LIST is [${SHIPS_LIST}])
+	$(info $$SHIPS_FILES is [${SHIPS_FILES}])
 
 clean:
 	rm -rf $(DST_DIR)
@@ -105,3 +112,6 @@ $(DST_DIR)/index.html: $(LISTING_FILE)
 	} >> $@
 	$(MUTE)printf "$(LISTING_LIST)" | head -n 20 >> $@
 	$(MUTE)printf "</pre></div></body></html>" >> $@
+
+$(DST_DIR)%/: $(SRC_DIR)
+	@printf "%s\n" $@
