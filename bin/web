@@ -52,6 +52,14 @@ if [ "$run_user" -eq 0 ]; then
   logcount=$(wc -l "${gopher_dir}/listing.gophermap" | awk '{print $1}')
   logs_per_page=100
 
+  if [ "$1" = "safe" ]; then
+    root_date=$(stat -c %Y "$root_index_html")
+    listing_date=$(stat -c %Y "${gopher_dir}/listing.gophermap")
+    if [ "$listing_date" -lt "$root_date" ]; then
+      printf "Listings not updated. Abort\\n"
+      exit
+    fi
+  fi
   # Clear web folder
   rm -rf "/var/www/html/*"
   # Generate RSS
