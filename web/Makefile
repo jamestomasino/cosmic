@@ -26,7 +26,7 @@ addhead = $(MUTE)cat $(WEB_HEAD) > $@
 
 .PHONY: all clean
 
-all: $(DST_DIR)/log/index.html $(DST_HTML_FILES) $(DST_DIR)/error.html
+all: $(DST_DIR)/index.html $(DST_DIR)/log/index.html $(DST_HTML_FILES) $(DST_DIR)/error.html
 
 clean:
 	rm -rf $(DST_DIR)
@@ -67,6 +67,32 @@ $(DST_DIR)/log/index.html: $(LISTING_FILE)
 		cat "$(SRC_DIR)/log/intro.gophermap"; \
 	} >> $@
 	$(MUTE)printf "$(LISTING_LIST)" >> $@
+	$(MUTE){\
+		printf "</pre>\\n"; \
+		printf "</div>\\n"; \
+		printf "</body>\\n"; \
+		printf "</html>"; \
+	} >> $@
+
+$(DST_DIR)/index.html: $(LISTING_FILE)
+	$(mkdir)
+	$(addhead)
+	$(MUTE){\
+		printf "<title>Cosmic Voyage</title>"; \
+		printf "<link rel=\"canonical\" href=\"https://cosmic.voyage\">"; \
+		printf "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"Cosmic Voyage\" href=\"/rss.xml\">"; \
+		printf "<meta name=\"description\" content=\"Cosmic Voyage is a public-access unix system and 'tilde' community based around a collaborative science-fiction universe. Users write stories as the people aboard ships, colonies, and outposts, using the only remaining free, interconnected network that unites the dispersed peoples of the stars.\">"; \
+		printf "</head>"; \
+		printf "<body>"; \
+		printf "<div class=\"page-wrapper\">"; \
+		printf "<pre class=\"inner-wrapper\">"; \
+		cat "$(SRC_DIR)/intro.gophermap"; \
+		printf "\\n<a href=\"/log\">>> Complete Transmission Log</a>\\n"; \
+		printf "<a href=\"/ships\">>> Ships, Colonies, Outposts</a>\\n"; \
+		printf "<a href=\"/rss.xml\">>> RSS Feed</a>\\n\\n"; \
+		printf "Most recent log entries:\\n"; \
+	} >> $@
+	$(MUTE)printf "$(LISTING_LIST)" | head -n 20 >> $@
 	$(MUTE){\
 		printf "</pre>\\n"; \
 		printf "</div>\\n"; \
