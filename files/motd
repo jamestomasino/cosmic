@@ -1,4 +1,8 @@
 
+  Dec 14, 2018:
+    - 'web' now has an optional param, safe, that will only update if the
+      listings are newer than the web index. Cron does this every 15min.
+
   Dec 12, 2018:
     - run 'wiki' or 'faq' to see our new wiki system!
     - 'latest' script will show most recent 10 logs.
