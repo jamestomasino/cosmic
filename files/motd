@@ -1,5 +1,6 @@
 
   Dec 14, 2018:
+    - wiki updated to include full system change log.
     - 'web' now has an optional param, safe, that will only update if the
       listings are newer than the web index. Cron does this every 15min.
 
@@ -9,12 +10,5 @@
     - New text editors added: 'jed', and 'ne' were added to the system:
       Full list: jed, ne, joe, vim, neovim, emacs, ed, nano, kakoune
 
-  Dec 07, 2018:
-    - 'rules' prints our very serious cosmic rules.
-    - 'cosmic-ship "new ship name"' will make a new ship. You don't need
-      help from tomasino anymore. Make ships on your own! If you screw up
-      then tomasino can help you remove or rename them.
-    - IRC bot's !roster command is getting some work done to remove the
-      unicode characters and surround nicks in underscores.
-
+  See 'wiki' for more.
   Requests or advice? Send a local mail to 'tomasino'.
