@@ -2,6 +2,7 @@
 SRC_DIR ?= /var/gopher
 DST_DIR ?= /var/www/html2
 WEB_HEAD ?= /etc/templates/webheader.tmpl
+WEB_STYLE ?= /etc/templates/webstyles.tmpl
 
 ifeq ($(VERBOSE),1)
   MUTE :=
@@ -23,6 +24,7 @@ DST_HTML_FILES := $(SRC_TXT_FILES:$(SRC_DIR)/%.txt=$(DST_DIR)/%.html)
 copy = cp $< $@
 mkdir = $(MUTE)mkdir -p $(dir $@)
 addhead = $(MUTE)cat $(WEB_HEAD) > $@
+addstyle= $(MUTE)cat $(WEB_STYLE) >> $@
 
 .PHONY: all clean
 
@@ -34,6 +36,7 @@ clean:
 $(DST_DIR)/error.html:
 	$(mkdir)
 	$(addhead)
+	$(addstyle)
 	$(MUTE){ \
 		printf "</head><body><div class=\"page-wrapper\"><pre class=\"inner-wrapper\"><a href=\"/\">&lt;&lt; BACK TO RELAY ONE</a>"; \
 		printf "\\n\\n\\nERROR. TRANSMISSION NOT FOUND.</pre></div></body></html>"; \
@@ -47,7 +50,12 @@ $(DST_DIR)/%.html: $(SRC_DIR)/%.txt
 		log_title=$$(grep "$$short_path" "$(LISTING_FILE)" | head -1 | sed 's|^0||' | awk -F "\t" '{print $$1}'); \
 		printf "<title>%s</title>\\n" "$$log_title"; \
 		printf "<link rel=\"canonical\" href=\"https://cosmic.voyage%s.html\">\\n" "$$short_path"; \
-		printf "</head>\\n<body>\\n<div class=\"page-wrapper\"><pre class=\"inner-wrapper\">\\n"; \
+	} >> $@
+	$(addstyle)
+	$(MUTE){\
+		printf "</head>\\n"; \
+		printf "<body>\\n"; \
+		printf "<div class=\"page-wrapper\"><pre class=\"inner-wrapper\">\\n"; \
 		printf "<a href=\"/log\">&lt;&lt; BACK TO RELAY ONE LOG</a>\\n\\n\\n"; \
 		sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g; s/'"'"'/\&#39;/g' "$<"; \
 		printf "</pre></div></body></html>"; \
@@ -57,45 +65,43 @@ $(DST_DIR)/log/index.html: $(LISTING_FILE)
 	$(mkdir)
 	$(addhead)
 	$(MUTE){\
-		printf "<title>Cosmic Voyage - Transmission Log</title>"; \
-		printf "<link rel=\"canonical\" href=\"https://cosmic.voyage/log\">"; \
-		printf "</head>"; \
-		printf "<body>"; \
-		printf "<div class=\"page-wrapper\">"; \
-		printf "<pre class=\"inner-wrapper\">"; \
-		printf "<a href=\"/\">&lt;&lt; BACK TO RELAY ONE</a>\\n\\n"; \
-		cat "$(SRC_DIR)/log/intro.gophermap"; \
+		printf "<title>Cosmic Voyage - Transmission Log</title>\\n"; \
+		printf "<link rel=\"canonical\" href=\"https://cosmic.voyage/log\">\\n"; \
 	} >> $@
-	$(MUTE)printf "$(LISTING_LIST)" >> $@
+	$(addstyle)
 	$(MUTE){\
-		printf "</pre>\\n"; \
-		printf "</div>\\n"; \
-		printf "</body>\\n"; \
-		printf "</html>"; \
+		printf "</head>\\n"; \
+		printf "<body>\\n"; \
+		printf "<div class=\"page-wrapper\">\\n"; \
+		printf "<pre class=\"inner-wrapper\">\\n"; \
+		printf "<a href=\"/\">&lt;&lt; BACK TO RELAY ONE</a>\\n\\n"; \
 	} >> $@
+	$(MUTE)cat "$(SRC_DIR)/log/intro.gophermap" >> $@
+	$(MUTE)printf "$(LISTING_LIST)" >> $@
+	$(MUTE)printf "</pre></div></body></html>" >> $@
 
 $(DST_DIR)/index.html: $(LISTING_FILE)
 	$(mkdir)
 	$(addhead)
 	$(MUTE){\
-		printf "<title>Cosmic Voyage</title>"; \
-		printf "<link rel=\"canonical\" href=\"https://cosmic.voyage\">"; \
-		printf "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"Cosmic Voyage\" href=\"/rss.xml\">"; \
-		printf "<meta name=\"description\" content=\"Cosmic Voyage is a public-access unix system and 'tilde' community based around a collaborative science-fiction universe. Users write stories as the people aboard ships, colonies, and outposts, using the only remaining free, interconnected network that unites the dispersed peoples of the stars.\">"; \
+		printf "<title>Cosmic Voyage</title>\\n"; \
+		printf "<link rel=\"canonical\" href=\"https://cosmic.voyage\">\\n"; \
+		printf "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"Cosmic Voyage\" href=\"/rss.xml\">\\n"; \
+		printf "<meta name=\"description\" content=\"Cosmic Voyage is a public-access unix system and 'tilde' community based around a collaborative science-fiction universe. Users write stories as the people aboard ships, colonies, and outposts, using the only remaining free, interconnected network that unites the dispersed peoples of the stars.\">\\n"; \
+	} >> $@
+	$(addstyle)
+	$(MUTE){\
 		printf "</head>"; \
 		printf "<body>"; \
 		printf "<div class=\"page-wrapper\">"; \
 		printf "<pre class=\"inner-wrapper\">"; \
-		cat "$(SRC_DIR)/intro.gophermap"; \
+	} >> $@
+	$(MUTE)cat "$(SRC_DIR)/intro.gophermap" >> $@
+	$(MUTE){\
 		printf "\\n<a href=\"/log\">>> Complete Transmission Log</a>\\n"; \
 		printf "<a href=\"/ships\">>> Ships, Colonies, Outposts</a>\\n"; \
 		printf "<a href=\"/rss.xml\">>> RSS Feed</a>\\n\\n"; \
 		printf "Most recent log entries:\\n"; \
 	} >> $@
 	$(MUTE)printf "$(LISTING_LIST)" | head -n 20 >> $@
-	$(MUTE){\
-		printf "</pre>\\n"; \
-		printf "</div>\\n"; \
-		printf "</body>\\n"; \
-		printf "</html>"; \
-	} >> $@
+	$(MUTE)printf "</pre></div></body></html>" >> $@

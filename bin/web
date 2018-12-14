@@ -24,6 +24,7 @@ entry_index () {
   entry_html="${html_dir}${loghtml}.html"
   mkdir -p "${html_dir}${logdir}"
   cat "$web_header_html" > "${entry_html}"
+  cat "$web_styles_html" >> "${entry_html}"
   {
     printf "    <title>%s</title>\\n" "$title"
     printf "    <link rel=\"canonical\" href=\"https://cosmic.voyage%s.html\">\\n" "$loghtml"
@@ -43,6 +44,7 @@ if [ "$run_user" -eq 0 ]; then
   root_index_html="/var/www/html/index.html"
   log_html="/var/www/html/log/index.html"
   web_header_html="/etc/templates/webheader.tmpl"
+  web_styles_html="/etc/templates/webstyles.tmpl"
   ships_html="/var/www/html/ships/index.html"
   error_html="/var/www/html/error.html"
   html_dir="/var/www/html"
@@ -61,6 +63,7 @@ if [ "$run_user" -eq 0 ]; then
 
   # Add standard header
   cat "$web_header_html" > "${root_index_html}"
+  cat "$web_styles_html" >> "${root_index_html}"
 
   # Custom header elements and body start
   {
@@ -88,6 +91,7 @@ if [ "$run_user" -eq 0 ]; then
       local_log_html="/var/www/html/log/index-${i}.html"
     fi
     cat "$web_header_html" > "${local_log_html}"
+    cat "$web_styles_html" >> "${local_log_html}"
     # Custom header elements and body start
     {
       printf "<title>Cosmic Voyage - Transmission Log</title>"
@@ -150,6 +154,7 @@ if [ "$run_user" -eq 0 ]; then
   mkdir -p "${html_dir}/ships"
   # Add header info to html output
   cat "$web_header_html" > "${ships_html}"
+  cat "$web_styles_html" >> "${ships_html}"
   # Custom header elements and body start
   {
     printf "<title>Cosmic Voyage - Ships</title>"
@@ -176,6 +181,7 @@ if [ "$run_user" -eq 0 ]; then
       mkdir -p "${html_dir}/ships/${ship}"
       # Add header info to html output
       cat "$web_header_html" > "${ship_html}"
+      cat "$web_styles_html" >> "${ship_html}"
       # Custom header elements and body start
       {
         printf "<title>Cosmic Voyage - %s</title>" "$ship"
@@ -206,6 +212,7 @@ if [ "$run_user" -eq 0 ]; then
 
   # Print error page
   cat "$web_header_html" > "${error_html}"
+  cat "$web_styles_html" >> "${error_html}"
   {
     printf "</head><body><div class=\"page-wrapper\"><pre class=\"inner-wrapper\"><a href=\"/\">&lt;&lt; BACK TO RELAY ONE</a>"
     printf "\\n\\n\\nERROR. TRANSMISSION NOT FOUND.</pre></div></body></html>"
