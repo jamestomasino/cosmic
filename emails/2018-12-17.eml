@@ -42,7 +42,7 @@ keep that up and invite more!
 In case you joined in the beginning when things were a little more
 ad-hoc, here's our current process for becoming a new user:
 
-1. pick a username 
+1. pick a user-name 
 2. send me a ssh pubkey
 
 That's it! I'll add the user to the system using that pubkey. Once
