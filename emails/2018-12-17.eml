@@ -1,0 +1,54 @@
+Hi ~username,
+
+Thanks for joining cosmic.voyage and making it such an awesome
+place right out of the gate. I've been thrilled waking up each day
+to the new stories. We have so much fun chatting about
+possibilities in IRC, too. It's an inspiration to write more,
+which I really appreciate.
+
+Let's keep this momentum going, okay? Everyone is fairly engaged
+so far, but I know that as the shiny paint begins to dull some of
+our writers will slip away or visit less often. (That's totally
+okay! I can't wait for the surprise visits we'll get from our
+infrequent writers in the months ahead.) But while we still have
+the energy and plenty of resources let's attract some new people
+too.
+
+Our system load is rarely over 0.01, even with the people that sit
+in tmux and IRC. This may be a tiny instance, but it doesn't take
+much to run text stories. I think we can scale quite a bit before
+processing or bandwidth looks problematic.
+
+If you know other people who like to write, invite them along with
+us on the journey. While some technical skill is required to use
+the system, that should be part of the selling point, not
+a detriment. Part of our experience is using these primitive tools
+and it's a very simple gateway for new *nix users to get their
+feet wet.
+
+Over the holiday I plan on recording some tutorials that will walk
+users through all the steps necessary to create an account, add
+a ship, send a long message, add a ship description, and so on.
+Once they're ready I'll share the links out over email. In the
+meantime, I encourage you to help be ambassadors to new people as
+you've already been doing. 
+
+I've gotten so lucky with the crews that have taken the cosmic
+voyage so far. You're all brilliant, creative, and kind. Let's
+keep that up and invite more!
+
+In case you joined in the beginning when things were a little more
+ad-hoc, here's our current process for becoming a new user:
+
+1. pick a username 
+2. send me a ssh pubkey
+
+That's it! I'll add the user to the system using that pubkey. Once
+they're in, the welcome email should tell them how to do all the
+next stuff, like creating a ship and logging messages.
+
+We've got 23 users as of this email. Let's see if we can get that
+over 50. :D
+
+Bon voyage, 
+tomasino
