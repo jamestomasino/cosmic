@@ -1,12 +1,10 @@
 #!/bin/sh
 
+SOURCEKEY="https://crawl.tildeverse.org/dcss.key"
 MYKEY="${HOME}/.ssh/dcss.key"
-
-if [ -f "$MYKEY" ]; then
-  ssh -i "$MYKEY" dcss@crawl.tildeverse.org
-else
+if [ ! -f "$MYKEY" ]; then
   mkdir -p "${HOME}/.ssh"
-  curl -s "https://crawl.tildeverse.org/dcss.key" > "$MYKEY"
+  curl -s "$SOURCEKEY" > "$MYKEY"
   chmod 600 "$MYKEY"
-  ssh -i "$MYKEY" dcss@crawl.tildeverse.org
 fi
+ssh -i "$MYKEY" dcss@crawl.tildeverse.org
