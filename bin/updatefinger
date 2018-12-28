@@ -1,0 +1,23 @@
+#!/bin/sh
+
+run_user=$(id -u)
+if [ "$run_user" -eq 0 ]; then
+  for d in /home/*
+  do
+    if [ ! -f "${d}/.efingerd" ]; then
+      # if no .efingerd file, add one
+      printf "%s - no .efingerd found\\n" "$d"
+      owner="$(basename "$d")"
+      cp "/etc/skel/.efingerd" "${d}/.efingerd"
+      chown "$owner" "${d}/.efingerd"
+      chgrp "$owner" "${d}/.efingerd"
+    else
+      version="$(sed -n '2{p;q}' "${d}/.efingerd")"
+      if [ "$version" = "# version 1" ]; then
+        printf "%s - version 1\\n" "$d"
+      else
+        printf "%s - customized\\n" "$d"
+      fi
+    fi
+  done
+fi
