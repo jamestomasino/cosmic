@@ -4,37 +4,41 @@ run_user=$(id -u)
 if [ "$run_user" -eq 0 ]; then
   n="$1"
   s="$2"
-  if [ ! -z "$n" ]; then
-    user_exists=$(id -u "${n}" 2> /dev/null)
-    if [ ! -z "${user_exists}" ]; then
-      if [ ! -z "${s}" ]; then
-        path="/var/gopher/${s}"
-        if [ ! -d "$path" ]; then
-          printf "Creating ship '%s' for user '%s'\\n" "${s}" "${n}"
-          # create ship directory in gopher and give ownership to user
-          mkdir "$path"
-          chmod 755 "$path"
-          chown -R "${n}" "$path"
-          # create ship listings dir and link to ship gophermap
-          mkdir "/var/gopher/ships/${s}"
-          ln -s "/var/gopher/ships/ship/gophermap" "/var/gopher/ships/${s}/gophermap" 
-          # create a symlink in user's home dir for easy access
-          mkdir -p "/home/${n}/ships"
-          ln -s "$path" "/home/${n}/ships/${s}"
-          # notify user by email
-          sed -e "s/username/${n}/g" -e "s/shipname/${s}/" /etc/templates/newship.tmpl | sendmail "${n}" "tomasino"
+  if printf "%s" "$2" | grep -Eq "^[A-Za-z0-9]+[A-Za-z0-9\\ \\-]*$"; then
+    if [ ! -z "$n" ]; then
+      user_exists=$(id -u "${n}" 2> /dev/null)
+      if [ ! -z "${user_exists}" ]; then
+        if [ ! -z "${s}" ]; then
+          path="/var/gopher/${s}"
+          if [ ! -d "$path" ]; then
+            printf "Creating ship '%s' for user '%s'\\n" "${s}" "${n}"
+            # create ship directory in gopher and give ownership to user
+            mkdir "$path"
+            chmod 755 "$path"
+            chown -R "${n}" "$path"
+            # create ship listings dir and link to ship gophermap
+            mkdir "/var/gopher/ships/${s}"
+            ln -s "/var/gopher/ships/ship/gophermap" "/var/gopher/ships/${s}/gophermap" 
+            # create a symlink in user's home dir for easy access
+            mkdir -p "/home/${n}/ships"
+            ln -s "$path" "/home/${n}/ships/${s}"
+            # notify user by email
+            sed -e "s/username/${n}/g" -e "s/shipname/${s}/" /etc/templates/newship.tmpl | sendmail "${n}" "tomasino"
+          else
+            owner=$(stat -c %U "$path")
+            printf "That ship or colony already exists and is owned by %s\\n" "$owner"
+          fi
         else
-          owner=$(stat -c %U "$path")
-          printf "That ship or colony already exists and is owned by %s\\n" "$owner"
+          printf "Specificy a ship or colony name.\\n"
         fi
       else
-        printf "Specificy a ship or colony name.\\n"
+        printf "User not found.\\n"
       fi
     else
-      printf "User not found.\\n"
+      printf "Specify a user.\\n"
     fi
   else
-    printf "Specify a user.\\n"
+    printf "Please name your ship with ASCII letters, numbers, spaces and dashes only.\\n"
   fi
 else
   if [ "$#" -eq 1 ]; then
