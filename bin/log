@@ -133,7 +133,7 @@ check_log () {
         printf "\\n   Title for message %s? " "$(basename "$u" | sed 's/\.[^.]*$//')"
         read -r title
         if [ ! -z "$title" ]; then
-          if printf "%s" "$title" | grep -Eq "^[A-Za-z0-9]+[A-Za-z0-9\\.\\ \\-]*$"; then
+          if printf "%s" "$title" | grep -Eq "^[A-Za-z0-9]+[A-Za-z0-9\\?'\"\\,\\.\\ \\-]*$"; then
             printf "0%s - %s\\t%s\\n" "$ship" "$title" "$u" | cat - /var/gopher/listing.gophermap > "$tmp" && cat "$tmp" > /var/gopher/listing.gophermap && rm "$tmp"
             printf "\\n   %s - %s .... Sent.\\n" "$(basename "$u" | sed 's/\.[^.]*$//')" "$title"
           else
