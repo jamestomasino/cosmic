@@ -137,7 +137,7 @@ check_log () {
             printf "0%s - %s\\t%s\\n" "$ship" "$title" "$u" | cat - /var/gopher/listing.gophermap > "$tmp" && cat "$tmp" > /var/gopher/listing.gophermap && rm "$tmp"
             printf "\\n   %s - %s .... Sent.\\n" "$(basename "$u" | sed 's/\.[^.]*$//')" "$title"
           else
-            printf "Titles must be ASCII letters, numbers, spaces and dashes only. Aborting.\\n"
+            printf "Titles must be ASCII letters, numbers, spaces and basic punctuation only. Aborting.\\n"
           fi
         else
           printf "   %s .... No title. Aborting.\\n" "$(basename "$u" | sed 's/\.[^.]*$//')"
