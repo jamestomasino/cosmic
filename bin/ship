@@ -4,7 +4,7 @@ run_user=$(id -u)
 if [ "$run_user" -eq 0 ]; then
   n="$1"
   s="$2"
-  if printf "%s" "$2" | grep -Eq "^[A-Za-z0-9]+[A-Za-z0-9\\ \\-]*$"; then
+  if printf "%s" "$2" | grep -Eq "^[A-Za-z0-9]+[A-Za-z0-9\\.\\ \\-]*$"; then
     if [ ! -z "$n" ]; then
       user_exists=$(id -u "${n}" 2> /dev/null)
       if [ ! -z "${user_exists}" ]; then
