@@ -5,4 +5,4 @@ if [ ! -z "$1" ]; then
 else
   n="10"
 fi
-head -n "$n" "/var/gopher/listing.gophermap" | sed "s|\\t.*||" | sed "s|^0||" | sed 's|^|>> |'
+head -n "$n" "/var/gopher/listing.gophermap" | sed "s|\\t.*||" | sed "s|^0|>> |"
