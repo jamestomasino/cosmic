@@ -1,4 +1,4 @@
-install: bin templates man completion files
+install: bin templates man completion files skel
 
 bin:
 	stow -t "/usr/local/bin" bin
@@ -19,11 +19,15 @@ files:
 	mkdir -p "/usr/share/games/fortunes"
 	cd files && stow -t "/usr/share/games/fortunes" fortunes
 
+skel:
+	rsync -avzh skel/ /etc/skel/
+
 uninstall:
 	stow -t "/usr/local/bin" -D bin
 	stow -t "/etc/templates" -D templates
 	stow -t "/usr/share/man/man1/" -D man
 	stow -t "/etc/bash_completion.d" -D completion
+	#stow -t "/etc/skel" -D skel
 	cd files && stow -t "/usr/share/games/fortunes" -D fortunes
 
-.PHONY: bin templates man completion files
+.PHONY: bin templates man completion files skel
