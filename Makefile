@@ -27,7 +27,6 @@ uninstall:
 	stow -t "/etc/templates" -D templates
 	stow -t "/usr/share/man/man1/" -D man
 	stow -t "/etc/bash_completion.d" -D completion
-	#stow -t "/etc/skel" -D skel
 	cd files && stow -t "/usr/share/games/fortunes" -D fortunes
 
 .PHONY: bin templates man completion files skel
