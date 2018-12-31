@@ -1,8 +1,2 @@
 #!/bin/sh
-
-if [ ! -z "$1" ]; then
-  n="$1"
-else
-  n="10"
-fi
-head -n "$n" "/var/gopher/listing.gophermap" | sed "s|\\t.*||" | sed "s|^0|>> |"
+head -n "${1:-10}" "/var/gopher/listing.gophermap" | sed "s|\\t.*||" | sed "s|^0|>> |"
