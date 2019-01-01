@@ -125,7 +125,7 @@ check_log () {
   uniq=$(printf "%s\\n%s" "$logs" "$files" | sort | uniq -u)
 
   if [ -z "$uniq" ]; then
-    printf " .... No new messages.\\n"
+    printf " .. No new messages.\\n"
   else
     printf "\\n" # break to new line for each message query
     # check each unpublished message for sending
@@ -207,7 +207,7 @@ main() {
 
   # standard log if no params
   if [ $arg_log -gt 0 ]; then
-    printf "INITIALIZING %sQEC%s...\\n" "${YELLOW}" "${RESET}"
+    printf "%sINITIALIZING QEC%s .. %sGOOD%s\\n" "${YELLOW}" "${RESET}" "${GREEN}" "${RESET}"
     printf "Ready to transmit for [%s]\\n" "${GREEN}${user}${RESET}"
     if [ "$numships" -eq 0 ]; then
       printf "No registered ships found in system.\\n"
