@@ -1,4 +1,4 @@
-install: bin templates man completion files skel
+install: bin templates man completion files efingerd
 
 bin:
 	stow -t "/usr/local/bin" bin
@@ -19,14 +19,16 @@ files:
 	mkdir -p "/usr/share/games/fortunes"
 	cd files && stow -t "/usr/share/games/fortunes" fortunes
 
-skel:
-	rsync -avzh skel/ /etc/skel/
+efingerd:
+	mkdir -p "/etc/efingerd"
+	stow -t "/etc/efingerd" efingerd
 
 uninstall:
 	stow -t "/usr/local/bin" -D bin
 	stow -t "/etc/templates" -D templates
 	stow -t "/usr/share/man/man1/" -D man
 	stow -t "/etc/bash_completion.d" -D completion
+	stow -t "/etc/efingerd" -D efingerd
 	cd files && stow -t "/usr/share/games/fortunes" -D fortunes
 
-.PHONY: bin templates man completion files skel
+.PHONY: bin templates man completion files efingerd

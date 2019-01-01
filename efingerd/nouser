@@ -1,0 +1,37 @@
+#!/bin/sh
+
+if [ "$3" = "latest" ]; then
+  echo "The latest messages logged to the QEC:"
+  /usr/local/bin/latest
+  exit 0
+fi
+
+if [ "$3" = "time" ]; then
+  echo The time is...
+  date
+  exit 0
+fi
+
+if [ "$3" = "ping" ]; then
+  echo "PONG!"
+  ping -c 5 "$2"
+  exit 0
+fi
+
+if [ "$3" = "fortune" ]; then
+  /usr/games/fortune
+  exit 0
+fi
+
+if [ "$3" = "uptime" ]; then
+  /usr/bin/uptime
+  exit 0
+fi
+
+. /etc/efingerd/log
+
+cat <<EOM
+QEC STATUS: ERROR
+SHIP OR USER NOT DEFINED.
+THIS REQUEST HAS BEEN LOGGED.
+EOM

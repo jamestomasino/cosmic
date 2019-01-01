@@ -1,0 +1,8 @@
+#!/bin/sh
+
+. /etc/efingerd/log
+
+cat <<EOM
+QEC STATUS: DENIED
+THIS REQUEST HAS BEEN LOGGED
+EOM
