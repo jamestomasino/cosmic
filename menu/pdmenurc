@@ -13,7 +13,8 @@ menu:main:Main Menu:Cosmic Voyage Menu System v1.0
      exec:_Wiki::wiki
      exec:_FAQ::faq
      exec:_Mail::alpine
-     exec:_Fellowsh::clear;fellowsh
+     exec:_fellowsh::clear;fellowsh
+     exec:_finger user:truncate,edit:finger "~user name:~@cosmic.voyage"
      exec:_IRC::weechat
      show:_Games..::games
      nop
