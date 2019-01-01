@@ -136,21 +136,21 @@ check_log () {
       printf "   Send [%s]? " "$(basename "$u" | sed 's/\.[^.]*$//')"
       if yesno; then
         # prompt for title and prepare output
-        printf ".. %sYes%s.\\n" "${GREEN}" "${RESET}"
+        printf ".. %sYES%s.\\n" "${GREEN}" "${RESET}"
         printf "   Title for [%s]? " "$(basename "$u" | sed 's/\.[^.]*$//')"
         read -r title
         if [ ! -z "$title" ]; then
           if printf "%s" "$title" | grep -Pq "^[\\x20-\\x7E]*$"; then
             printf "0%s - %s\\t%s\\n" "$ship" "$title" "$u" | cat - /var/gopher/listing.gophermap > "$tmp" && cat "$tmp" > /var/gopher/listing.gophermap && rm "$tmp"
-            printf "   .. [%s] .. %sSent%s.\\n" "$title" "${GREEN}" "${RESET}" 
+            printf "   .. [%s] .. %sSENT%s.\\n" "$title" "${GREEN}" "${RESET}" 
           else
-            printf "   .. Titles must be ASCII characters. %sAbort%s.\\n" "${RED}" "${RESET}"
+            printf "   .. Titles must be ASCII characters. %sABORT%s.\\n" "${RED}" "${RESET}"
           fi
         else
-          printf "   .. No title. %sAbort%s.\\n" "${RED}" "${RESET}"
+          printf "   .. No title. %sABORT%s.\\n" "${RED}" "${RESET}"
         fi
       else
-        printf ".. %sSkip%s.\\n" "${RED}" "${RESET}"
+        printf ".. %sNO%s.\\n" "${RED}" "${RESET}"
       fi
     done
     unset IFS
