@@ -2,6 +2,11 @@
 
 # TODO: better isolate listings.gophermap from accidental clobbering
 
+YELLOW="$(tput setaf 11)"
+GREEN="$(tput setaf 10)"
+RED="$(tput setaf 9)"
+RESET="$(tput sgr0)"
+
 die () {
   msg="$1"
   code="$2"
@@ -111,7 +116,7 @@ yesno () {
 
 check_log () {
   ship="$*"
-  printf ">> %s" "${ship}"
+  printf ">> %s" "${YELLOW}${ship}${RESET}"
   # look at log entries in gophermap
   # compare against files in ship directory
   # store list of unpublished logs
@@ -122,28 +127,30 @@ check_log () {
   if [ -z "$uniq" ]; then
     printf " .... No messages.\\n"
   else
+    printf "\\n" # break to new line for each message query
     # check each unpublished message for sending
     IFS='
 '
     for u in $uniq
     do
-      printf "\\n   Send message %s? " "$(basename "$u" | sed 's/\.[^.]*$//')"
+      printf "   Send [%s]? " "$(basename "$u" | sed 's/\.[^.]*$//')"
       if yesno; then
         # prompt for title and prepare output
-        printf "\\n   Title for message %s? " "$(basename "$u" | sed 's/\.[^.]*$//')"
+        printf ".. %sYes%s.\\n" "${GREEN}" "${RESET}"
+        printf "   Title for [%s]? " "$(basename "$u" | sed 's/\.[^.]*$//')"
         read -r title
         if [ ! -z "$title" ]; then
           if printf "%s" "$title" | grep -Pq "^[\\x20-\\x7E]*$"; then
             printf "0%s - %s\\t%s\\n" "$ship" "$title" "$u" | cat - /var/gopher/listing.gophermap > "$tmp" && cat "$tmp" > /var/gopher/listing.gophermap && rm "$tmp"
-            printf "\\n   %s - %s .... Sent.\\n" "$(basename "$u" | sed 's/\.[^.]*$//')" "$title"
+            printf "   .. [%s] .. %sSent%s.\\n" "$title" "${GREEN}" "${RESET}" 
           else
-            printf "Titles must be ASCII characters. Aborting.\\n"
+            printf "   .. Titles must be ASCII characters. %sAbort%s.\\n" "${RED}" "${RESET}"
           fi
         else
-          printf "   %s .... No title. Aborting.\\n" "$(basename "$u" | sed 's/\.[^.]*$//')"
+          printf "   .. No title. %sAbort%s.\\n" "${RED}" "${RESET}"
         fi
       else
-        printf "\\n   %s .... Skipped.\\n" "$(basename "$u" | sed 's/\.[^.]*$//')"
+        printf ".. %sSkip%s.\\n" "${RED}" "${RESET}"
       fi
     done
     unset IFS
@@ -200,8 +207,8 @@ main() {
 
   # standard log if no params
   if [ $arg_log -gt 0 ]; then
-    printf "INITIALIZING QEC...\\n"
-    printf "Ready to transmit for [%s]\\n" "${user}"
+    printf "INITIALIZING %sQEC%s...\\n" "${YELLOW}" "${RESET}"
+    printf "Ready to transmit for [%s]\\n" "${GREEN}${user}${RESET}"
     if [ "$numships" -eq 0 ]; then
       printf "No registered ships found in system.\\n"
     elif [ "$numships" -eq 1 ]; then
