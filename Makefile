@@ -1,4 +1,4 @@
-install: bin templates man completion files efingerd
+install: bin templates man completion files efingerd menu
 
 bin:
 	stow -t "/usr/local/bin" bin
@@ -23,12 +23,16 @@ efingerd:
 	mkdir -p "/etc/efingerd"
 	stow -t "/etc/efingerd" efingerd
 
+menu:
+	stow -t "/etc" menu
+
 uninstall:
 	stow -t "/usr/local/bin" -D bin
 	stow -t "/etc/templates" -D templates
 	stow -t "/usr/share/man/man1/" -D man
 	stow -t "/etc/bash_completion.d" -D completion
 	stow -t "/etc/efingerd" -D efingerd
+	stow -t "/etc" -D menu
 	cd files && stow -t "/usr/share/games/fortunes" -D fortunes
 
-.PHONY: bin templates man completion files efingerd
+.PHONY: bin templates man completion files efingerd menu

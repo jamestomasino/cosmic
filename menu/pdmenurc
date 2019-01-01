@@ -1,0 +1,42 @@
+#!/usr/bin/pdmenu
+
+title:Cosmic Voyage
+
+#Set a pleasing color scheme.
+color:desktop:white:blue
+color:title:yellow:red
+color:base:yellow:red
+
+#this is a comment
+menu:main:Main Menu:Cosmic Voyage Menu System v1.0
+     show:_Cosmic Tools..::cosmic
+     exec:_Wiki::wiki
+     exec:_FAQ::faq
+     exec:_Mail::alpine
+     exec:_Fellowsh::clear;fellowsh
+     exec:_IRC::weechat
+     show:_Games..::games
+     nop
+     exit:E_xit
+
+menu:games:Games:Games and fun distractions
+    exec:_Dungeon Crawl Stone Soup::dcss
+    exec:_Space Invaders::/usr/games/ninvaders
+    exec:_Bastard Tetris::/usr/games/bastet
+    exec:_Nethack::/usr/games/nethack-console
+    exec:_Sudoku::/usr/games/nudoku
+    exec:_Zangband::/usr/games/zangband
+    exec:_Fortune:truncate:/usr/games/fortune | par -w 60
+    nop
+    exit:_Back to main menu..
+
+menu:cosmic:Cosmic Tools:Tools related to the cosmic voyage story
+    exec:_QEC browser::qec
+    exec:_Recent QEC Logs:truncate:latest
+    exec:_Author and Ship Lists:truncate,edit:roster "~user or ship name (or blank for all):~"
+    exec:_Log a new message::log
+    exec:_Website regeneration:truncate:web
+    exec:_Create a new ship:truncate,edit:ship "~new ship name:~"
+    nop
+    exit:_Back to main menu..
+
