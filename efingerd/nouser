@@ -28,6 +28,8 @@ if [ "$3" = "uptime" ]; then
   exit 0
 fi
 
+# shellcheck source=log
+# shellcheck disable=SC1091
 . /etc/efingerd/log
 
 cat <<EOM

@@ -4,6 +4,8 @@
 # $2 = address of remote machine fingering you
 # $3 = name of user being fingered (you!)
 
+# shellcheck source=log
+# shellcheck disable=SC1091
 . /etc/efingerd/log
 
 if [ "$3" = "root" ]; then
