@@ -1,4 +1,4 @@
-install: bin templates man completion files efingerd menu
+install: bin templates man completion files efingerd menu postfix
 
 bin:
 	stow -t "/usr/local/bin" bin
@@ -26,6 +26,12 @@ efingerd:
 menu:
 	stow -t "/etc" menu
 
+postfix:
+	stow -t "/etc/postfix" postfix
+	sudo chown root /etc/postfix/transport
+	postmap /etc/postfix/transport
+	postfix reload
+
 uninstall:
 	stow -t "/usr/local/bin" -D bin
 	stow -t "/etc/templates" -D templates
@@ -33,6 +39,7 @@ uninstall:
 	stow -t "/etc/bash_completion.d" -D completion
 	stow -t "/etc/efingerd" -D efingerd
 	stow -t "/etc" -D menu
+	stow -t "/etc/postfix" -D postfix
 	cd files && stow -t "/usr/share/games/fortunes" -D fortunes
 
-.PHONY: bin templates man completion files efingerd menu
+.PHONY: bin templates man completion files efingerd menu postfix
