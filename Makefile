@@ -1,4 +1,7 @@
-install: bin templates man completion files efingerd menu postfix
+install: apt bin templates man completion files efingerd menu postfix
+
+apt:
+	xargs -a pkglist sudo apt install -y
 
 bin:
 	stow -t "/usr/local/bin" bin
