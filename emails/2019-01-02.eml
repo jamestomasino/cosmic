@@ -1,0 +1,68 @@
+Subject: Federating Email
+
+Hi ~USERNAME,
+
+Our lovely system is introducing some new federation features with
+other pubnix servers. If you visit our IRC channel, you may have
+already noted that it's on the tildeverse IRC server. This host
+acts as one of the servers connecting into that same system.
+
+We have two other basic federation systems being worked on:
+
+1) Email - As of today, this server can send email to any of the
+   following servers: 
+   - *.circumlunar.space
+   - grex.org
+   - rawtext.club
+   - sdf.org
+   - tilde.team
+   - tilde.town
+   - yourtilde.com
+
+   Any other outbound email is restricted. If you know of other
+   pubnix's that should be added to the list, please send me
+   a note and I'll add them. This goes toward the effort of
+   keeping things story-focused, but playing nice with the
+   pubnix-verse.
+
+2) Finger - If you read gopher, solderpunk has written up an
+   in-depth phlog post about his efforts to bring finger back to
+   life in the pubnix space.
+
+   gopher://zaibatsu.circumlunar.space/0/~solderpunk/phlog/were-bringin-finger-back.txt
+   
+   In short, you can finger users at cosmic.voyage and get some
+   cool results back. Currently the system will share your .plan
+   and .project files in your home directory if they exist (normal
+   finger behavior) and also your ship roster. You can view the
+   standard finger script on git here:
+
+   https://tildegit.org/cosmic/cosmic/src/branch/master/efingerd/luser
+
+   You can also:
+
+   - finger latest@cosmic.voyage
+   - finger uptime@cosmic.voyage
+   - finger ping@cosmic.voyage
+   - finger time@cosmic.voyage
+   - finger fortune@cosmic.voyage
+
+   Finally, solderpunk's "fellowsh" tool, built on top of finger,
+   is available on the system. It's still in active development
+   and I'll be pulling in updates as they're made.
+
+Thanks to the advice of one of our writers, I've also created
+a new 'menu' tool that offers an easy-to-use interface for many of
+the common scripts on the server. It's also a great way to play
+with and discover new things.
+
+Finally, I want to tell you all you're super awesome. We broke 100
+posts before the new year. If you finger uptime, you'll see that
+we've been running for 42 days as of today. That's more than
+2 logs per day! 
+
+Keep up the amazing writing, everyone, and keep sharing the
+system.
+
+Bon voyage,
+tomasino
