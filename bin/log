@@ -93,21 +93,12 @@ show_help () {
   printf "\\n"
 }
 
-read_key () {
-  _key=
-  if [ -t 0 ]; then
-    if [ -z "$_stty" ]; then
-      _stty=$(stty -g)
-    fi
-    stty -echo -icanon min 1
-    _key=$(dd bs=1 count=1 2>/dev/null)
-    stty "$_stty"
-  fi
-}
-
 yesno () {
-  read_key
-  case $_key in
+  old_stty_cfg=$(stty -g)
+  stty raw -echo
+  yn=$(while ! head -c 1 | grep -i '[ny]'; do true; done)
+  stty "$old_stty_cfg"
+  case $yn in
     y ) result=0 ;;
     * ) result=1 ;;
   esac
