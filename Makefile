@@ -27,6 +27,9 @@ menu:
 	stow -t "/etc" menu
 
 postfix:
+	if ! grep -q 'transport_maps' "/etc/postfix/main.cf"; then \
+		printf "transport_maps = hash:/etc/postfix/transport" >> "/etc/postfix/main.cf"; \
+	fi
 	stow -t "/etc/postfix" postfix
 	sudo chown root /etc/postfix/transport
 	postmap /etc/postfix/transport
