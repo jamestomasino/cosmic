@@ -64,6 +64,7 @@ if [ "$run_user" -eq 0 ]; then
   rm -rf "/var/www/html/*"
   # Generate RSS
   # shellcheck source=rss
+  # shellcheck disable=SC1091
   . "${SCRIPTPATH}/rss"
 
   # prep directories
