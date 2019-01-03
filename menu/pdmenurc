@@ -54,7 +54,7 @@ menu:comms:Communication:Reach out and touch someone
      group:_Talk
        exec::makemenu: \
        echo "menu:talk:Talk:Talk to other users"; \
-       for u in `who | cut -f 1 -d " "| sort -u | sed 's|^|_|'`; do \
+       for u in `who | cut -f 1 -d " "| sort -u `; do \
          echo "exec:$u::talk $u"; \
        done; \
        echo "nop"; \
