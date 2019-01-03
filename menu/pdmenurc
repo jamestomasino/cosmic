@@ -36,15 +36,32 @@ color:unselmenu:lightgray:black
 
 #this is a comment
 menu:main:Main Menu:Cosmic Voyage Menu System v1.0
+     show:Cosmic _Tools..::cosmic
+     show:_Communication..::comms
+     show:_Games..::games
+     nop
      exec:_Wiki::wiki
      exec:_FAQ::faq
-     exec:_Mail::alpine
-     exec:_fellowsh::clear;fellowsh
-     exec:_finger user:truncate,edit:finger "~user name:~@cosmic.voyage"
-     exec:_IRC::weechat
      nop
-     show:_Cosmic Tools..::cosmic
-     show:_Games..::games
+     exit:E_xit
+
+menu:comms:Communication:Reach out and touch someone
+     exec:_Mail (alpine)::alpine
+     exec:_Mail (mutt)::mutt
+     exec:_fellowsh::clear;fellowsh
+     exec:_finger local users:truncate,edit:finger "~user name:~@cosmic.voyage"
+     exec:_IRC (weechat)::weechat
+     group:_Talk
+       exec::makemenu: \
+       echo "menu:talk:Talk:Talk to other users"; \
+       for u in `who | cut -f 1 -d " "| sort -u | sed 's|^|_|'`; do \
+         echo "exec:$u::talk $u"; \
+       done; \
+       echo "nop"; \
+       echo "exit:E_xit"
+       show:::talk
+       remove:::talk
+     endgroup
      nop
      exit:E_xit
 
@@ -62,10 +79,13 @@ menu:games:Games:Games and fun distractions
 menu:cosmic:Cosmic Tools:Tools related to the cosmic voyage story
     exec:_QEC browser::qec
     exec:_Recent QEC Logs:truncate:latest
-    exec:_Author and Ship Lists:truncate,edit:roster "~user or ship name (or blank for all):~"
+    nop
     exec:_Log a new message::log
     exec:_Website regeneration:truncate:web
+    nop
+    exec:_Author and Ship Lists:truncate,edit:roster "~user or ship name (or blank for all):~"
     exec:_Create a new ship:truncate,edit:ship "~new ship name:~"
     nop
     exit:_Back to main menu..
+
 
