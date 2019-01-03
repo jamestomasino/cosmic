@@ -2,20 +2,48 @@
 
 title:Cosmic Voyage
 
+# desktop   The space over which the menus appear.
+# title     The line at the top of the screen.
+# base      The line at the bottom of the screen.
+# menu      The normal color of text in a menu.
+# selbar    The selection bar in the menu, when over normal text.
+# shadow    The shadow of a window
+# menuhot   The color of text in a menu that is a hotkey.
+# selbarhot The color of a hotkey when the selection bar is over it.
+# unselmenu The color of a menu window that is not currently active.
+
+# possible colors
+# (bg valid)      (fg only)
+# black           gray
+# red             brightred
+# green           brightgreen
+# brown           yellow
+# blue            brightblue
+# magenta         brightmagenta
+# cyan            brightcyan
+# lightgray       white
+
 #Set a pleasing color scheme.
-color:desktop:white:blue
-color:title:yellow:red
-color:base:yellow:red
+color:desktop:white:black
+color:title:white:red
+color:base:lightgray:red
+color:menu:white:blue
+color:selbar:white:red
+color:shadow:gray:black
+color:menuhot:yellow:blue
+color:selbarhot:yellow:red
+color:unselmenu:lightgray:black
 
 #this is a comment
 menu:main:Main Menu:Cosmic Voyage Menu System v1.0
-     show:_Cosmic Tools..::cosmic
      exec:_Wiki::wiki
      exec:_FAQ::faq
      exec:_Mail::alpine
      exec:_fellowsh::clear;fellowsh
      exec:_finger user:truncate,edit:finger "~user name:~@cosmic.voyage"
      exec:_IRC::weechat
+     nop
+     show:_Cosmic Tools..::cosmic
      show:_Games..::games
      nop
      exit:E_xit
