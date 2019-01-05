@@ -3,8 +3,13 @@
 # shellcheck source=log
 # shellcheck disable=SC1091
 . /etc/efingerd/log
-
-cat <<EOM
-QEC STATUS: DENIED
-THIS REQUEST HAS BEEN LOGGED
-EOM
+printf "Users currently online:\\n"
+who | cut -f 1 -d " " | sort -u | tr '\n' ' '  | sed 's/^/  /'
+printf "\\n\\nWho control these ships:\\n"
+w="$(who | cut -f 1 -d ' ' | sort -u)"
+s=$(
+  for line in $w; do
+    roster "$line" | awk '{ print $2 }'
+  done
+)
+printf "%s" "$s" | sort -u | sed 's/^/  /'
