@@ -8,4 +8,5 @@ tilde.team         smtp
 tilde.town         smtp
 yourtilde.com      smtp
 tilde.center       smtp
+tilde.institute    smtp
 *                  error:Outgoing mail only permitted to whitelisted domains
