@@ -179,7 +179,10 @@ if [ "$run_user" -eq 0 ]; then
     fi
   } >> "${ships_html}"
   # Add header info to html output
-  find "${gopher_dir}/" -maxdepth 1 ! -path "${gopher_dir}/" ! -path "${gopher_dir}/ships" ! -path "${gopher_dir}/log" -type d -print | sed 's|/var/gopher/||' | sort | while read -r ship
+  find "${gopher_dir}/" -maxdepth 1 ! -path "${gopher_dir}/" ! -path "${gopher_dir}/ships" ! -path "${gopher_dir}/log" -type d -print |
+    sed 's|/var/gopher/||' |
+    sort |
+    while read -r ship
   do
     entry_num=$(grep -c "^0${ship}" "${gopher_dir}/listing.gophermap")
     if [ "$entry_num" != "0" ]; then
@@ -206,7 +209,10 @@ if [ "$run_user" -eq 0 ]; then
           printf "\\n"
         fi
         printf "%s - Ship Log\\n" "$ship"
-        tac "${gopher_dir}/listing.gophermap" | awk -v tot="${logcount}" '{gsub("^0",NR" >> ",$0);print $0}' | grep -E "[0-9]+\\ >>\\ ${ship}" | awk -F"\\t" '{f=$2; gsub(".txt", ".html", f); printf "<a href=\"%s\">% s</a>\n", f, $1}'
+        tac "${gopher_dir}/listing.gophermap" |
+          awk -v tot="${logcount}" '{gsub("^0",NR" >> ",$0);print $0}' |
+          grep -E "[0-9]+\\ >>\\ ${ship}" |
+          awk -F"\\t" '{f=$2; gsub(".txt", ".html", f); printf "<a href=\"%s\">% s</a>\n", f, $1}'
         printf "</div></body></html>"
       } >> "${ship_html}"
     fi
