@@ -10,7 +10,8 @@ if [ "$run_user" -eq 0 ]; then
       if [ ! -z "${user_exists}" ]; then
         if [ ! -z "${s}" ]; then
           path="/var/gopher/${s}"
-          if [ ! -d "$path" ]; then
+          ship_exists=$(find /var/gopher -maxdepth 1 -iname "$s") 
+          if [ -z "$ship_exists" ]; then
             printf "Creating ship '%s' for user '%s'\\n" "${s}" "${n}"
             # create ship directory in gopher and give ownership to user
             mkdir "$path"
@@ -25,11 +26,11 @@ if [ "$run_user" -eq 0 ]; then
             # notify user by email
             sed -e "s/username/${n}/g" -e "s/shipname/${s}/" /etc/templates/newship.tmpl | sendmail "${n}" "tomasino"
           else
-            owner=$(stat -c %U "$path")
+            owner=$(stat -c %U "$ship_exists")
             printf "That ship or colony already exists and is owned by %s\\n" "$owner"
           fi
         else
-          printf "Specificy a ship or colony name.\\n"
+          printf "Specify a ship or colony name.\\n"
         fi
       else
         printf "User not found.\\n"
