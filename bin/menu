@@ -1,2 +1,2 @@
 #!/bin/sh
-pdmenu -c
+/usr/bin/pdmenu -c

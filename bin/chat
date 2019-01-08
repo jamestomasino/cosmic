@@ -1,0 +1,2 @@
+#!/bin/sh
+/usr/bin/weechat -r "/set irc.look.temporary_servers on; /connect irc://$(whoami)@localhost/#meta,#cosmic"

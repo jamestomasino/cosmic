@@ -1,2 +1,2 @@
 #!/bin/sh
-lynx -display_charset=utf8 --lss=/dev/null gopher://cosmic.voyage
+/usr/bin/lynx -display_charset=utf8 --lss=/dev/null gopher://cosmic.voyage
