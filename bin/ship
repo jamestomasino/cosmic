@@ -29,7 +29,7 @@ if [ "$run_user" -eq 0 ]; then
             printf "That ship or colony already exists and is owned by %s\\n" "$owner"
           fi
         else
-          printf "Specificy a ship or colony name.\\n"
+          printf "Specify a ship or colony name.\\n"
         fi
       else
         printf "User not found.\\n"
