@@ -10,5 +10,5 @@ if [ "$run_user" -eq 0 ] || [ "$run_user" -eq 1000 ]; then
     printf "Filename of email required.\\n"
   fi
 else
-  printf "This script really isn't meant for users. Please be careful.\\n"
+  printf "This script really isn't meant for users. You cannot use it.\\n"
 fi

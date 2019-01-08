@@ -18,7 +18,7 @@ if [ "$run_user" -eq 0 ]; then
           printf "No ship by that name exists.\\n"
         fi
       else
-        printf "Specificy a ship or colony name.\\n"
+        printf "Specify a ship or colony name.\\n"
       fi
     else
       printf "User not found.\\n"

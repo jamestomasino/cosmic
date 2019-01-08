@@ -7,9 +7,9 @@
 
 run_user=$(id -u)
 if [ "$run_user" -eq 0 ]; then
-  r="$(iptables -L f2b-sshd -n | grep REJECT)" 
+  r="$(/sbin/iptables -L f2b-sshd -n | grep REJECT)" 
   if [ ! -z "$r" ]; then
-    printf "%s" "$r" | awk '{print $4}' | xargs fail2ban-client set sshd unbanip
+    printf "%s" "$r" | awk '{print $4}' | xargs /usr/bin/fail2ban-client set sshd unbanip
   fi
 else
   exec sudo "$0" "$@"

@@ -1,5 +1,4 @@
 #!/bin/sh
-
 if [ ! -z "$1" ]; then
   fort="$*"
   printf "%s\\n%%\\n" "$fort" >> /usr/share/games/fortunes/cosmic
