@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# This script will eventually unban everyone in f2b-sshd
+# but I need people in jail to test the next part. For 
+# now, it'll list the IPs of the banned folks so I can
+# unban them more easily.
+
+run_user=$(id -u)
+if [ "$run_user" -eq 0 ]; then
+  iptables -L f2b-sshd -n | grep REJECT
+  printf "# sudo fail2ban-client set sshd unbanip <ipaddress>\\n"
+else
+  exec sudo "$0" "$@"
+fi
