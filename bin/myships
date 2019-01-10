@@ -1,0 +1,2 @@
+#!/bin/sh
+find "${HOME}/ships/" -type l -exec basename {} \; 2> /dev/null
