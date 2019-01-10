@@ -5,6 +5,7 @@ for ship in "${HOME}/ships/"*; do
   shipstub="$(basename "$ship" | sed 's/[^A-Za-z0-9]//g' | tr '[:upper:]' '[:lower:]')"
   printf "menu:%s:Write a message from %s:New message\\n" "${shipstub}" "${shipname}"
   printf "  exec:Compose a new message..:edit:${EDITOR} \"%s/~filename (ending in .txt):~\"\\n" "$ship"
+  printf "  exec:Edit Ship Description::${EDITOR} \"%s\"\\n" "${ship}/.description"
   printf "nop\\n"
   for log in "${ship}/"*; do
     logname="$(basename "${log}")"

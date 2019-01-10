@@ -9,4 +9,6 @@ tilde.town         smtp
 yourtilde.com      smtp
 tilde.center       smtp
 tilde.institute    smtp
+thunix.cf          smtp
+.thunix.cf         smtp
 *                  error:Outgoing mail only permitted to whitelisted domains
