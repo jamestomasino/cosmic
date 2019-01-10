@@ -92,6 +92,7 @@ menu:cosmic:Cosmic Tools:Tools related to the cosmic voyage story
     exec:_QEC browser::/usr/local/bin/qec
     exec:_Recent QEC Logs:truncate:/usr/local/bin/latest
     nop
+    show:_Write a new message..::write
     exec:_Log a new message::/usr/local/bin/log
     exec:_Website regeneration:truncate:/usr/local/bin/web
     nop
@@ -100,4 +101,5 @@ menu:cosmic:Cosmic Tools:Tools related to the cosmic voyage story
     nop
     exit:_Back to main menu..
 
-
+# write a message menu
+preproc:/usr/local/bin/menu_write
