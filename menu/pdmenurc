@@ -49,9 +49,21 @@ menu:comms:Communication:Reach out and touch someone
      exec:_Mail (alpine)::/usr/bin/alpine
      exec:_Mail (mutt)::/usr/bin/mutt
      exec:_fellowsh::clear;/usr/local/bin/fellowsh
-     exec:_finger local users:truncate,edit:/usr/bin/finger "~user name:~@cosmic.voyage"
      exec:_IRC (weechat)::/usr/local/bin/chat
-     group:_Talk
+     group:_Finger..
+       exec::makemenu: \
+       echo "menu:finger:Finger:Finger other cosmic users"; \
+       for u in `/usr/local/bin/members`; do \
+         echo "exec:$u:truncate:/usr/bin/finger ${u}@cosmic.voyage"; \
+       done; \
+       echo "nop"; \
+       echo "exec:_Remote User:truncate,edit:/usr/bin/finger \"~user name:~\""; \
+       echo "nop"; \
+       echo "exit:E_xit"
+       show:::finger
+       remove:::finger
+     endgroup
+     group:_Talk..
        exec::makemenu: \
        echo "menu:talk:Talk:Talk to other users"; \
        for u in `/usr/bin/who | /usr/bin/cut -f 1 -d " "| /usr/bin/sort -u `; do \
