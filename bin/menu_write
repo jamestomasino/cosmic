@@ -7,7 +7,7 @@ for ship in "${HOME}/ships/"*; do
   printf "  exec:Compose a new message..:edit:${EDITOR} \"%s/~filename (ending in .txt):~\"\\n" "$ship"
   printf "nop\\n"
   for log in "${ship}/"*; do
-    logname="$(basename "${log%.txt}")"
+    logname="$(basename "${log}")"
     printf "  exec:Edit\\: %s::${EDITOR} \"%s\"\\n" "$logname" "$log"
   done
   printf "  nop\\n"
