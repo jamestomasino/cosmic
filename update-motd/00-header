@@ -1,3 +1,2 @@
-#!/bin/bash
-
+#!/bin/sh
 /usr/bin/env figlet  -f /etc/fonts/contessa "$(hostname)" | /usr/games/lolcat -f
