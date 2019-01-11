@@ -1,4 +1,5 @@
-install: apt bin templates man completion files efingerd menu postfix
+install: apt bin templates man completion files efingerd menu postfix updatemotd
+.PHONY:  apt bin templates man completion files efingerd menu postfix updatemotd
 
 apt:
 	xargs -a pkglist sudo apt install -y
@@ -26,6 +27,11 @@ efingerd:
 	mkdir -p "/etc/efingerd"
 	stow -t "/etc/efingerd" efingerd
 
+updatemotd:
+	mkdir -p "/etc/update-motd.d"
+	stow -t "/etc/update-motd.d" update-motd
+	sudo chown -R root /etc/update-motd.d
+
 menu:
 	stow -t "/etc" menu
 
@@ -48,4 +54,3 @@ uninstall:
 	stow -t "/etc/postfix" -D postfix
 	cd files && stow -t "/usr/share/games/fortunes" -D fortunes
 
-.PHONY: bin templates man completion files efingerd menu postfix
