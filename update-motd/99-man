@@ -1,0 +1,2 @@
+#!/bin/sh
+printf "  Run 'man cosmic.voyage' to get started\\n" | /usr/games/lolcat -f
