@@ -42,7 +42,7 @@ else
   fi
 
   # Online status
-  if finger tomasino | grep -q 'On since'; then
+  if finger "$3" | grep -q 'On since'; then
     printf "Online.\\n"
   fi
 fi
