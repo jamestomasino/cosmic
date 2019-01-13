@@ -1,0 +1,3 @@
+#!/bin/sh
+printf "\\n"
+/usr/games/fortune | fold -sw 80 | /usr/games/lolcat -f
