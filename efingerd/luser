@@ -14,23 +14,26 @@ else
   user_folder="/home/${3}"
   # Prints current user's ship roster
   printf "Ships registered to user \"%s\"\\n" "$3"
-  /usr/local/bin/roster "$3" | awk '{$1=">>"; print $0}'
+  /usr/local/bin/roster "$3" | awk '{$1=" "; print $0}'
 
   # This portion is maintained for compatability with fellowsh
   # a tildeverse/pubnix social network built on fingerd
   printf "Plan:\\n"
   if [ -f "${user_folder}/.plan" ]; then
-    cat "${user_folder}/.plan"
+    sed 's/^/  /' "${user_folder}/.plan" 
   else
     printf "No Plan.\\n"
   fi
   printf "Project:\\n"
   if [ -f "${user_folder}/.project" ]; then
-    cat "${user_folder}/.project"
+    sed 's/^/  /' "${user_folder}/.project"
   else
     printf "No Project.\\n"
   fi
   if [ -f "${user_folder}/.tz" ]; then
     printf "Timezone: %s\\n" "$(cat "${user_folder}/.tz")" 
+  fi
+  if finger tomasino | grep -q 'On since'; then
+    printf "Online.\\n"
   fi
 fi
