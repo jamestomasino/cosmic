@@ -1,9 +1,12 @@
 alpine
 asciinema
+aspell
 bastet
 bind9
 bsdgames
 build-essential
+dovecot-imapd
+dovecot-pop3d
 efingerd
 emacs
 fail2ban
@@ -37,9 +40,11 @@ mutt
 ne
 neovim
 nethack-console
+newmail
 nginx
 ninvaders
 nudoku
+openbsd-inetd
 par
 pdmenu
 pkg-config
@@ -48,6 +53,7 @@ pwgen
 python3-pip
 python3-venv
 python-certbot-nginx
+python-pip
 shellcheck
 silversearcher-ag
 stow
@@ -61,6 +67,7 @@ unzip
 update-motd
 weechat
 xsel
+ytalk
 zangband
 zile
 zsh
