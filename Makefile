@@ -52,5 +52,7 @@ uninstall:
 	stow -t "/etc/efingerd" -D efingerd
 	stow -t "/etc" -D menu
 	stow -t "/etc/postfix" -D postfix
+	stow -t "/etc/update-motd.d" -D update-motd
+	stow -t "/etc" -D menu
 	cd files && stow -t "/usr/share/games/fortunes" -D fortunes
 
