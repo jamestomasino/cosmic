@@ -5,6 +5,7 @@ bastet
 bind9
 bsdgames
 build-essential
+dict
 dovecot-imapd
 dovecot-pop3d
 efingerd
