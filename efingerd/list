@@ -4,12 +4,11 @@
 # shellcheck disable=SC1091
 . /etc/efingerd/log
 printf "Users currently online:\\n"
-who | cut -f 1 -d " " | sort -u | tr '\n' ' '  | sed 's/^/   /'
-printf "\\n\\nWho control these ships:\\n"
 w="$(who | cut -f 1 -d ' ' | sort -u)"
+printf "%s" "$w" | tr '\n' ' '  | sed 's/^/   /'
+printf "\\n\\nWho control these ships:\\n"
 s=$(
   for line in $w; do
     roster "$line" | awk '{$1=""; print $0 }'
-  done
-)
+  done)
 printf "%s" "$s" | sort -u | sed 's/^/  /'
