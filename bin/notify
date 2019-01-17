@@ -1,0 +1,27 @@
+#!/bin/sh
+
+SCRIPT=$(readlink -f "$0")
+SCRIPTPATH=$(dirname "$SCRIPT")
+
+# check disk space
+disk_percent=$(df -h | grep vda1 | awk '{print $5}')
+if [ "$(printf "%s" "$disk_percent" | sed "s/%//")" -gt 90 ] ; then
+    sed -e "s/THING/disk/g" "${SCRIPTPATH}/../templates/notify.tmpl" | sed "s/PERCENT/${disk_percent}/g" | sendmail "root" 
+fi
+
+# check ram usage
+freemem=$(free -m | grep ^Mem | awk '{print $7}')
+totalmem=$(free -m | grep ^Mem | awk '{print $2}')
+memory_percent=$((100 * freemem / totalmem))
+memory_percent=$((100 - memory_percent))
+if [ "$memory_percent" -gt 90 ] ; then
+    sed -e "s/THING/memory/g" "${SCRIPTPATH}/../templates/notify.tmpl" | sed "s/PERCENT/${memory_percent}%/g" | sendmail "root"
+fi
+
+# check cpu ussage
+cpu_use=$(mpstat | tail -n 1 | awk '{print $12}')
+cpu_use_round=$(printf "%.*f\\n" 0 "$cpu_use")
+cpu_use_round=$((100 - cpu_use_round))
+if [ "$cpu_use_round" -gt 90 ] ; then
+    sed -e "s/THING/cpu/g" "${SCRIPTPATH}/../templates/notify.tmpl" | sed "s/PERCENT/${cpu_use_round}%/g" | sendmail "root"
+fi
