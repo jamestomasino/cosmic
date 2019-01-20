@@ -1,10 +1,12 @@
 cosmic.voyage      :
 .circumlunar.space smtp
+.hashbang.sh       smtp
 .thunix.cf         smtp
 .tildeverse.org    smtp
 circumlunar.space  smtp
 fuckup.club        smtp
 grex.org           smtp
+hashbang.sh        smtp
 nand.pub           smtp
 nand.sh            smtp
 nand.team          smtp
