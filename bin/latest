@@ -1,2 +1,10 @@
 #!/bin/sh
-head -n "${1:-10}" "/var/gopher/listing.gophermap" | sed "s|\\t.*||" | sed "s|^0|>> |"
+if [ -z "$1" ]
+then
+  head -n 5 "/var/gopher/listing.gophermap" | sed "s|\\t.*||" | sed "s|^0|>> |"
+elif [ "$1" -eq "$1" ] 2>/dev/null
+then
+  head -n "${1:-5}" "/var/gopher/listing.gophermap" | sed "s|\\t.*||" | sed "s|^0|>> |"
+else
+  grep -i "$*" "/var/gopher/listing.gophermap" | sed "s|\\t.*||" | sed "s|^0|>> |" | head -n 5
+fi
