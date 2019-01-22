@@ -1,10 +1,9 @@
 #!/bin/sh
-if [ -z "$1" ]
+logcount=$(wc -l "/var/gopher/listing.gophermap" | awk '{print $1}')
+
+if [ -z "$1" ] || [ "$1" -eq "$1" ] 2>/dev/null
 then
-  head -n 5 "/var/gopher/listing.gophermap" | sed "s|\\t.*||" | sed "s|^0|>> |"
-elif [ "$1" -eq "$1" ] 2>/dev/null
-then
-  head -n "${1:-5}" "/var/gopher/listing.gophermap" | sed "s|\\t.*||" | sed "s|^0|>> |"
+  awk -v tot="${logcount}" '{gsub("^0",tot-NR+1" >> ",$0);print $0}' "/var/gopher/listing.gophermap" | sed "s|\\t.*||" | head -n "${1:-5}"
 else
-  grep -i "$*" "/var/gopher/listing.gophermap" | sed "s|\\t.*||" | sed "s|^0|>> |" | head -n 5
+  awk -v tot="${logcount}" '{gsub("^0",tot-NR+1" >> ",$0);print $0}' "/var/gopher/listing.gophermap" | grep -i "$*" | sed "s|\\t.*||" | head -n 5
 fi
