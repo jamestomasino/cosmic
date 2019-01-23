@@ -1,0 +1,2 @@
+#!/bin/sh
+printf "Authors maintain all rights to their works created and shared on Cosmic Voyage. By participating on this system you grant Cosmic Voyage permission for perpetual and non-retractable usage on this on this system and any anthologies built from its materials as long as those materials are offered free of charge. Authors who wish to further license their works are recommended to do so on their ship description pages.\\n\\n" | fold -sw 80 | /usr/games/lolcat -f
