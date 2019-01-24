@@ -216,8 +216,8 @@ if [ "$run_user" -eq 0 ] || [ "$run_user" -eq 1038 ]; then
         printf "\\n\\nLicense:\\n"
         lic="/var/gopher/${ship}/LICENSE"
         if [ -f "$lic" ]; then
-          cp "$lic" "${html_dir}/ships/${ship}/LICENSE"
-          printf "<a href=\"%s\">%s</a>" "/ships/${ship}/LICENSE" "$(head -n 1 "$lic")"
+          cp "$lic" "${html_dir}/ships/${ship}/LICENSE.txt"
+          printf "<a href=\"%s\">%s</a>" "/ships/${ship}/LICENSE.txt" "$(head -n 1 "$lic")"
         else
           printf "All rights reserved.\\n"
         fi
