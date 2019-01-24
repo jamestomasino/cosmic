@@ -213,7 +213,15 @@ if [ "$run_user" -eq 0 ] || [ "$run_user" -eq 1038 ]; then
           awk -v tot="${logcount}" '{gsub("^0",NR" >> ",$0);print $0}' |
           grep -E "[0-9]+\\ >>\\ ${ship}" |
           awk -F"\\t" '{f=$2; gsub(".txt", ".html", f); printf "<a href=\"%s\">% s</a>\n", f, $1}'
-        printf "</div></body></html>"
+        printf "\\n\\nLicense:\\n"
+        lic="/var/gopher/${ship}/LICENSE"
+        if [ -f "$lic" ]; then
+          cp "$lic" "${html_dir}/ships/${ship}/LICENSE"
+          printf "<a href=\"%s\">%s</a>" "/ships/${ship}/LICENSE" "$(head -n 1 "$lic")"
+        else
+          printf "All rights reserved.\\n"
+        fi
+        printf "</pre></div></body></html>"
       } >> "${ship_html}"
     fi
   done
