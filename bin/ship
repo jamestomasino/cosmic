@@ -62,7 +62,8 @@ main() {
           printf "  1. [%sSuggested%s] CC BY-NC-ND 4.0 (share with attribution, no commercial, no remix)\\n" "$YELLOW" "$RESET" 
           printf "  2. CC BY-NC-SA 4.0 (share and remix with attribution, no commercial use)\\n"
           printf "  3. All Rights Reserved\\n"
-          printf "  4. Cancel / Decide later\\n"
+          printf "  4. Choose by SPDX Identifier\\n"
+          printf "  5. Cancel / Decide later\\n"
           printf "\\n"
           printf "  Choice? "
           read -r license
@@ -82,6 +83,19 @@ main() {
             3*)
               printf "Selected: %sAll Rights Reserved%s\\n" "$GREEN" "$RESET"
               printf "You may change your license by creating a file named LICENSE in your ship directory.\\n"
+              ;;
+            4*)
+              printf "Selected: %sChoose by SPDX Identifier%s\\n" "$GREEN" "$RESET"
+              printf "Please enter case-sensitive identifier: "
+              read -r spdx
+              prefix="https://raw.githubusercontent.com/spdx/license-list-data/master/text/"
+              if license=$(curl --silent --fail "${prefix}${spdx}.txt"); then
+                printf "%s" "$license" > "${path}/LICENSE"
+                chown "$user" "${path}/LICENSE"
+              else
+                printf "%sFAILED:%s Identifier not found.\\n" "$RED" "$RESET"
+                printf "You may manually add a license of your choosing by creating a file named LICENSE in your ship directory.\\n"
+              fi
               ;;
             *)
               printf "Selected: %sCancel / Decide later%s\\n" "$GREEN" "$RESET"
