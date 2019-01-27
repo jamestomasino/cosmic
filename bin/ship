@@ -59,7 +59,7 @@ main() {
         if yesno; then
           printf ".. %sYES%s.\\n" "${GREEN}" "${RESET}"
           printf "Available licenses:\\n"
-          printf "  1. [Suggested] CC BY-NC-ND 4.0 (share with attribution, no commercial, no remix)\\n"
+          printf "  1. [%sSuggested%s] CC BY-NC-ND 4.0 (share with attribution, no commercial, no remix)\\n" "$YELLOW" "$RESET" 
           printf "  2. CC BY-NC-SA 4.0 (share and remix with attribution, no commercial use)\\n"
           printf "  3. All Rights Reserved\\n"
           printf "  4. Cancel / Decide later\\n"
@@ -68,26 +68,22 @@ main() {
           read -r license
           case "$license" in
             1*)
-              printf ".. %s1%s.\\n" "${GREEN}" "${RESET}"
               printf "Selected: CC BY-NC-ND 4.0\\n"
               cp "/var/cosmic/licenses/CC-BY-NC-ND-4.0" "${path}/LICENSE"
               chown "$user" "${path}/LICENSE"
               printf "You may change your license by editing the file named LICENSE in your ship directory.\\n"
               ;;
             2*)
-              printf ".. %s2%s.\\n" "${GREEN}" "${RESET}"
               printf "Selected: CC BY-NC-SA 4.0\\n"
               cp /var/cosmic/licenses/CC-BY-NC-SA-4.0 "${path}/LICENSE"
               chown "$user" "${path}/LICENSE"
               printf "You may change your license by editing the file named LICENSE in your ship directory.\\n"
               ;;
             3*)
-              printf ".. %s3%s.\\n" "${GREEN}" "${RESET}"
               printf "Selected: All Rights Reserved\\n"
               printf "You may change your license by creating a file named LICENSE in your ship directory.\\n"
               ;;
             *)
-              printf ".. %s4%s.\\n" "${GREEN}" "${RESET}"
               printf "Selected: Cancel / Decide later\\n"
               printf "You may manually add a license of your choosing by creating a file named LICENSE in your ship directory.\\n"
               ;;
