@@ -68,23 +68,23 @@ main() {
           read -r license
           case "$license" in
             1*)
-              printf "Selected: CC BY-NC-ND 4.0\\n"
+              printf "Selected: %sCC BY-NC-ND 4.0%s\\n" "$GREEN" "$RESET"
               cp "/var/cosmic/licenses/CC-BY-NC-ND-4.0" "${path}/LICENSE"
               chown "$user" "${path}/LICENSE"
               printf "You may change your license by editing the file named LICENSE in your ship directory.\\n"
               ;;
             2*)
-              printf "Selected: CC BY-NC-SA 4.0\\n"
+              printf "Selected: %sCC BY-NC-SA 4.0%s\\n" "$GREEN" "$RESET"
               cp /var/cosmic/licenses/CC-BY-NC-SA-4.0 "${path}/LICENSE"
               chown "$user" "${path}/LICENSE"
               printf "You may change your license by editing the file named LICENSE in your ship directory.\\n"
               ;;
             3*)
-              printf "Selected: All Rights Reserved\\n"
+              printf "Selected: %sAll Rights Reserved%s\\n" "$GREEN" "$RESET"
               printf "You may change your license by creating a file named LICENSE in your ship directory.\\n"
               ;;
             *)
-              printf "Selected: Cancel / Decide later\\n"
+              printf "Selected: %sCancel / Decide later%s\\n" "$GREEN" "$RESET"
               printf "You may manually add a license of your choosing by creating a file named LICENSE in your ship directory.\\n"
               ;;
           esac
