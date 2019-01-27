@@ -31,6 +31,7 @@ main() {
 
       # if ship does not already exist
       if [ -z "$ship_exists" ]; then
+        # print message about ship name creation
         printf "Attaching new node [%s]\\n" "${YELLOW}${shipname}${RESET}"
 
         # create ship directory in gopher and give ownership to user
@@ -47,7 +48,9 @@ main() {
         ln -s "$path" "/home/${user}/ships/${shipname}"
 
         # notify user by email
-        sed -e "s/username/${user}/g" -e "s/shipname/${shipname}/" /etc/templates/newship.tmpl | sendmail "$user"
+        sed -e "s/USERNAME/${user}/g" -e "s/SHIPNAME/${shipname}/" /etc/templates/newship.tmpl | sendmail "$user"
+
+        # print success message
         printf "Node registration .. %sSUCCESS%s\\n" "$GREEN" "$RESET"
       else
         owner=$(stat -c %U "$ship_exists")
