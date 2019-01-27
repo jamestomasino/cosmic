@@ -1,57 +1,66 @@
 #!/bin/sh
 
-run_user=$(id -u)
-if [ "$run_user" -eq 0 ]; then
-  n="$1"
-  s="$2"
-  if printf "%s" "$2" | grep -Eq "^[A-Za-z0-9]+[A-Za-z0-9\\.\\ \\-]*$"; then
-    if [ ! -z "$n" ]; then
-      user_exists=$(id -u "${n}" 2> /dev/null)
-      if [ ! -z "${user_exists}" ]; then
-        if [ ! -z "${s}" ]; then
-          path="/var/gopher/${s}"
-          ship_exists=$(find /var/gopher -maxdepth 1 -iname "$s") 
-          if [ -z "$ship_exists" ]; then
-            printf "Creating ship '%s' for user '%s'\\n" "${s}" "${n}"
-            # create ship directory in gopher and give ownership to user
-            mkdir "$path"
-            chmod 755 "$path"
-            chown -R "${n}" "$path"
-            # create ship listings dir and link to ship gophermap
-            mkdir "/var/gopher/ships/${s}"
-            ln -s "/var/gopher/ships/ship/gophermap" "/var/gopher/ships/${s}/gophermap" 
-            # create a symlink in user's home dir for easy access
-            mkdir -p "/home/${n}/ships"
-            ln -s "$path" "/home/${n}/ships/${s}"
-            # notify user by email
-            sed -e "s/username/${n}/g" -e "s/shipname/${s}/" /etc/templates/newship.tmpl | sendmail "${n}" "tomasino"
-          else
-            owner=$(stat -c %U "$ship_exists")
-            printf "That ship or colony already exists and is owned by %s\\n" "$owner"
-          fi
-        else
-          printf "Specify a ship or colony name.\\n"
-        fi
+YELLOW="$(tput setaf 11)"
+GREEN="$(tput setaf 10)"
+RED="$(tput setaf 9)"
+RESET="$(tput sgr0)"
+
+main() {
+  # who is running this script
+  run_user=$(id -u)
+
+  if [ "$run_user" -eq 0 ]; then
+    # if running as root, check who sudoed and create ship for that user
+    user="$SUDO_USER"
+
+    # draw introduction
+    printf "%sINITIALIZING QEC%s .. %sGOOD%s\\n" "$YELLOW" "$RESET" "$GREEN" "$RESET"
+    printf "Connecting user [%s] .. %sGOOD%s\\n" "${YELLOW}${user}${RESET}" "$GREEN" "$RESET"
+    printf "Request for new QEC node .. %sGOOD%s\\n" "$GREEN" "$RESET"
+    printf "\\n"
+
+    # prompt for ship name
+    printf "Name of ship/outpost/colony? %s" "$GREEN"
+    read -r shipname
+    printf "%s" "$RESET"
+
+    # if ship name is valid...
+    if printf "%s" "$shipname" | grep -Eq "^[A-Za-z0-9]+[A-Za-z0-9\\.\\ \\-]+$"; then
+      path="/var/gopher/${shipname}"
+      ship_exists=$(find /var/gopher -maxdepth 1 -iname "$shipname") 
+
+      # if ship does not already exist
+      if [ -z "$ship_exists" ]; then
+        printf "Attaching new node [%s]\\n" "${YELLOW}${shipname}${RESET}"
+
+        # create ship directory in gopher and give ownership to user
+        mkdir "$path"
+        chmod 755 "$path"
+        chown -R "$user" "$path"
+
+        # create ship listings dir and link to ship gophermap
+        mkdir "/var/gopher/ships/${shipname}"
+        ln -s "/var/gopher/ships/ship/gophermap" "/var/gopher/ships/${shipname}/gophermap" 
+
+        # create a symlink in user's home dir for easy access
+        mkdir -p "/home/${user}/ships"
+        ln -s "$path" "/home/${user}/ships/${shipname}"
+
+        # notify user by email
+        sed -e "s/username/${user}/g" -e "s/shipname/${shipname}/" /etc/templates/newship.tmpl | sendmail "$user"
+        printf "Node registration .. %sSUCCESS%s\\n" "$GREEN" "$RESET"
       else
-        printf "User not found.\\n"
+        owner=$(stat -c %U "$ship_exists")
+        printf "%sABORT:%s A node by that name exists and is owned by %s\\n" "$RED" "$RESET" "$owner"
+        exit 1
       fi
     else
-      printf "Specify a user.\\n"
+      printf "%sABORT:%s ASCII letters, numbers, spaces and dashes only.\\n" "$RED" "$RESET"
+      exit 1
     fi
   else
-    printf "Please name your ship with ASCII letters, numbers, spaces and dashes only.\\n"
+    exec sudo "$0"
   fi
-else
-  if [ "$#" -eq 1 ]; then
-    user=$(whoami)
-    if id "$1" >/dev/null 2>&1; then
-      printf "Expected 1 argument: \"<ship name>\"\\n"
-    else
-      exec sudo "$0" "$user" "$1"
-    fi 
-  elif [ "$#" -eq 2 ]; then
-    exec sudo "$0" "$@"
-  else
-    printf "Expected 1 argument: \"<ship name>\"\\n"
-  fi
-fi
+}
+
+main
