@@ -11,7 +11,7 @@ if [ "$run_user" -eq 0 ]; then
       newpw=$(pwgen -1B 10)
       pwcrypt=$(perl -e "print crypt('${newpw}', 'sa');")
       useradd -m -G users,www-data -p "$pwcrypt" -s /bin/bash "${n}" || exit 1
-      sed -e "s/newusername/${n}/g" -e "s/newpassword/${newpw}/" /etc/templates/welcomemail.tmpl | sendmail "${n}" "tomasino"
+      sed -e "s/USERNAME/${n}/g" -e "s/PASSWORD/${newpw}/" /etc/templates/welcomemail.tmpl | sendmail "${n}"
     fi
     if [ ! -z "${k}" ]; then
       printf "%s\\n" "${k}" >> "/home/${n}/.ssh/authorized_keys"

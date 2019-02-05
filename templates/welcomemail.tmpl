@@ -1,56 +1,68 @@
 Subject: Welcome to the cosmic.voyage!
 
-Welcome ~newusername,
+Welcome ~USERNAME,
 
 Your new account has been established. you can ssh into
 cosmic.voyage with the ssh key you supplied on registration.
 
-Your password is "newpassword". please change it when you log in
-for the first time with 'passwd'. While we don't use passwords for
-logins, they may be used on the system for authentication in the
-future.
+Your password is "PASSWORD". please change it when you log in for
+the first time with 'passwd' like so:
 
-This tilde server is dedicated to a single activity, the
-collaborative storytelling of the human stellar diaspora. We may
-add other features over time that are designed to support the
-story. For instance, we have an IRC daemon here that connects as
-part of irc.tilde.chat. You can join and visit the #cosmic room to
-discuss this server.
+$ passwd
 
-A note about folders and files:
+While we don't use passwords for logins, they can be used on the
+system for IMAP, POP3 and SMTP. You can receive email on this
+system from any location if you are emailed at
+USERNAME@cosmic.voyage, but our outgoing mail is limited to other
+pubnix servers and the tildeverse.
 
-The story content is available at /var/gopher. Within that
-directory are all of the ships, outposts, settlements, and
-communes of the diaspora scattered through time and space. These
-entities are the basis for our stories. Rather than build your
-content in a user folder, you can claim a ship or outpost and take
-on its story.
+This server is dedicated to the collaborative storytelling of the
+human stellar diaspora. We continue to add other features over
+time that are designed to support the story. For instance, we have
+an IRC daemon here that connects as part of irc.tilde.chat. You
+can join and visit the #cosmic room to discuss this server. New
+features are often added to the interactive menu which can be
+accessed by running:
 
-To create a new ship you can run the 'ship' command like so:
+$ menu
 
-$ ship "Super Awesome Ship Name"
+To begin contributing to Cosmic Voyage you must claim a ship,
+colony, or outpost and take on its story. Claiming your ship is as
+easy as running the 'ship' command in the menu, or on the command
+line like so:
 
-Make sure your ship name is in quotes if it contains more than one
-word, and please avoid using unicode characters in the ship names.
-You can write unicode in your logs, but the scripts don't play nice
-with the special characters as filenames. Once your ship is
-active, you are the only one with access to its story.
+$ ship
 
-To author a new message on the QEC, create a new text file in your
-ship's directory (must end in .txt). Author your message in
-whatever format fits your theme. Add as much character as you
-like. When you're ready for the message to be posted to the relay,
-run the 'log' command in the terminal. It will prompt you to send
-any pending messages and what to title them. 'log' will add a link
-to your message, but the message is still totally in your control.
-If you need to change something later, just edit the file. There's
-no need to run log again.
+You will be prompted for a name of your ship/outpost/colony.
+Spaces in ship names are allowed, but please avoid using unicode
+characters in the names. You can write unicode in your logs, but
+the scripts don't play nice with the special characters as
+filenames. Once your ship is active, you are the only one with
+access to its story.
 
-If you have any questions, send me a local mail or find me on irc.
+Once you have claimed your ship/outpost/colony, it will appear for
+you as a directory in ~/ships/. To author a new message on the
+QEC, create a new text file in your ship's directory (must end in
+.txt). You can also browse to the message creation section of the
+menu and create a new message there. 
+
+Author your message in whatever format fits your theme. Add as
+much character as you like. When you're ready for the message to
+be posted to the relay, run the 'log' command in the menu or
+terminal like so:
+
+$ log
+
+This will link to your message to the QEC, but the message is
+still totally in your control. If you need to change something
+later, just edit the file. There's no need to run log again.
+
+If you have any questions, send a local mail to tomasino, or
+fosslinux, or join us in IRC.
 
 Also, please consider joining the cosmic.voyage mailing list!
 https://lists.tildeverse.org/postorius/lists/cosmic.lists.tildeverse.org/
 
 Thanks so much for joining. I can't wait to read your stories.
 
-~tomasino
+- the admins
