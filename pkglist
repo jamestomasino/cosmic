@@ -53,9 +53,11 @@ pkg-config
 postfix
 pwgen
 python3-pip
+python3-setuptools
 python3-venv
 python-certbot-nginx
 python-pip
+python-setuptools
 shellcheck
 silversearcher-ag
 stow
