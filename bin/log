@@ -260,7 +260,7 @@ main() {
 ##############################################################################
 
 run_user=$(id -u)
-if [ "$run_user" -eq 0 ] || [ "$run_user" -eq 1038 ]; then
+if [ "$run_user" -eq 0 ] || [ "$run_user" -eq 118 ]; then
   main "$@"
 else
   exec sudo -u publish "$0" "$@"
