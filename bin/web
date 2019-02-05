@@ -239,8 +239,10 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
     printf "</head><body><div class=\"page-wrapper\"><pre class=\"inner-wrapper\"><a href=\"/\">&lt;&lt; BACK TO RELAY ONE</a>"
     printf "\\n\\n\\nERROR. TRANSMISSION NOT FOUND.</pre></div></body></html>"
   } >> "${error_html}"
+
   # copy favicon
-  cp "${SCRIPTPATH}/../favicons/*" "${html_dir}"
+  cp "/var/cosmic/favicons/"* "${html_dir}"
+
   # Let user's know it's done
   printf "Web and RSS rebuilt.\\n"
 else
