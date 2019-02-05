@@ -240,7 +240,7 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
     printf "\\n\\n\\nERROR. TRANSMISSION NOT FOUND.</pre></div></body></html>"
   } >> "${error_html}"
   # copy favicon
-  cp "${SCRIPTPATH}/../files/favicon.ico" "${html_dir}"
+  cp "${SCRIPTPATH}/../favicons/*" "${html_dir}"
   # Let user's know it's done
   printf "Web and RSS rebuilt.\\n"
 else
