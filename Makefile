@@ -8,9 +8,10 @@ source:
 	@while IFS= read -r line; do \
 		name=$$(printf "%s" "$$line" | awk -F "\t" '{print $$1}'); \
 		repo=$$(printf "%s" "$$line" | awk -F "\t" '{print $$2}'); \
-		if [ ! -d "/var/packages/$${name}" ]; then \
-			mkdir -p "/var/packages/$${name}"; \
-			git clone "$$repo" "/var/packages/$${name}"; \
+		dir="/var/packages/$${name}"; \
+		if [ ! -d "$$dir" ]; then \
+			mkdir -p "$$dir"; \
+			git clone "$$repo" "$$dir"; \
 		else \
 			printf "%s already cloned\\n" "$${name}"; \
 		fi; \
