@@ -1,8 +1,20 @@
-install: apt bin templates man completion files efingerd menu postfix updatemotd
-.PHONY:  apt bin templates man completion files efingerd menu postfix updatemotd
+install: apt bin templates man completion files efingerd menu postfix updatemotd source
+.PHONY:  apt bin templates man completion files efingerd menu postfix updatemotd source
 
 apt:
 	xargs -a pkglist sudo apt install -y
+
+source:
+	@while IFS= read -r line; do \
+		name=$$(printf "%s" "$$line" | awk -F "\t" '{print $$1}'); \
+		repo=$$(printf "%s" "$$line" | awk -F "\t" '{print $$2}'); \
+		if [ ! -d "/var/packages/$${name}" ]; then \
+			mkdir -p "/var/packages/$${name}"; \
+			git clone "$$repo" "/var/packages/$${name}"; \
+		else \
+			printf "%s already cloned\\n" "$${name}"; \
+		fi; \
+	done < "pkglist-source"
 
 bin:
 	stow -t "/usr/local/bin" bin
