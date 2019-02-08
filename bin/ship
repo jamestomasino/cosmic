@@ -4,7 +4,7 @@ YELLOW="$(tput setaf 11)"
 GREEN="$(tput setaf 10)"
 RED="$(tput setaf 9)"
 RESET="$(tput sgr0)"
-
+NAME="$(basename "$0")"
 main() {
   # who is running this script
   run_user=$(id -u)
@@ -20,7 +20,7 @@ main() {
     printf "\\n"
 
     # prompt for ship name
-    printf "Name of ship/outpost/colony? %s" "$GREEN"
+    printf "Name of %s? %s" "$NAME" "$GREEN"
     read -r shipname
     printf "%s" "$RESET"
 
@@ -72,17 +72,17 @@ main() {
               printf "Selected: %sCC BY-NC-ND 4.0%s\\n" "$GREEN" "$RESET"
               cp "/var/cosmic/licenses/CC-BY-NC-ND-4.0" "${path}/LICENSE"
               chown "$user" "${path}/LICENSE"
-              printf "You may change your license by editing the file named LICENSE in your ship directory.\\n"
+              printf "You may change your license by editing the file named LICENSE in your %s directory.\\n" "$NAME"
               ;;
             2*)
               printf "Selected: %sCC BY-NC-SA 4.0%s\\n" "$GREEN" "$RESET"
               cp /var/cosmic/licenses/CC-BY-NC-SA-4.0 "${path}/LICENSE"
               chown "$user" "${path}/LICENSE"
-              printf "You may change your license by editing the file named LICENSE in your ship directory.\\n"
+              printf "You may change your license by editing the file named LICENSE in your %s directory.\\n" "$NAME"
               ;;
             3*)
               printf "Selected: %sAll Rights Reserved%s\\n" "$GREEN" "$RESET"
-              printf "You may change your license by creating a file named LICENSE in your ship directory.\\n"
+              printf "You may change your license by creating a file named LICENSE in your %s directory.\\n" "$NAME"
               ;;
             4*)
               printf "Selected: %sChoose by SPDX Identifier%s\\n" "$GREEN" "$RESET"
@@ -94,12 +94,12 @@ main() {
                 chown "$user" "${path}/LICENSE"
               else
                 printf "%sFAILED:%s Identifier not found.\\n" "$RED" "$RESET"
-                printf "You may manually add a license of your choosing by creating a file named LICENSE in your ship directory.\\n"
+                printf "You may manually add a license of your choosing by creating a file named LICENSE in your %s directory.\\n" "$NAME"
               fi
               ;;
             *)
               printf "Selected: %sCancel / Decide later%s\\n" "$GREEN" "$RESET"
-              printf "You may manually add a license of your choosing by creating a file named LICENSE in your ship directory.\\n"
+              printf "You may manually add a license of your choosing by creating a file named LICENSE in your %s directory.\\n" "$NAME"
               ;;
           esac
         else
