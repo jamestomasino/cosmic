@@ -3,5 +3,5 @@
 start_date="2018-11-20 20:41:31"
 days=$(printf "%s" "$(( ($(date +%s) - $(date -d "$start_date" +%s)) / 86400 ))")
 listings=$(wc -l < /var/gopher/listing.gophermap)
-calc=$(printf "%s %s" "$listings" "$days" | awk '{ printf "%f", $1 / $2 }')
+calc=$(printf "%s %s" "$listings" "$days" | awk '{ printf "%0.2f", $1 / $2 }')
 printf "QEC receiving %s logs per day\\n" "$calc"
