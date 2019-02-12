@@ -128,7 +128,7 @@ check_log () {
         printf ".. %sYES%s.\\n" "${GREEN}" "${RESET}"
 
         # check for UTF compatability or fail
-        if iconv -f UTF-8 "${u}" > /dev/null 2>&1; then
+        if iconv -f UTF-8 "/var/gopher${u}" > /dev/null 2> /dev/null; then
           printf "   Title for [%s]? " "$(basename "$u" | sed 's/\.[^.]*$//')"
           read -r title
           if [ ! -z "$title" ]; then
