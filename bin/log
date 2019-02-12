@@ -126,17 +126,23 @@ check_log () {
       if yesno; then
         # prompt for title and prepare output
         printf ".. %sYES%s.\\n" "${GREEN}" "${RESET}"
-        printf "   Title for [%s]? " "$(basename "$u" | sed 's/\.[^.]*$//')"
-        read -r title
-        if [ ! -z "$title" ]; then
-          if printf "%s" "$title" | grep -Pq "^[\\x20-\\x7E]*$"; then
-            printf "0%s - %s\\t%s\\n" "$ship" "$title" "$u" | cat - /var/gopher/listing.gophermap > "$tmp" && cat "$tmp" > /var/gopher/listing.gophermap && rm "$tmp"
-            printf "   .. [%s] .. %sSENT%s.\\n" "$title" "${GREEN}" "${RESET}" 
+
+        # check for UTF compatability or fail
+        if iconv -f UTF-8 "${u}" > /dev/null 2>&1; then
+          printf "   Title for [%s]? " "$(basename "$u" | sed 's/\.[^.]*$//')"
+          read -r title
+          if [ ! -z "$title" ]; then
+            if printf "%s" "$title" | grep -Pq "^[\\x20-\\x7E]*$"; then
+              printf "0%s - %s\\t%s\\n" "$ship" "$title" "$u" | cat - /var/gopher/listing.gophermap > "$tmp" && cat "$tmp" > /var/gopher/listing.gophermap && rm "$tmp"
+              printf "   .. [%s] .. %sSENT%s.\\n" "$title" "${GREEN}" "${RESET}" 
+            else
+              printf "   .. Titles must be ASCII characters. %sABORT%s.\\n" "${RED}" "${RESET}"
+            fi
           else
-            printf "   .. Titles must be ASCII characters. %sABORT%s.\\n" "${RED}" "${RESET}"
+            printf "   .. No title. %sABORT%s.\\n" "${RED}" "${RESET}"
           fi
         else
-          printf "   .. No title. %sABORT%s.\\n" "${RED}" "${RESET}"
+          printf "   Message [%s] is not encoded in UTF-8. %sABORT%s\\n" "$(basename "$u" | sed 's/\.[^.]*$//')" "${RED}" "${RESET}"
         fi
       else
         printf ".. %sNO%s.\\n" "${RED}" "${RESET}"
