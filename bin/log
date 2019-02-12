@@ -122,23 +122,13 @@ check_log () {
 '
     for u in $uniq
     do
-      printf "   Send [%s]? " "$(basename "$u" | sed 's/\.[^.]*$//')"
+      printf "   Send [%s%s%s]? " "${YELLOW}" "$(basename "$u" | sed 's/\.[^.]*$//')" "${RESET}"
       if yesno; then
         # prompt for title and prepare output
         printf ".. %sYES%s.\\n" "${GREEN}" "${RESET}"
         # check for UTF compatability or fail
         if iconv -f UTF-8 "/var/gopher${u}" > /dev/null 2> /dev/null; then
           get_title
-          if [ ! -z "$title" ]; then
-            if printf "%s" "$title" | grep -Pq "^[\\x20-\\x7E]*$"; then
-              printf "0%s - %s\\t%s\\n" "$ship" "$title" "$u" | cat - /var/gopher/listing.gophermap > "$tmp" && cat "$tmp" > /var/gopher/listing.gophermap && rm "$tmp"
-              printf "   .. [%s] .. %sSENT%s.\\n" "$title" "${GREEN}" "${RESET}" 
-            else
-              printf "   .. Titles must be ASCII characters. %sABORT%s.\\n" "${RED}" "${RESET}"
-            fi
-          else
-            printf "   .. No title. %sABORT%s.\\n" "${RED}" "${RESET}"
-          fi
         else
           printf "   Message [%s] is not encoded in UTF-8. %sABORT%s\\n" "$(basename "$u" | sed 's/\.[^.]*$//')" "${RED}" "${RESET}"
         fi
@@ -151,15 +141,23 @@ check_log () {
 }
 
 get_title () {
-  printf "   Title for [%s]? " "$(basename "$u" | sed 's/\.[^.]*$//')"
+  printf "   Title for [%s%s%s] (null exits): " "${YELLOW}" "$(basename "$u" | sed 's/\.[^.]*$//')" "${RESET}"
   read -r title
   if [ -z "$title" ]; then
+    printf "   .. No title. %sABORT%s.\\n" "${RED}" "${RESET}"
     return
   else
     title=$(printf "%s" "$title" | cut -c -60)
-    printf "   Confirm title [%s%s%s]? " "${YELLOW}" "$title" "${RESET}"
+    printf "   .. Confirm title [%s%s%s]? " "${YELLOW}" "$title" "${RESET}"
     if yesno; then
       printf ".. %sYES%s.\\n" "${GREEN}" "${RESET}"
+      if printf "%s" "$title" | grep -Pq "^[\\x20-\\x7E]*$"; then
+        printf "0%s - %s\\t%s\\n" "$ship" "$title" "$u" | cat - /var/gopher/listing.gophermap > "$tmp" && cat "$tmp" > /var/gopher/listing.gophermap && rm "$tmp"
+        printf "   .. [%s] .. %sSENT%s.\\n" "$title" "${GREEN}" "${RESET}" 
+      else
+        printf "   .. Titles must be ASCII characters. %sTry Again%s.\\n" "${RED}" "${RESET}"
+        get_title
+      fi
     else
       printf ".. %sNO%s.\\n" "${RED}" "${RESET}"
       get_title
