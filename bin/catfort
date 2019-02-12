@@ -1,0 +1,2 @@
+#!/bin/sh
+fortune | figlet -c -w 80 -f slant | nms -a
