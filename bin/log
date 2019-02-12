@@ -126,12 +126,12 @@ check_log () {
       if yesno; then
         # prompt for title and prepare output
         printf ".. %sYES%s.\\n" "${GREEN}" "${RESET}"
-
         # check for UTF compatability or fail
         if iconv -f UTF-8 "/var/gopher${u}" > /dev/null 2> /dev/null; then
           printf "   Title for [%s]? " "$(basename "$u" | sed 's/\.[^.]*$//')"
           read -r title
           if [ ! -z "$title" ]; then
+            title=$(printf "%s" "$title" | cut -c -60)
             if printf "%s" "$title" | grep -Pq "^[\\x20-\\x7E]*$"; then
               printf "0%s - %s\\t%s\\n" "$ship" "$title" "$u" | cat - /var/gopher/listing.gophermap > "$tmp" && cat "$tmp" > /var/gopher/listing.gophermap && rm "$tmp"
               printf "   .. [%s] .. %sSENT%s.\\n" "$title" "${GREEN}" "${RESET}" 
