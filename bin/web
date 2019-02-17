@@ -203,22 +203,38 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
         printf "<pre class=\"inner-wrapper\">"
         # Contents
         printf "<a href=\"/ships\">&lt;&lt; BACK TO RELAY ONE SHIP LIST</a>\\n\\n\\n"
+
+        # Ship Description
         desc="${gopher_dir}/${ship}/.description"
         if [ -f "$desc" ]; then
           cat "$desc"
           printf "\\n"
         fi
+
+        # Ship about page
         about="${gopher_dir}/${ship}/ABOUT"
         if [ -f "$about" ]; then
           cp "$about" "${html_dir}/ships/${ship}/ABOUT.txt"
           printf "<a href=\"%s\">About %s</a>\\n\\n" "/ships/${ship}/ABOUT.txt" "$ship"
         fi
+
+        # Ship logs
         printf "%s - Ship Log\\n" "$ship"
         tac "${gopher_dir}/listing.gophermap" |
           awk -v tot="${logcount}" '{gsub("^0",NR" >> ",$0);print $0}' |
           grep -E "[0-9]+\\ >>\\ ${ship}" |
           awk -F"\\t" '{f=$2; gsub(".txt", ".html", f); printf "<a href=\"%s\">% s</a>\n", f, $1}'
-        printf "\\n\\nLicense:\\n"
+
+        # Author copyright and optional link
+        auth="/var/gopher/${ship}/AUTHOR"
+        if [ -f "$auth" ]; then
+          cp "$about" "${html_dir}/ships/${ship}/AUTHOR.txt"
+          printf "\\n© %s <a href=\"%s\">%s</a>\\n" "$(date +%Y)" "/ships/${ship}/AUTHOR.txt" "$(head -n 1 "$auth")"
+        else
+          printf "\\n© %s %s\\n" "$(date +%Y)" "$(stat -c %U "${gopher_dir}/${ship}")"
+        fi
+
+        # License
         lic="/var/gopher/${ship}/LICENSE"
         if [ -f "$lic" ]; then
           cp "$lic" "${html_dir}/ships/${ship}/LICENSE.txt"
