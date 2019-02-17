@@ -1,2 +1,2 @@
 #!/bin/sh
-grep -E '1[0-9]{3}' "/etc/passwd" | grep 'home' | awk -F":" '{print $1}'
+grep -E '1[0-9]{3}' "/etc/passwd" | grep 'home' | awk -F":" '{print $1}' | grep -v "^irc$"
