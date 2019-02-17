@@ -208,6 +208,11 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
           cat "$desc"
           printf "\\n"
         fi
+        about="${gopher_dir}/${ship}/ABOUT"
+        if [ -f "$about" ]; then
+          cp "$about" "${html_dir}/ships/${ship}/ABOUT.txt"
+          printf "<a href=\"%s\">About %s</a>\\n\\n" "/ships/${ship}/ABOUT.txt" "$ship"
+        fi
         printf "%s - Ship Log\\n" "$ship"
         tac "${gopher_dir}/listing.gophermap" |
           awk -v tot="${logcount}" '{gsub("^0",NR" >> ",$0);print $0}' |
