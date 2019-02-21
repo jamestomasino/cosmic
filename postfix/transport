@@ -2,6 +2,7 @@ cosmic.voyage      :
 .circumlunar.space smtp
 .hashbang.sh       smtp
 .thunix.cf         smtp
+.thunix.net        smtp
 .tildeverse.org    smtp
 circumlunar.space  smtp
 fuckup.club        smtp
@@ -14,6 +15,7 @@ nand.zone          smtp
 rawtext.club       smtp
 sdf.org            smtp
 thunix.cf          smtp
+thunix.net         smtp
 tild3.club         smtp
 tild3.org          smtp
 tilde.center       smtp
