@@ -228,7 +228,7 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
         # Author copyright and optional link
         auth="/var/gopher/${ship}/AUTHOR"
         if [ -f "$auth" ]; then
-          cp "$about" "${html_dir}/ships/${ship}/AUTHOR.txt"
+          cp "$auth" "${html_dir}/ships/${ship}/AUTHOR.txt"
           printf "\\n© %s <a href=\"%s\">%s</a>\\n" "$(date +%Y)" "/ships/${ship}/AUTHOR.txt" "$(head -n 1 "$auth")"
         else
           printf "\\n© %s %s\\n" "$(date +%Y)" "$(stat -c %U "${gopher_dir}/${ship}")"
