@@ -2,6 +2,10 @@ install: apt bin templates man completion files efingerd menu postfix updatemotd
 .PHONY:  apt bin templates man completion files efingerd menu postfix updatemotd source
 
 apt:
+	curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+	if [ ! -f "/etc/apt/sources.list.d/yarn.list" ]; then \
+		echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list; \
+	fi
 	xargs -a pkglist sudo apt install -y
 
 source:

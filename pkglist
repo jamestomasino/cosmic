@@ -46,6 +46,7 @@ nethack-console
 newmail
 nginx
 ninvaders
+nodejs
 nudoku
 openbsd-inetd
 par
@@ -76,6 +77,7 @@ update-motd
 uucp
 weechat
 xsel
+yarn
 ytalk
 zangband
 zile
