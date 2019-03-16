@@ -264,6 +264,9 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
   # copy favicon
   cp "/var/cosmic/favicons/"* "${html_dir}"
 
+  # copy cosmic banner
+  cp "/var/cosmic/files/cosmicbanner.png" "${html_dir}"
+
   # Let user's know it's done
   printf "Web and RSS rebuilt.\\n"
 else
