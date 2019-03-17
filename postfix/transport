@@ -1,9 +1,11 @@
 cosmic.voyage      :
+.aussies.space     smtp
 .circumlunar.space smtp
 .hashbang.sh       smtp
 .thunix.cf         smtp
 .thunix.net        smtp
 .tildeverse.org    smtp
+aussies.space      smtp
 circumlunar.space  smtp
 fuckup.club        smtp
 grex.org           smtp
