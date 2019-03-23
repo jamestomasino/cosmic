@@ -47,6 +47,7 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
   web_styles_html="/etc/templates/webstyles.tmpl"
   ships_html="/var/www/html/ships/index.html"
   error_html="/var/www/html/error.html"
+  join_html="/var/www/html/join.html"
   html_dir="/var/www/html"
   gopher_dir="/var/gopher"
   logcount=$(wc -l "${gopher_dir}/listing.gophermap" | awk '{print $1}')
@@ -85,7 +86,8 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
     printf "<pre class=\"inner-wrapper\">"
     # Intro text
     cat "${gopher_dir}/intro.gophermap"
-    printf "\\n<a href=\"/log\">>> Complete Transmission Log</a>\\n"
+    printf "\\n<a href=\"/join.html\">>> How to Join Cosmic Voyage</a>\\n"
+    printf "<a href=\"/log\">>> Complete Transmission Log</a>\\n"
     printf "<a href=\"/ships\">>> Ships, Colonies, Outposts</a>\\n"
     printf "<a href=\"/rss.xml\">>> RSS Feed</a>\\n\\n"
     # Logs
@@ -260,6 +262,21 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
     printf "</head><body><div class=\"page-wrapper\"><pre class=\"inner-wrapper\"><a href=\"/\">&lt;&lt; BACK TO RELAY ONE</a>"
     printf "\\n\\n\\nERROR. TRANSMISSION NOT FOUND.</pre></div></body></html>"
   } >> "${error_html}"
+
+  # Print How to Join  page
+  cat "$web_header_html" > "${join_html}"
+  {
+    printf "<title>Cosmic Voyage - How to Join</title>"
+    printf "<link rel=\"canonical\" href=\"https://cosmic.voyage/join.html\">"
+    cat "$web_styles_html"
+    printf "</head>"
+    printf "<body>"
+    printf "<div class=\"page-wrapper\">"
+    printf "<pre class=\"inner-wrapper\">"
+    printf "<a href=\"/\">&lt;&lt; BACK TO COSMIC VOYAGE</a>\\n\\n\\n"
+    cat "/var/gopher/join.txt"
+    printf "</pre></div></body></html>"
+  } >> "${join_html}"
 
   # copy favicon
   cp "/var/cosmic/favicons/"* "${html_dir}"
