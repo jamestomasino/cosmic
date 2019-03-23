@@ -216,8 +216,21 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
         # Ship about page
         about="${gopher_dir}/${ship}/ABOUT"
         if [ -f "$about" ]; then
-          cp "$about" "${html_dir}/ships/${ship}/ABOUT.txt"
-          printf "<a href=\"%s\">About %s</a>\\n\\n" "/ships/${ship}/ABOUT.txt" "$ship"
+          about_html="${html_dir}/ships/${ship}/about.html"
+          cat "$web_header_html" > "${about_html}"
+          {
+            printf "<title>Cosmic Voyage - About %s</title>" "${ship}"
+            printf "<link rel=\"canonical\" href=\"https://cosmic.voyage/ships/%s/about.html\">" "${ship}"
+            cat "$web_styles_html"
+            printf "</head>"
+            printf "<body>"
+            printf "<div class=\"page-wrapper\">"
+            printf "<pre class=\"inner-wrapper\">"
+            printf "<a href=\"/ships/%s/\">&lt;&lt; BACK TO SHIP</a>\\n\\n\\n" "${ship}"
+            cat "$about"
+            printf "</pre></div></body></html>"
+          } >> "${about_html}"
+          printf "<a href=\"%s\">About %s</a>\\n\\n" "/ships/${ship}/about.html" "$ship"
         fi
 
         # Ship logs
@@ -230,8 +243,21 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
         # Author copyright and optional link
         auth="/var/gopher/${ship}/AUTHOR"
         if [ -f "$auth" ]; then
-          cp "$auth" "${html_dir}/ships/${ship}/AUTHOR.txt"
-          printf "\\n© %s <a href=\"%s\">%s</a>\\n" "$(date +%Y)" "/ships/${ship}/AUTHOR.txt" "$(head -n 1 "$auth")"
+          author_html="${html_dir}/ships/${ship}/author.html"
+          cat "$web_header_html" > "${author_html}"
+          {
+            printf "<title>Cosmic Voyage - \"%s\" Author</title>" "${ship}"
+            printf "<link rel=\"canonical\" href=\"https://cosmic.voyage/ships/%s/author.html\">" "${ship}"
+            cat "$web_styles_html"
+            printf "</head>"
+            printf "<body>"
+            printf "<div class=\"page-wrapper\">"
+            printf "<pre class=\"inner-wrapper\">"
+            printf "<a href=\"/ships/%s/\">&lt;&lt; BACK TO SHIP</a>\\n\\n\\n" "${ship}"
+            cat "$auth"
+            printf "</pre></div></body></html>"
+          } >> "${author_html}"
+          printf "\\n© %s <a href=\"%s\">%s</a>\\n" "$(date +%Y)" "/ships/${ship}/author.html" "$(head -n 1 "$auth")"
         else
           printf "\\n© %s %s\\n" "$(date +%Y)" "$(stat -c %U "${gopher_dir}/${ship}")"
         fi
