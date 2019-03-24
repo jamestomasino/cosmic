@@ -16,9 +16,9 @@ entry_index () {
   fi
   # print link in listings
   if [ "$index" -lt 20 ]; then 
-    printf "<a href=\"%s.html\">%s >> %s</a>\\n" "$loghtml" "$itemnum" "$title" >> "${root_index_html}"
+    printf "<a href=\"%s.html\">%s <span class=\"dim\">&gt;&gt;</span> %s</a>\\n" "$loghtml" "$itemnum" "$title" >> "${root_index_html}"
   fi
-  printf "<a href=\"%s.html\">%s >> %s</a>\\n" "$loghtml" "$itemnum" "$title" >> "${entry_index_html}"
+  printf "<a href=\"%s.html\">%s <span class=\"dim\">&gt;&gt;</span> %s</a>\\n" "$loghtml" "$itemnum" "$title" >> "${entry_index_html}"
 
   # create entry
   entry_html="${html_dir}${loghtml}.html"
@@ -29,7 +29,7 @@ entry_index () {
     printf "    <link rel=\"canonical\" href=\"https://cosmic.voyage%s.html\">\\n" "$loghtml"
     cat "$web_styles_html"
     printf "</head>\\n<body>\\n<div class=\"page-wrapper\"><pre class=\"inner-wrapper\">\\n"
-    printf "<a href=\"/log\">&lt;&lt; BACK TO RELAY ONE LOG</a>\\n\\n\\n"
+    printf "<a href=\"/log\"><span class=\"dim\">&lt;&lt;</span> BACK TO RELAY ONE LOG</a>\\n\\n\\n"
     sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g; s/'"'"'/\&#39;/g' "${gopher_dir}${log}"
     # close up the entry footer
     printf "</pre></div></body></html>"
@@ -86,10 +86,10 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
     printf "<pre class=\"inner-wrapper\">"
     # Intro text
     cat "${gopher_dir}/intro.gophermap"
-    printf "\\n<a href=\"/join.html\">>> How to Join Cosmic Voyage</a>\\n"
-    printf "<a href=\"/log\">>> Complete Transmission Log</a>\\n"
-    printf "<a href=\"/ships\">>> Ships, Colonies, Outposts</a>\\n"
-    printf "<a href=\"/rss.xml\">>> RSS Feed</a>\\n\\n"
+    printf "\\n<a href=\"/join.html\"><span class=\"dim\">&gt;&gt;</span> How to Join Cosmic Voyage</a>\\n"
+    printf "<a href=\"/log\"><span class=\"dim\">&gt;&gt;</span> Complete Transmission Log</a>\\n"
+    printf "<a href=\"/ships\"><span class=\"dim\">&gt;&gt;</span> Ships, Colonies, Outposts</a>\\n"
+    printf "<a href=\"/rss.xml\"><span class=\"dim\">&gt;&gt;</span> RSS Feed</a>\\n\\n"
     # Logs
     printf "Most recent log entries:\\n"
   } >> "${root_index_html}"
@@ -110,7 +110,7 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
       printf "<body>"
       printf "<div class=\"page-wrapper\">"
       printf "<pre class=\"inner-wrapper\">"
-      printf "<a href=\"/\">&lt;&lt; BACK TO RELAY ONE</a>\\n\\n"
+      printf "<a href=\"/\"><span class=\"dim\">&lt;&lt;</span> BACK TO RELAY ONE</a>\\n\\n"
       # Intro text
       cat "${gopher_dir}/log/intro.gophermap"
     } >> "$local_log_html"
@@ -135,13 +135,13 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
     # If there are more pages or previous pages, add nav
     printf "\\n" >> "${local_log_html}"
     if [ "$i" -lt "$pages" ]; then
-      printf "<a href=\"index-%s.html\">>> Older Entries</a>\\n" "$next" >> "${local_log_html}"
+      printf "<a href=\"index-%s.html\"><span class=\"dim\">&gt;&gt;</span> Older Entries</a>\\n" "$next" >> "${local_log_html}"
     fi
     if [ "$i" -gt 1 ]; then
       if [ "$prev" -eq 1 ]; then
-        printf "<a href=\"index.html\">>> Newer Entries</a>\\n" >> "${local_log_html}"
+        printf "<a href=\"index.html\"><span class=\"dim\">&gt;&gt;</span> Newer Entries</a>\\n" >> "${local_log_html}"
       else
-        printf "<a href=\"index-%s.html\">>> Newer Entries</a>\\n" "$prev" >> "${local_log_html}"
+        printf "<a href=\"index-%s.html\"><span class=\"dim\">&gt;&gt;</span> Newer Entries</a>\\n" "$prev" >> "${local_log_html}"
       fi
     fi
 
@@ -173,7 +173,7 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
     printf "<body>"
     printf "<div class=\"page-wrapper\">"
     printf "<pre class=\"inner-wrapper\">"
-    printf "<a href=\"/\">&lt;&lt; BACK TO RELAY ONE</a>\\n"
+    printf "<a href=\"/\"><span class=\"dim\">&lt;&lt;</span> BACK TO RELAY ONE</a>\\n"
     ship_intro="${gopher_dir}/ships/ships.gophermap"
     if [ -f "$ship_intro" ]; then
       cat "$ship_intro"
@@ -188,7 +188,7 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
   do
     entry_num=$(grep -c "^0${ship}" "${gopher_dir}/listing.gophermap")
     if [ "$entry_num" != "0" ]; then
-      printf "<a href=\"/ships/%s/\">>> %s <span class=\"dim\">(%s logs)</span></a>\\n" "$ship" "$ship" "$entry_num" >> "$ships_html"
+      printf "<a href=\"/ships/%s/\"><span class=\"dim\">&gt;&gt;</span> %s <span class=\"dim\">(%s logs)</span></a>\\n" "$ship" "$ship" "$entry_num" >> "$ships_html"
       # Create individual ship log page
       ship_html="${html_dir}/ships/${ship}/index.html"
       mkdir -p "${html_dir}/ships/${ship}"
@@ -204,7 +204,7 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
         printf "<div class=\"page-wrapper\">"
         printf "<pre class=\"inner-wrapper\">"
         # Contents
-        printf "<a href=\"/ships\">&lt;&lt; BACK TO RELAY ONE SHIP LIST</a>\\n\\n\\n"
+        printf "<a href=\"/ships\"><span class=\"dim\">&lt;&lt;</span> BACK TO RELAY ONE SHIP LIST</a>\\n\\n\\n"
 
         # Ship Description
         desc="${gopher_dir}/${ship}/.description"
@@ -226,7 +226,7 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
             printf "<body>"
             printf "<div class=\"page-wrapper\">"
             printf "<pre class=\"inner-wrapper\">"
-            printf "<a href=\"/ships/%s/\">&lt;&lt; BACK TO SHIP</a>\\n\\n\\n" "${ship}"
+            printf "<a href=\"/ships/%s/\"><span class=\"dim\">&lt;&lt;</span> BACK TO SHIP</a>\\n\\n\\n" "${ship}"
             cat "$about"
             printf "</pre></div></body></html>"
           } >> "${about_html}"
@@ -236,9 +236,9 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
         # Ship logs
         printf "%s - Ship Log\\n" "$ship"
         tac "${gopher_dir}/listing.gophermap" |
-          awk -v tot="${logcount}" '{gsub("^0",NR" >> ",$0);print $0}' |
-          grep -E "[0-9]+\\ >>\\ ${ship}" |
-          awk -F"\\t" '{f=$2; gsub(".txt", ".html", f); printf "<a href=\"%s\">% s</a>\n", f, $1}'
+          awk -v tot="${logcount}" '{gsub("^0",NR" <span class=\"dim\">\\&gt;\\&gt;</span> ",$0);print $0}' |
+          grep -E "[0-9]+.*span>\\ ${ship}" |
+          awk -F"\\t" '{f=$2; gsub(".txt", ".html", f); printf "<a href=\"%s\">%s</a>\n", f, $1}'
 
         # Author copyright and optional link
         auth="/var/gopher/${ship}/AUTHOR"
@@ -253,7 +253,7 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
             printf "<body>"
             printf "<div class=\"page-wrapper\">"
             printf "<pre class=\"inner-wrapper\">"
-            printf "<a href=\"/ships/%s/\">&lt;&lt; BACK TO SHIP</a>\\n\\n\\n" "${ship}"
+            printf "<a href=\"/ships/%s/\"><span class=\"dim\">&lt;&lt;</span> BACK TO SHIP</a>\\n\\n\\n" "${ship}"
             cat "$auth"
             printf "</pre></div></body></html>"
           } >> "${author_html}"
@@ -285,7 +285,7 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
   cat "$web_header_html" > "${error_html}"
   {
     cat "$web_styles_html"
-    printf "</head><body><div class=\"page-wrapper\"><pre class=\"inner-wrapper\"><a href=\"/\">&lt;&lt; BACK TO RELAY ONE</a>"
+    printf "</head><body><div class=\"page-wrapper\"><pre class=\"inner-wrapper\"><a href=\"/\"><span class=\"dim\">&lt;&lt;</span> BACK TO RELAY ONE</a>"
     printf "\\n\\n\\nERROR. TRANSMISSION NOT FOUND.</pre></div></body></html>"
   } >> "${error_html}"
 
@@ -299,7 +299,7 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
     printf "<body>"
     printf "<div class=\"page-wrapper\">"
     printf "<pre class=\"inner-wrapper\">"
-    printf "<a href=\"/\">&lt;&lt; BACK TO COSMIC VOYAGE</a>\\n\\n\\n"
+    printf "<a href=\"/\"><span class=\"dim\">&lt;&lt;</span> BACK TO COSMIC VOYAGE</a>\\n\\n\\n"
     cat "/var/gopher/join.txt"
     printf "</pre></div></body></html>"
   } >> "${join_html}"
