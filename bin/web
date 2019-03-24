@@ -188,7 +188,7 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
   do
     entry_num=$(grep -c "^0${ship}" "${gopher_dir}/listing.gophermap")
     if [ "$entry_num" != "0" ]; then
-      printf "<a href=\"/ships/%s/\">>> %s (%s)</a>\\n" "$ship" "$ship" "$entry_num" >> "$ships_html"
+      printf "<a href=\"/ships/%s/\">>> %s <span class=\"dim\">(%s logs)</span></a>\\n" "$ship" "$ship" "$entry_num" >> "$ships_html"
       # Create individual ship log page
       ship_html="${html_dir}/ships/${ship}/index.html"
       mkdir -p "${html_dir}/ships/${ship}"
