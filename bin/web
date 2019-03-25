@@ -75,7 +75,7 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
   cat "$web_header_html" > "${root_index_html}"
   # Custom header elements and body start
   {
-    printf "<title>Cosmic Voyage</title>"
+    printf "<title>Cosmic Voyage - Messages from Humanity's Stellar Diaspora</title>"
     printf "<link rel=\"canonical\" href=\"https://cosmic.voyage\">"
     printf "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"Cosmic Voyage\" href=\"/rss.xml\">"
     printf "<meta name=\"description\" content=\"Cosmic Voyage is a public-access unix system and 'tilde' community based around a collaborative science-fiction universe. Users write stories as the people aboard ships, colonies, and outposts, using the only remaining free, interconnected network that unites the dispersed peoples of the stars.\">"
