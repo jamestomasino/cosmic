@@ -128,6 +128,9 @@ check_log () {
         printf ".. %sYES%s.\\n" "${GREEN}" "${RESET}"
         # check for UTF compatability or fail
         if iconv -f UTF-8 "/var/gopher${u}" > /dev/null 2> /dev/null; then
+          if [ "$(wc -L < "/var/gopher${u}")" -gt 80 ]; then
+            printf "   ${RED}Warning!${RESET} Message [%s] exceeds 80 columns.\\n" "$(basename "$u" | sed 's/\.[^.]*$//')"
+          fi
           get_title
         else
           printf "   Message [%s] is not encoded in UTF-8. %sABORT%s\\n" "$(basename "$u" | sed 's/\.[^.]*$//')" "${RED}" "${RESET}"
