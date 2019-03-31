@@ -8,14 +8,14 @@ entry_index () {
   logdir=$(dirname "$log")
   title=$(printf "%s" "$line" | awk -F'\t' '{print $1}' | sed 's|^.||')
   itemnum=$((logcount-index+1))
-  page=$((((index)/logs_per_page)+1))
+  page=$(( index / logs_per_page + 1 ))
   if [ "$page" -ne 1 ]; then
     entry_index_html="/var/www/html/log/index-${page}.html"
   else
     entry_index_html="${log_html}"
   fi
   # print link in listings
-  if [ "$index" -lt 20 ]; then 
+  if [ "$index" -lt 20 ]; then
     printf "<a href=\"%s.html\">%s <span class=\"dim\">&gt;&gt;</span> %s</a>\\n" "$loghtml" "$itemnum" "$title" >> "${root_index_html}"
   fi
   printf "<a href=\"%s.html\">%s <span class=\"dim\">&gt;&gt;</span> %s</a>\\n" "$loghtml" "$itemnum" "$title" >> "${entry_index_html}"
