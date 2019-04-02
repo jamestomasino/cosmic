@@ -99,7 +99,7 @@ menu:cosmic:Cosmic Tools:Tools related to the cosmic voyage story
     exec:_Website regeneration:truncate:/usr/local/bin/web
     nop
     exec:_Author and Ship Lists:truncate,edit:/usr/local/bin/roster "~user or ship name (or blank for all):~"
-    exec:_Create a new ship:truncate,edit:/usr/local/bin/ship
+    exec:_Create a new ship::/usr/local/bin/ship
     nop
     exit:_Back to main menu..
 
