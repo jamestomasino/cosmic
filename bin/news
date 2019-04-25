@@ -1,0 +1,9 @@
+#!/bin/sh
+
+if [ -f "$HOME/.jnewsrc" ]; then
+  slrn
+else
+  # need to create newsrc
+  slrn --create
+  slrn -d
+fi
