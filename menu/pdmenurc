@@ -48,6 +48,7 @@ menu:main:Main Menu:Cosmic Voyage Menu System v1.0
 menu:comms:Communication:Reach out and touch someone
      exec:_Mail (alpine)::/usr/bin/alpine
      exec:_Mail (mutt)::/usr/bin/mutt
+     exec:_news::/usr/local/bin/news
      exec:_bbj (Bulletin Butter & Jelly!)::/usr/local/bin/bbj
      exec:_fellowsh::clear;/usr/local/bin/fellowsh
      exec:_IRC (weechat)::/usr/local/bin/chat
