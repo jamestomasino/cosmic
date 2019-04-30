@@ -4,10 +4,10 @@ run_user=$(id -u)
 if [ "$run_user" -eq 0 ]; then
   n="$1"
   s="$2"
-  if [ ! -z "$n" ]; then
+  if [ -n "$n" ]; then
     user_exists=$(id -u "${n}" 2> /dev/null)
-    if [ ! -z "${user_exists}" ]; then
-      if [ ! -z "${s}" ]; then
+    if [ -n "${user_exists}" ]; then
+      if [ -n "${s}" ]; then
         path="/var/gopher/${s}"
         if [ -d "$path" ]; then
           printf "Removing ship '%s' for user '%s'\\n" "${s}" "${n}"

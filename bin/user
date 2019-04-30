@@ -4,7 +4,7 @@ run_user=$(id -u)
 if [ "$run_user" -eq 0 ]; then
   n="$1"
   k="$2"
-  if [ ! -z "$n" ]; then
+  if [ -n "$n" ]; then
     user_exists=$(id -u "${n}" 2> /dev/null)
     if [ -z "${user_exists}" ]; then
       printf "Adding new user %s\\n" "${n}"
@@ -13,7 +13,7 @@ if [ "$run_user" -eq 0 ]; then
       useradd -m -G users,www-data -p "$pwcrypt" -s /bin/bash "${n}" || exit 1
       sed -e "s/USERNAME/${n}/g" -e "s/PASSWORD/${newpw}/" /etc/templates/welcomemail.tmpl | sendmail "${n}"
     fi
-    if [ ! -z "${k}" ]; then
+    if [ -n "${k}" ]; then
       printf "%s\\n" "${k}" >> "/home/${n}/.ssh/authorized_keys"
     else
       ${EDITOR:-vim} "/home/${n}/.ssh/authorized_keys"

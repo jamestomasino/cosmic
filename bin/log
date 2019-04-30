@@ -256,7 +256,7 @@ main() {
   fi
 
   # new message
-  if [ ! -z "$arg_new" ]; then
+  if [ -n "$arg_new" ]; then
     if [ "$numships" -eq 0 ]; then
       printf "No registered ships found in system.\\n"
     elif [ "$numships" -eq 1 ]; then

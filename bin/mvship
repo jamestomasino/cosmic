@@ -6,13 +6,13 @@ if [ "$run_user" -eq 0 ]; then
   s="$2"
   newship="$3"
 
-  if [ ! -z "$n" ]; then
+  if [ -n "$n" ]; then
     user_exists=$(id -u "${n}" 2> /dev/null)
-    if [ ! -z "${user_exists}" ]; then
-      if [ ! -z "${s}" ]; then
+    if [ -n "${user_exists}" ]; then
+      if [ -n "${s}" ]; then
         path="/var/gopher/${s}"
         if [ -d "$path" ]; then
-          if [ ! -z "${newship}" ]; then
+          if [ -n "${newship}" ]; then
             newpath="/var/gopher/${newship}"
             ship_exists=$(find /var/gopher -maxdepth 1 -iname "$newship")
             if [ -z "$ship_exists" ]; then

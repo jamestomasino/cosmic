@@ -5,7 +5,7 @@ _log() {
   cur=${COMP_WORDS[COMP_CWORD]}
   local helplist
   helplist=$(log -z)
-  COMPREPLY=( $( compgen -W "$helplist" -- "$cur" ) )
+  mapfile -t COMPREPLY < <( compgen -W "$helplist" -- "$cur" )
 }
 
 # Detect if current shell is ZSH, and if so, load this file in bash
