@@ -19,6 +19,7 @@ fortune-mod
 gcc
 goaccess
 gnutls-bin
+inn2
 irssi
 jed
 joe
@@ -63,6 +64,7 @@ python-pip
 python-setuptools
 shellcheck
 silversearcher-ag
+slrn
 stow
 stunnel4
 sysstat
