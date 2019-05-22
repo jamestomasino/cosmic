@@ -5,12 +5,21 @@ localPuzzleDir="$HOME/.puzzles"
 systemPuzzleDir="/var/puzzles"
 
 if [ -n "$puzChoice" ]; then
-  puzChoiceFile="${localPuzzleDir}/${puzChoice}.puz" 
-  if [ ! -f "$puzChoiceFile" ]; then
-    mkdir -p "$localPuzzleDir"
-    cp "${systemPuzzleDir}/${puzChoice}.puz" "$puzChoiceFile"
+  if [ "$puzChoice" = "-h" ]; then
+    printf "Run program without arguments for list of puzzles. Add puzzle name as argument to start puzzle.\\n"
+  else
+    sysPuzChoiceFile="${systemPuzzleDir}/${puzChoice}.puz"
+    localPuzChoiceFile="${localPuzzleDir}/${puzChoice}.puz" 
+    if [ -f "$sysPuzChoiceFile" ]; then
+      if [ ! -f "$localPuzChoiceFile" ]; then
+        mkdir -p "$localPuzzleDir"
+        cp "$sysPuzChoiceFile" "$localPuzChoiceFile"
+      fi
+      cursewords "$localPuzChoiceFile"
+    else
+      printf "puzzle not found.\\n"
+    fi
   fi
-  cursewords "$puzChoiceFile"
 else
   for f in "${systemPuzzleDir}"/*.puz; do
     puzzleFilename=$(basename "$f")
