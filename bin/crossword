@@ -1,0 +1,20 @@
+#!/bin/sh
+
+puzChoice="$1"
+localPuzzleDir="$HOME/.puzzles"
+systemPuzzleDir="/var/puzzles"
+
+if [ -n "$puzChoice" ]; then
+  puzChoiceFile="${localPuzzleDir}/${puzChoice}.puz" 
+  if [ ! -f "$puzChoiceFile" ]; then
+    mkdir -p "$localPuzzleDir"
+    cp "${systemPuzzleDir}/${puzChoice}.puz" "$puzChoiceFile"
+  fi
+  cursewords "$puzChoiceFile"
+else
+  for f in "${systemPuzzleDir}"/*.puz; do
+    puzzleFilename=$(basename "$f")
+    puzzleName=${puzzleFilename%.*}
+    printf "%s\\n" "$puzzleName"
+  done
+fi
