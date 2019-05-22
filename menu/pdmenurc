@@ -87,6 +87,17 @@ menu:games:Games:Games and fun distractions
     exec:_Sudoku::/usr/games/nudoku
     exec:_Zangband::/usr/games/zangband
     exec:_Fortune:truncate:/usr/games/fortune | par -w 60
+    group:_Crossword..
+     exec::makemenu: \
+     echo "menu:crossword:Crossword:Play Crossword Puzzles"; \
+     for c in `/usr/local/bin/crossword`; do \
+       echo "exec:$c::/usr/local/bin/crossword ${c}"; \
+     done; \
+     echo "nop"; \
+     echo "exit:E_xit"
+     show:::crossword
+     remove:::crossword
+    endgroup
     nop
     exit:_Back to main menu..
 
