@@ -1,0 +1,27 @@
+#!/bin/sh
+
+meta="/var/cosmic/files/metadata.yml"
+css="/var/cosmic/files/epub.css"
+ebook="$HOME/cosmic.txt"
+epub="$HOME/cosmic.epub"
+
+filelist=$(tac /var/gopher/listing.gophermap) 
+
+if [ -f "$ebook" ]; then
+  rm "$ebook"
+fi
+
+IFS='
+'
+for log in $filelist; do
+  file=$(printf "%s" "$log" | awk -F"\\t" '{print "/var/gopher" $2}')
+  title=$(printf "%s" "$log" | awk -F"\\t" '{print $1}' | sed 's/^.//')
+
+  {
+    printf "# %s\\n\\n" "$title"
+    sed 's/^/    /' "$file" 
+  } >> "$ebook"
+done
+
+pandoc -f markdown+hard_line_breaks --css "$css" -o "$epub" "$meta" --wrap=none --toc "$ebook"
+rm "$ebook"
