@@ -139,6 +139,21 @@ h2 {
   line-height: 1.2em; /*get squished otherwise on ADE */
 }
 
+tr, img {
+  page-break-inside: avoid;
+}
+
+img {
+  max-width: 100% !important;
+}
+
+@page :left {
+  margin: 15mm 20mm 15mm 10mm;
+}
+
+@page :right {
+  margin: 15mm 10mm 15mm 20mm;
+}
 
 /* Hyphen and pagination Fixer */
 /* Note: Do not try on the Kindle, it does not recognize the hyphens property */
