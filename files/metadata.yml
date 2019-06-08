@@ -2,5 +2,9 @@
 title:
 - type: main
   text: Cosmic Voyage
-rights: Copyright ©2019
+- type: subtitle
+  text: Year One
+rights: © 2019 Cosmic Voyage, CC BY-NC-ND 4.0
+stylesheet: /var/cosmic/files/epub.css
+cover-image: /var/cosmic/files/cover.jpg
 ...

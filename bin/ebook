@@ -1,15 +1,19 @@
 #!/bin/sh
 
 meta="/var/cosmic/files/metadata.yml"
-css="/var/cosmic/files/epub.css"
 ebook="$HOME/cosmic.txt"
 epub="$HOME/cosmic.epub"
+intro="/var/gopher/intro.gophermap"
 
 filelist=$(tac /var/gopher/listing.gophermap) 
 
 if [ -f "$ebook" ]; then
   rm "$ebook"
 fi
+
+
+printf "# Introduction\\n\\n" >> "$ebook"
+sed 's/^/    /' "$intro" >> "$ebook"
 
 IFS='
 '
@@ -23,5 +27,5 @@ for log in $filelist; do
   } >> "$ebook"
 done
 
-pandoc -f markdown+hard_line_breaks --css "$css" -o "$epub" "$meta" --wrap=none --toc "$ebook"
+pandoc -f markdown+hard_line_breaks -o "$epub" "$meta" --wrap=none --toc "$ebook"
 rm "$ebook"
