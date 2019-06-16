@@ -7,6 +7,7 @@ bind9
 bsdgames
 build-essential
 dict
+diction
 dovecot-imapd
 dovecot-pop3d
 efingerd
