@@ -29,47 +29,38 @@ finish () {
 trap finish EXIT
 
 parse_input () {
-  if ! parsed=$(getopt "$arg_options" "$@"); then
-    die "Invalid input" 2
-  fi
-
-  eval set -- "$parsed"
-
-  while true; do
-    case "$1" in
-      -h)
+  while getopts "$arg_options" opt; do
+    case "$opt" in
+      h)
         flag_help=1
         arg_log=0
-        shift
         ;;
-      -v)
+      v)
         flag_version=1
         arg_log=0
-        shift
         ;;
-      -d)
+      d)
         flag_debug=1
         arg_log=0
-        shift
         ;;
-      -s)
-        shift
-        arg_ship="$1"
-        shift
+      s)
+        arg_ship="$OPTARG"
         ;;
-      -z)
+      z)
         flag_shortlist=1
-        shift
         ;;
-      -n)
+      n)
         arg_log=0
-        shift
-        arg_new="$1"
-        shift
+        arg_new="$OPTARG"
         ;;
-      --)
-        shift
-        break
+      f)
+        arg_log=0
+        flag_file=1
+        arg_file="$OPTARG"
+        ;;
+      t)
+        flag_title=1
+        arg_title="$OPTARG"
         ;;
       *)
         die "Internal error: $1" 3
@@ -168,6 +159,17 @@ get_title () {
   fi
 }
 
+contains() {
+  string="$1"
+  substring="$2"
+  if test "${string#*$substring}" != "$string"
+  then
+      return 0    # $substring is in $string
+  else
+      return 1    # $substring is not in $string
+  fi
+}
+
 new_message () {
   ship="$1"
   post_file="/var/gopher/${ship}/${2}"
@@ -193,6 +195,15 @@ new_message () {
 }
 
 main() {
+
+  run_user=$(id -un)
+  if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
+    # if running as publish, check who sudoed and create ship for that user
+    user="$SUDO_USER"
+  else
+    user="$run_user"
+  fi
+
   version="0.1.1"
   user="$SUDO_USER"
   ships=$(find /var/gopher -user "$user" -type d -exec basename {} \;)
@@ -203,11 +214,15 @@ main() {
   flag_version=0
   flag_debug=0
   flag_shortlist=0
+  flag_file=0
+  flag_title=0
 
-  arg_options="hvds:zn:"
+  arg_options="hvdt:f:s:zn:"
   arg_log=1
   arg_ship=""
   arg_new=""
+  arg_file=""
+  arg_title=""
 
   parse_input "$@"
 
@@ -273,6 +288,31 @@ main() {
         fi
       done
       unset IFS
+    fi
+  fi
+
+  # handle -f switch
+  if [ $flag_file -gt 0 ]; then
+    if [ -r "$arg_file" ]; then
+      owner=$(stat -c %U "$arg_file")
+      if [ "$user" = "$owner" ]; then
+        # if file exists and user owns it
+        realfile=$(readlink -f "$arg_file")
+        for ship in $ships
+        do
+          if contains "$realfile" "/var/gopher/${ship}";  then
+            if [ "$(wc -L < "$realfile")" -lt 81 ]; then
+              # looking for -t titles only for now
+              if [ $flag_title -gt 0 ]; then
+                if printf "%s" "$arg_title" | grep -Pq "^[\\x20-\\x7E]*$"; then
+                  gopherfile="$(printf "%s" "$realfile" | sed 's|/var/gopher||')"
+                  printf "0%s - %s\\t%s\\n" "$ship" "$arg_title" "$gopherfile" | cat - /var/gopher/listing.gophermap > "$tmp" && cat "$tmp" > /var/gopher/listing.gophermap && rm "$tmp"
+                fi
+              fi
+            fi
+          fi
+        done
+      fi
     fi
   fi
 }
