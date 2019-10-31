@@ -24,11 +24,27 @@
         if (typeof Array.from === 'function') {
           Array.from(document.querySelectorAll('a')).map( el => {
             var url = el.href
-            el.href = url + (url.indexOf('?') !== -1 ? "&" : "?") + 'dark=1';
+            var p = url.indexOf('?') !== -1 ? url.substr(url.indexOf('?')) : ''
+            var baseURL = url.split('?')[0]
+            const params = new URLSearchParams(p)
+            params.append('dark', 1)
+            p = params.toString()
+            el.href = baseURL + (p ? '?' + p : '')
           })
         }
       } else {
         document.body.classList.remove('dark')
+        if (typeof Array.from === 'function') {
+          Array.from(document.querySelectorAll('a')).map( el => {
+            var url = el.href
+            var p = url.indexOf('?') !== -1 ? url.substr(url.indexOf('?')) : ''
+            var baseURL = url.split('?')[0]
+            const params = new URLSearchParams(p)
+            params.delete('dark')
+            p = params.toString()
+            el.href = baseURL + (p ? '?' + p : '')
+          })
+        }
       }
     }
 
