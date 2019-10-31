@@ -16,45 +16,35 @@
          can probably remove this again. -->
     <script type="text/javascript">
     var params = new URLSearchParams(window.location.search)
-    var dark = params.has('dark')
 
-    function setDark(val) {
-      if (val) {
-        document.body.classList.add('dark')
-        if (typeof Array.from === 'function') {
-          Array.from(document.querySelectorAll('a'))
-          .filter( el =>  el.href.indexOf('cosmic.voyage') !== -1)
-          .map( el => {
-            var url = el.href
-            var p = url.indexOf('?') !== -1 ? url.substr(url.indexOf('?')) : ''
-            var baseURL = url.split('?')[0]
-            const params = new URLSearchParams(p)
-            params.append('dark', 1)
-            p = params.toString()
-            el.href = baseURL + (p ? '?' + p : '')
-          })
-        }
-      } else {
-        document.body.classList.remove('dark')
-        if (typeof Array.from === 'function') {
-          Array.from(document.querySelectorAll('a'))
-          .filter( el =>  el.href.indexOf('cosmic.voyage') !== -1)
-          .map( el => {
-            var url = el.href
-            var p = url.indexOf('?') !== -1 ? url.substr(url.indexOf('?')) : ''
-            var baseURL = url.split('?')[0]
-            const params = new URLSearchParams(p)
-            params.delete('dark')
-            p = params.toString()
-            el.href = baseURL + (p ? '?' + p : '')
-          })
-        }
+    function setMode(mode, val) {
+      if (val) document.body.classList.add(mode)
+      else document.body.classList.remove(mode)
+
+      if (typeof Array.from === 'function') {
+        Array.from(document.querySelectorAll('a'))
+        .filter( el =>  el.href.indexOf('cosmic.voyage') !== -1)
+        .map( el => {
+          var url = el.href
+          var p = url.indexOf('?') !== -1 ? url.substr(url.indexOf('?')) : ''
+          var baseURL = url.split('?')[0]
+          const params = new URLSearchParams(p)
+          if (val) {
+            params.append(mode, 1)
+          } else {
+            params.delete(mode)
+          }
+          p = params.toString()
+          el.href = baseURL + (p ? '?' + p : '')
+        })
       }
     }
 
     window.addEventListener('DOMContentLoaded', function() {
-      if (dark) {
-        setDark(true)
+      if (params.has('dark')) {
+        setMode('dark', true)
+      } else if (params.has('light')) {
+        setMode('light', true)
       }
     })
     </script>
