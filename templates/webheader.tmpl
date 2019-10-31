@@ -21,23 +21,21 @@
       if (val) document.body.classList.add(mode)
       else document.body.classList.remove(mode)
 
-      if (typeof Array.from === 'function') {
-        Array.from(document.querySelectorAll('a'))
-        .filter( el =>  el.href.indexOf('cosmic.voyage') !== -1)
-        .map( el => {
-          var url = el.href
-          var p = url.indexOf('?') !== -1 ? url.substr(url.indexOf('?')) : ''
-          var baseURL = url.split('?')[0]
-          const params = new URLSearchParams(p)
-          if (val) {
-            params.append(mode, 1)
-          } else {
-            params.delete(mode)
-          }
-          p = params.toString()
-          el.href = baseURL + (p ? '?' + p : '')
-        })
-      }
+      Array.from(document.querySelectorAll('a'))
+      .filter( el =>  el.href.indexOf('cosmic.voyage') !== -1)
+      .map( el => {
+        var url = el.href
+        var p = url.indexOf('?') !== -1 ? url.substr(url.indexOf('?')) : ''
+        var baseURL = url.split('?')[0]
+        const params = new URLSearchParams(p)
+        if (val) {
+          params.append(mode, 1)
+        } else {
+          params.delete(mode)
+        }
+        p = params.toString()
+        el.href = baseURL + (p ? '?' + p : '')
+      })
     }
 
     window.addEventListener('DOMContentLoaded', function() {
