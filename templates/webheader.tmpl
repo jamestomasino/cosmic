@@ -22,7 +22,7 @@
       else document.body.classList.remove(mode)
 
       Array.from(document.querySelectorAll('a'))
-      .filter( el =>  el.href.indexOf('cosmic.voyage') !== -1)
+      .filter( el => el.href.indexOf('cosmic.voyage') !== -1)
       .map( el => {
         var url = el.href
         var p = url.indexOf('?') !== -1 ? url.substr(url.indexOf('?')) : ''
