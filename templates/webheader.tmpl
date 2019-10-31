@@ -11,3 +11,30 @@
     <meta name="msapplication-TileColor" content="#00a300">
     <meta name="theme-color" content="#ffffff">
     <!-- Rocket favicon by Adrien Coquet from the Noun Project -->
+    <!-- I'm sorry you have to see JavaScript on this site, but it's here to
+         enable a manual dark mode toggle. When dark mode support improves I
+         can probably remove this again. -->
+    <script type="text/javascript">
+    var params = new URLSearchParams(window.location.search)
+    var dark = params.get('dark')
+
+    function setDark(val) {
+      if (val) {
+        document.body.classList.add('dark')
+        if (typeof Array.from === 'function') {
+          Array.from(document.querySelectorAll('a')).map( el => {
+            var url = el.href
+            el.href = url + (url.indexOf('?') !== -1 ? "&" : "?") + 'dark=1';
+          })
+        }
+      } else {
+        document.body.classList.remove('dark')
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', function() {
+      if (dark) {
+        setDark(true)
+      }
+    })
+    </script>
