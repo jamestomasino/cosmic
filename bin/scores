@@ -1,0 +1,8 @@
+#!/bin/bash
+
+for u in $(members); do
+  if ls /home/"${u}"/ships/**/*.txt &> /dev/null; then
+    words=$(wc -w /home/"${u}"/ships/**/*.txt | tail -n 1 | awk '{print $1}')
+    printf "%s,%s\\n" "$u" "$words"
+  fi
+done
