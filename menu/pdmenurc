@@ -105,6 +105,7 @@ menu:cosmic:Cosmic Tools:Tools related to the cosmic voyage story
     exec:_QEC browser::/usr/local/bin/qec
     exec:_Recent QEC logs:truncate:/usr/local/bin/latest
     exec:_Rate of QEC logs:truncate:/usr/local/bin/rate
+    exec:High _Scores:truncate:/usr/local/bin/scores | column -t -s,
     nop
     show:_Write a new message..::write
     exec:_Log a new message::/usr/local/bin/log
