@@ -1,8 +1,19 @@
 #!/bin/bash
 
+finish () {
+  if [ -f "$temp_scores" ]; then
+    rm "$temp_scores"
+  fi
+}
+trap finish EXIT
+
+temp_scores=$(mktemp -t "$(basename "$0").scores.XXXXXXX") || exit 1
+
 for u in $(members); do
   if ls /home/"${u}"/ships/**/*.txt &> /dev/null; then
     words=$(wc -w /home/"${u}"/ships/**/*.txt | tail -n 1 | awk '{print $1}')
-    printf "%s,%s\\n" "$u" "$words"
+    printf "%s,%s\\n" "$u" "$words" >> "$temp_scores"
   fi
 done
+
+sort -rnt"," -k2 "$temp_scores"
