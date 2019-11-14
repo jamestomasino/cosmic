@@ -170,30 +170,6 @@ contains() {
   fi
 }
 
-new_message () {
-  ship="$1"
-  post_file="/var/gopher/${ship}/${2}"
-  template_file="/var/gopher/${ship}/.template" 
-  temp_post=$(mktemp -t "$(basename "$0").post.XXXXXXX") || die "Failed to create temporary file" 1
-  if [ -f "$post_file" ]; then
-    cp "$post_file" "$temp_post"
-  elif [ -f "$template_file" ]; then
-    cp "$template_file" "$temp_post"
-  fi
-  temp_post_time=$(stat -c %Y "$temp_post")
-  ${EDITOR:-nano} "$temp_post"
-  temp_post_time_check=$(stat -c %Y "$temp_post")
-  if [ "$temp_post_time" -ne "$temp_post_time_check" ] ; then
-    printf "Drafted message %s (%s)\\n" "$2" "$1"
-    touch "${post_file}"
-    cat "${temp_post}" > "${post_file}"
-    rm "${temp_post}"
-  else
-    printf "Aborted message.\\n"
-    rm "${temp_post}"
-  fi
-}
-
 main() {
 
   run_user=$(id -un)
@@ -220,7 +196,6 @@ main() {
   arg_options="hvdt:f:s:zn:"
   arg_log=1
   arg_ship=""
-  arg_new=""
   arg_file=""
   arg_title=""
 
@@ -264,27 +239,6 @@ main() {
       do
         if [ -z "$arg_ship" ] || [ "$f" = "$arg_ship" ]; then
           check_log "$(basename "$f")"
-        fi
-      done
-      unset IFS
-    fi
-  fi
-
-  # new message
-  if [ -n "$arg_new" ]; then
-    if [ "$numships" -eq 0 ]; then
-      printf "No registered ships found in system.\\n"
-    elif [ "$numships" -eq 1 ]; then
-      if [ -z "$arg_ship" ] || [ "$ships" = "$arg_ship" ]; then
-        new_message "$ships" "$arg_new"
-      fi
-    else
-      IFS='
-'
-      for f in $ships
-      do
-        if [ "$f" = "$arg_ship" ]; then
-          new_message "$arg_ship" "$arg_new"
         fi
       done
       unset IFS
