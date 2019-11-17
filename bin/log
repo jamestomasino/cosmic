@@ -49,10 +49,6 @@ parse_input () {
       z)
         flag_shortlist=1
         ;;
-      n)
-        arg_log=0
-        arg_new="$OPTARG"
-        ;;
       f)
         arg_log=0
         flag_file=1
@@ -193,7 +189,7 @@ main() {
   flag_file=0
   flag_title=0
 
-  arg_options="hvdt:f:s:zn:"
+  arg_options="hvdt:f:s:z"
   arg_log=1
   arg_ship=""
   arg_file=""
