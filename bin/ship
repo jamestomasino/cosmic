@@ -25,7 +25,7 @@ main() {
     printf "%s" "$RESET"
 
     # if ship name is valid...
-    if printf "%s" "$shipname" | grep -Eq "^[A-Za-z0-9]+[A-Za-z0-9\\.\\ \\-]+$"; then
+    if printf "%s" "$shipname" | LC_ALL=C grep -Eq "^[A-Za-z0-9]+[A-Za-z0-9\\.\\ \\-]+$"; then
       path="/var/gopher/${shipname}"
       ship_exists=$(find /var/gopher -maxdepth 1 -iname "$shipname") 
 
