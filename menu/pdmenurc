@@ -55,7 +55,7 @@ menu:comms:Communication:Reach out and touch someone
      group:_Finger..
        exec::makemenu: \
        echo "menu:finger:Finger:Finger other cosmic users"; \
-       for u in `/usr/local/bin/members`; do \
+       for u in `/usr/local/bin/voyagers`; do \
          echo "exec:$u:truncate:/usr/bin/finger ${u}@cosmic.voyage"; \
        done; \
        echo "nop"; \
