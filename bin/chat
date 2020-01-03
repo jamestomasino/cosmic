@@ -1,2 +1,2 @@
 #!/bin/sh
-/usr/bin/weechat -r "/set irc.look.temporary_servers on; /connect irc://$(whoami)@irc.tilde.chat/#meta,#cosmic"
+/usr/bin/weechat -r "/set irc.look.temporary_servers on; /connect irc://$(whoami)@irc.tilde.chat:6697/#meta,#cosmic -ssl"
