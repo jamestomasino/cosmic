@@ -1,33 +1,10 @@
 #!/bin/sh
 
-banned_names="/opt/admins/raw/banned_names.txt"
-banned_keys="/opt/admins/raw/banned_sshkeys.txt"
-
 run_user=$(id -u)
 if [ "$run_user" -eq 0 ]; then
   n="$1"
   k="$2"
   if [ -n "$n" ]; then
-    # check for username in ban list
-    while IFS= read -r line
-    do
-      if [ "$n" = "$line" ]; then
-        printf "Username is banned.\\n"
-        exit 1
-      fi
-    done <"$banned_names"
-
-    # check for ssh key in ban list
-    if [ -n "${k}" ]; then
-      while IFS= read -r line
-      do
-        if [ "$k" = "$line" ]; then
-          printf "SSH key is banned.\\n"
-          exit 1
-        fi
-      done <"$banned_keys"
-    fi
-
     # create user
     user_exists=$(id -u "${n}" 2> /dev/null)
     if [ -z "${user_exists}" ]; then
