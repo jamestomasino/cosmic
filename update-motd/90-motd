@@ -1,3 +1,4 @@
 #!/bin/sh
 printf "\\nchange log:\\n" | /usr/games/lolcat -f
 grep -v '^<' /var/wiki/changelog.html | awk -v RS= 'NR==1 || NR==2 {print $0 "\n"}' | /usr/games/lolcat -f
+printf "See 'wiki' change log for more.\\n\\n" | /usr/games/lolcat -f
