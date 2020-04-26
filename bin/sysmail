@@ -4,7 +4,9 @@ run_user=$(id -u)
 if [ "$run_user" -eq 0 ] || [ "$run_user" -eq 1000 ]; then
   if [ -f "$1" ]; then
     for u in $(members users); do
-      sed -e "s/USERNAME/${u}/g" "$1" | sendmail "$u"
+      if [ "$u" != "anonhmmst" ]; then
+        sed -e "s/USERNAME/${u}/g" "$1" | sendmail "$u"
+      fi
     done
   else
     printf "Filename of email required.\\n"
