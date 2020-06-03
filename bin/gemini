@@ -20,6 +20,8 @@ if [ "$run_user" = "gemini" ]; then
   do
     curl -s "gopher://cosmic.voyage/1/ships/${ship}" | /var/cosmic/awk/gophermap2gemini.awk > "/var/gemini/ships/${ship}/index.gmi"
   done
+  # Let user's know it's done
+  printf "Gemini and gemini RSS rebuilt successfully.\\n"
 else
   exec sudo -u gemini "$0" "$@"
 fi
