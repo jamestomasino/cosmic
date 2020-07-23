@@ -7,6 +7,10 @@ cosmic.voyage      :
 .tildeverse.org    smtp
 aussies.space      smtp
 circumlunar.space  smtp
+ctrl-c.club        smtp
+envs.net           smtp
+radiofreqs.space   smtp
+rw.rs              smtp
 fuckup.club        smtp
 grex.org           smtp
 hashbang.sh        smtp
@@ -20,12 +24,15 @@ thunix.cf          smtp
 thunix.net         smtp
 tild3.club         smtp
 tild3.org          smtp
+tilde.black        smtp
 tilde.center       smtp
 tilde.chat         smtp
+tilde.club         smtp
 tilde.institute    smtp
 tilde.life         smtp
 tilde.news         smtp
 tilde.ninja        smtp
+tilde.pink         smtp
 tilde.pizza        smtp
 tilde.site         smtp
 tilde.team         smtp
