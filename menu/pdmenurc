@@ -86,6 +86,11 @@ menu:games:Games:Games and fun distractions
     exec:_Nethack::/usr/games/nethack-console
     exec:_Sudoku::/usr/games/nudoku
     exec:_Zangband::/usr/games/zangband
+    exec:2048::/usr/games/2048
+    exec:_Gorched::/snap/bin/gorched
+    exec:Greed::/usr/games/greed
+    exec:_Moon Buggy::/usr/games/moon-buggy
+    exec:_Tron::ssh sshtron.zachlatta.com
     exec:_Fortune:truncate:/usr/games/fortune | par -w 60
     group:_Crossword..
      exec::makemenu: \
@@ -110,6 +115,7 @@ menu:cosmic:Cosmic Tools:Tools related to the cosmic voyage story
     show:_Write a new message..::write
     exec:_Log a new message::/usr/local/bin/log
     exec:_Website regeneration:truncate:/usr/local/bin/web
+    exec:_Dictionary/Thesaurus...:truncate,edit:/usr/bin/sdcv -n --utf8-output "~word:~"
     nop
     exec:_Author and Ship Lists:truncate,edit:/usr/local/bin/roster "~user or ship name (or blank for all):~"
     exec:_Create a new ship::/usr/local/bin/ship
