@@ -82,6 +82,7 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
     cat "$web_styles_html"
     printf "</head>"
     printf "<body>"
+    printf "<a rel="me" href="https://tilde.zone/@cosmicvoyage" style="display: none; visibility: hidden;" aria-hidden="true">a link to our mastodon account, to verify it as legitimate</a>"
     printf "<div class=\"page-wrapper\">"
     printf "<pre class=\"inner-wrapper\">"
     # Intro text
