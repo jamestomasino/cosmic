@@ -115,7 +115,7 @@ menu:cosmic:Cosmic Tools:Tools related to the cosmic voyage story
     show:_Write a new message..::write
     exec:_Log a new message::/usr/local/bin/log
     exec:_Website regeneration:truncate:/usr/local/bin/web
-    exec:_Dictionary/Thesaurus...:truncate,edit:/usr/bin/sdcv -n --utf8-output "~word:~"
+    exec:_Dictionary/Thesaurus..:truncate,edit:/usr/bin/sdcv -n --utf8-output "~word:~"
     nop
     exec:_Author and Ship Lists:truncate,edit:/usr/local/bin/roster "~user or ship name (or blank for all):~"
     exec:_Create a new ship::/usr/local/bin/ship
