@@ -55,7 +55,7 @@ menu:comms:Communication:Reach out and touch someone
      group:_Finger..
        exec::makemenu: \
        echo "menu:finger:Finger:Finger other cosmic users"; \
-       for u in `/usr/local/bin/voyagers`; do \
+       for u in `/usr/local/bin/voyagers | sort`; do \
          echo "exec:$u:truncate:/usr/bin/finger ${u}@cosmic.voyage"; \
        done; \
        echo "nop"; \
@@ -80,7 +80,8 @@ menu:comms:Communication:Reach out and touch someone
      exit:E_xit
 
 menu:games:Games:Games and fun distractions
-    exec:_Dungeon Crawl Stone Soup::dcss
+    exec:_Botany::/usr/local/bin/botany
+    exec:_Dungeon Crawl Stone Soup::/usr/local/bin/dcss
     exec:_Space Invaders::/usr/games/ninvaders
     exec:_Bastard Tetris::/usr/games/bastet
     exec:_Nethack::/usr/games/nethack-console
