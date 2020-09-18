@@ -55,10 +55,12 @@ menu:
 postfix:
 	if ! grep -q 'transport_maps' "/etc/postfix/main.cf"; then \
 		printf "transport_maps = hash:/etc/postfix/transport" >> "/etc/postfix/main.cf"; \
+		printf "smtpd_sender_restrictions = hash:/etc/postfix/access" >> "/etc/postfix/main.cf"; \
 	fi
 	stow -t "/etc/postfix" postfix
 	sudo chown root /etc/postfix/transport
 	postmap /etc/postfix/transport
+	postmap /etc/postfix/access
 	postfix reload
 
 uninstall:
