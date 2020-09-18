@@ -313,7 +313,7 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
   cp "/var/cosmic/files/paper.png" "${html_dir}"
 
   # generate tilde.json
-  printf '{"name": "cosmic.voyage", "url": "https://cosmic.voyage", "signup_url": "https://cosmic.voyage/join.html", "user_count": %s, "want_users": true, "admin_email": "register@cosmic.voyage", "description": "Cosmic Voyage is a public-access unix system and tilde community based around a collaborative science-fiction universe. Users write stories as the people aboard ships, colonies, and outposts, using the only remaining free, interconnected network that unites the dispersed peoples of the stars."}' "$(grep -E '1[0-9]{3}' "/etc/passwd" | grep -c 'home')" > "${html_dir}/tilde.json"
+  printf '{"name": "cosmic.voyage", "url": "https://cosmic.voyage", "signup_url": "https://cosmic.voyage/join.html", "user_count": %s, "want_users": true, "admin_email": "james@tomasino.org", "description": "Cosmic Voyage is a public-access unix system and tilde community based around a collaborative science-fiction universe. Users write stories as the people aboard ships, colonies, and outposts, using the only remaining free, interconnected network that unites the dispersed peoples of the stars."}' "$(grep -E '1[0-9]{3}' "/etc/passwd" | grep -c 'home')" > "${html_dir}/tilde.json"
 
   # Let user's know it's done
   printf "Web and RSS rebuilt.\\n"

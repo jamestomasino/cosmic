@@ -59,6 +59,7 @@ postfix:
 	fi
 	stow -t "/etc/postfix" postfix
 	sudo chown root /etc/postfix/transport
+	sudo chown root /etc/postfix/access
 	postmap /etc/postfix/transport
 	postmap /etc/postfix/access
 	postfix reload
