@@ -54,8 +54,8 @@ menu:
 
 postfix:
 	if ! grep -q 'transport_maps' "/etc/postfix/main.cf"; then \
-		printf "transport_maps = hash:/etc/postfix/transport" >> "/etc/postfix/main.cf"; \
-		printf "smtpd_sender_restrictions = hash:/etc/postfix/access" >> "/etc/postfix/main.cf"; \
+		printf "transport_maps = hash:/etc/postfix/transport\n" >> "/etc/postfix/main.cf"; \
+		printf "smtpd_recipient_restrictions = check_sender_access hash:/etc/postfix/access, reject" >> "/etc/postfix/main.cf"; \
 	fi
 	stow -t "/etc/postfix" postfix
 	sudo chown root /etc/postfix/transport
