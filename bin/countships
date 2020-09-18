@@ -1,0 +1,27 @@
+#!/bin/sh
+all_users=$(grep -E '1[0-9]{3}' "/etc/passwd" | grep 'home' | awk -F":" '{print $1}')
+
+finish () {
+  if [ -f "$temp_shiplist" ]; then
+    rm "$temp_shiplist"
+  fi
+}
+trap finish EXIT
+
+# use temp file for accumulator
+temp_shiplist=$(mktemp -t "$(basename "$0").shiplist.XXXXXXX") || exit 1
+
+# find all ship folders
+find "/var/gopher/" -maxdepth 1 ! -path "/var/gopher/" ! -path "/var/gopher/ships" ! -path "/var/gopher/log" -type d | while read -r shipdir
+do
+  owner=$(stat -c %U "$shipdir")
+  printf "%s\\n" "$owner" >> "$temp_shiplist"
+done
+
+sort "$temp_shiplist" | uniq -c | sort -k1,1nr -k2,2n | awk '{print $1, $2}'
+
+for u in $all_users; do
+  if ! grep -q "$u" "$temp_shiplist"; then
+    printf "0 %s\\n" "$u"
+  fi
+done
