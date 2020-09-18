@@ -1,14 +1,20 @@
-install: apt bin templates man completion files efingerd menu postfix updatemotd source
-.PHONY:  apt bin templates man completion files efingerd menu postfix updatemotd source
+help:
+	@echo "targets:"
+	@awk -F '#' '/^\w+:.*?#/ { print $0 }' $(MAKEFILE_LIST) \
+	| sed -n 's/^\(.*\): \(.*\)#\(.*\)/  \1|-\3/p' \
+	| column -t  -s '|'
 
-apt:
+install: apt bin templates man completion files efingerd menu postfix updatemotd source # install everything
+.PHONY:  help apt bin templates man completion files efingerd menu postfix updatemotd source
+
+apt: # install all apt packages
 	curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 	if [ ! -f "/etc/apt/sources.list.d/yarn.list" ]; then \
 		echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list; \
 	fi
 	xargs -a pkglist sudo apt install -y
 
-source:
+source: # clone all manual source packages to /var/packages
 	@while IFS= read -r line; do \
 		name=$$(printf "%s" "$$line" | awk -F "\t" '{print $$1}'); \
 		repo=$$(printf "%s" "$$line" | awk -F "\t" '{print $$2}'); \
@@ -21,38 +27,38 @@ source:
 		fi; \
 	done < "pkglist-source"
 
-bin:
+bin: # link bin scripts to /usr/local/bin
 	stow -t "/usr/local/bin" bin
 
-templates:
+templates: # link template files
 	mkdir -p "/etc/templates"
 	stow -t "/etc/templates" templates
 
-man:
+man: # link system man pages
 	mkdir -p "/usr/share/man/man1"
 	stow -t "/usr/share/man/man1" man
 
-completion:
+completion: # add bash completions
 	mkdir -p "/etc/bash_completion.d"
 	stow -t "/etc/bash_completion.d" completion
 
-files:
+files: # link miscellaneous files
 	mkdir -p "/usr/share/games/fortunes"
 	cd files && stow -t "/usr/share/games/fortunes" fortunes
 
-efingerd:
+efingerd: # install finger scripts
 	mkdir -p "/etc/efingerd"
 	stow -t "/etc/efingerd" efingerd
 
-updatemotd:
+updatemotd: # link motd files
 	mkdir -p "/etc/update-motd.d"
 	stow -t "/etc/update-motd.d" update-motd
 	sudo chown -R root /etc/update-motd.d
 
-menu:
+menu: # install the system interactive menu
 	stow -t "/etc" menu
 
-postfix:
+postfix: # set up postfix for tilde-only email
 	if ! grep -q 'transport_maps' "/etc/postfix/main.cf"; then \
 		printf "transport_maps = hash:/etc/postfix/transport\n" >> "/etc/postfix/main.cf"; \
 		printf "smtpd_recipient_restrictions = check_sender_access hash:/etc/postfix/access, reject" >> "/etc/postfix/main.cf"; \
@@ -64,7 +70,7 @@ postfix:
 	postmap /etc/postfix/access
 	postfix reload
 
-uninstall:
+uninstall: # uninstall everything we've installed from this repo
 	stow -t "/usr/local/bin" -D bin
 	stow -t "/etc/templates" -D templates
 	stow -t "/usr/share/man/man1/" -D man
