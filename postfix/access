@@ -25,6 +25,7 @@ tilde.club         permit_auth_destination
 tilde.institute    permit_auth_destination
 tilde.life         permit_auth_destination
 tilde.news         permit_auth_destination
+tilde.one          permit_auth_destination
 tilde.pink         permit_auth_destination
 tilde.site         permit_auth_destination
 tilde.team         permit_auth_destination
