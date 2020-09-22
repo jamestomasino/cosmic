@@ -86,6 +86,7 @@ menu:games:Games:Games and fun distractions
     exec:_Bastard Tetris::/usr/games/bastet
     exec:_Nethack::/usr/games/nethack-console
     exec:_Sudoku::/usr/games/nudoku
+    exec:_Freesweep::/usr/games/freesweep
     exec:_Zangband::/usr/games/zangband
     exec:2048::/usr/games/2048
     exec:_Gorched::/snap/bin/gorched

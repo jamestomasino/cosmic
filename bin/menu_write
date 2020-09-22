@@ -1,5 +1,5 @@
-#!/bin/sh
-
+#!/usr/bin/env bash
+shopt -s nullglob
 for ship in "${HOME}/ships/"*; do
   shipname="$(basename "$ship")"
   shipstub="$(basename "$ship" | sed 's/[^A-Za-z0-9]//g' | tr '[:upper:]' '[:lower:]')"
