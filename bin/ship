@@ -1,6 +1,6 @@
 #!/bin/sh
 
-YELLOW="$(tput setaf 11)"
+YELLOW="$(tput setaf 12)"
 GREEN="$(tput setaf 10)"
 RED="$(tput setaf 9)"
 RESET="$(tput sgr0)"
