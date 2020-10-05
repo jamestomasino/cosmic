@@ -27,11 +27,11 @@ title:Cosmic Voyage
 color:desktop:white:black
 color:title:white:red
 color:base:lightgray:red
-color:menu:white:blue
-color:selbar:white:red
+color:menu:lightgray:blue
+color:selbar:lightgray:red
 color:shadow:gray:black
-color:menuhot:yellow:blue
-color:selbarhot:yellow:red
+color:menuhot:white:blue
+color:selbarhot:white:red
 color:unselmenu:lightgray:black
 
 #this is a comment
