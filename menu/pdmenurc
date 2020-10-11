@@ -84,7 +84,7 @@ menu:comms:Communication:Reach out and touch someone
          profile="${profile%.*}"; \
          echo "exec:profile\: $profile::/usr/bin/unison $profile"; \
        done; \
-       echo "exec:_New command:truncate,edit:/usr/bin/unison \"~[ships/myship] [remoteserver@remotefolder]:~\""; \
+       echo "exec:_New command:truncate,edit:/usr/bin/unison \"~[ships/myship] [ssh://remote/folder]:~\""; \
        echo "nop"; \
        echo "exit:E_xit"
        show:::unison
