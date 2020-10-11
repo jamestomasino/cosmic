@@ -69,12 +69,26 @@ menu:comms:Communication:Reach out and touch someone
        exec::makemenu: \
        echo "menu:talk:Talk:Talk to other users"; \
        for u in `/usr/bin/who | /usr/bin/cut -f 1 -d " "| /usr/bin/sort -u `; do \
-         echo "exec:$u::/usr/bin/talk $u"; \
+         echo "exec:$u::/usr/local/bin/ytalk $u"; \
        done; \
        echo "nop"; \
        echo "exit:E_xit"
        show:::talk
        remove:::talk
+     endgroup
+     group:_Unison (folder sync)..
+       exec::makemenu: \
+       echo "menu:unison:Unison:Synchronize folders to other systems"; \
+       for f in ~/.unison/*.prf; do \
+         profile="$(basename $f)"; \
+         profile="${profile%.*}"; \
+         echo "exec:profile\: $profile::/usr/bin/unison $profile"; \
+       done; \
+       echo "exec:_New command:truncate,edit:/usr/bin/unison \"~[ships/myship] [remoteserver@remotefolder]:~\""; \
+       echo "nop"; \
+       echo "exit:E_xit"
+       show:::unison
+       remove:::unison
      endgroup
      nop
      exit:E_xit
