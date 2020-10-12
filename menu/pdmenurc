@@ -38,7 +38,7 @@ color:unselmenu:lightgray:black
 menu:main:Main Menu:Cosmic Voyage Menu System v1.0
      show:Cosmic _Tools..::cosmic
      show:_Communication..::comms
-     show:_Games..::games
+     show:_Fun & Games..::games
      nop
      exec:_Wiki::/usr/local/bin/wiki
      exec:_FAQ::/usr/local/bin/faq
@@ -93,7 +93,7 @@ menu:comms:Communication:Reach out and touch someone
      nop
      exit:E_xit
 
-menu:games:Games:Games and fun distractions
+menu:games:Fun & Games:Games and fun distractions
     exec:_Botany::/usr/local/bin/botany
     exec:_Dungeon Crawl Stone Soup::/usr/local/bin/dcss
     exec:_Space Invaders::/usr/games/ninvaders
@@ -108,6 +108,7 @@ menu:games:Games:Games and fun distractions
     exec:_Moon Buggy::/usr/games/moon-buggy
     exec:_Tron::ssh sshtron.zachlatta.com
     exec:_Fortune:truncate:/usr/games/fortune | par -w 60
+    exec:_JPL Horizons::telnet horizons.jpl.nasa.gov 6775
     group:_Crossword..
      exec::makemenu: \
      echo "menu:crossword:Crossword:Play Crossword Puzzles"; \
