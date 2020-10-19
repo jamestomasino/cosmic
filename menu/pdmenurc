@@ -94,21 +94,9 @@ menu:comms:Communication:Reach out and touch someone
      exit:E_xit
 
 menu:games:Fun & Games:Games and fun distractions
-    exec:_Botany::/usr/local/bin/botany
-    exec:_Dungeon Crawl Stone Soup::/usr/local/bin/dcss
-    exec:_Space Invaders::/usr/games/ninvaders
+    exec:_Among Sus::/usr/bin/rlwrap nc tilde.team 1234
     exec:_Bastard Tetris::/usr/games/bastet
-    exec:_Nethack::/usr/games/nethack-console
-    exec:_Sudoku::/usr/games/nudoku
-    exec:_Freesweep::/usr/games/freesweep
-    exec:_Zangband::/usr/games/zangband
-    exec:2048::/usr/games/2048
-    exec:_Gorched::/snap/bin/gorched
-    exec:Greed::/usr/games/greed
-    exec:_Moon Buggy::/usr/games/moon-buggy
-    exec:_Tron::ssh sshtron.zachlatta.com
-    exec:_Fortune:truncate:/usr/games/fortune | par -w 60
-    exec:_JPL Horizons::telnet horizons.jpl.nasa.gov 6775
+    exec:_Botany::/usr/local/bin/botany
     group:_Crossword..
      exec::makemenu: \
      echo "menu:crossword:Crossword:Play Crossword Puzzles"; \
@@ -120,6 +108,21 @@ menu:games:Fun & Games:Games and fun distractions
      show:::crossword
      remove:::crossword
     endgroup
+    exec:_Dungeon Crawl Stone Soup::/usr/local/bin/dcss
+    exec:_Fortune:truncate:/usr/games/fortune | par -w 60
+    exec:_Freesweep::/usr/games/freesweep
+    exec:_Gorched::/snap/bin/gorched
+    exec:Greed::/usr/games/greed
+    exec:_I Ching::/usr/games/iching
+    exec:_JPL Horizons::telnet horizons.jpl.nasa.gov 6775
+    exec:_Moon Buggy::/usr/games/moon-buggy
+    exec:_Nethack::/usr/games/nethack-console
+    exec:_SLASHEM (Nethack clone)::/usr/games/slashem
+    exec:_Space Invaders::/usr/games/ninvaders
+    exec:_Sudoku::/usr/games/nudoku
+    exec:_Tron::ssh sshtron.zachlatta.com
+    exec:_Zangband::/usr/games/zangband
+    exec:2048::/usr/games/2048
     nop
     exit:_Back to main menu..
 
