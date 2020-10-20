@@ -11,7 +11,7 @@ temp_scores=$(mktemp -t "$(basename "$0").scores.XXXXXXX") || exit 1
 
 for u in $(voyagers); do
   if ls /home/"${u}"/ships/**/*.txt &> /dev/null; then
-    words=$(wc -w /home/"${u}"/ships/**/*.txt | tail -n 1 | awk '{print $1}')
+    words=$(wordcount "${u}")
     printf "%s,%s\\n" "$u" "$words" >> "$temp_scores"
   fi
 done
