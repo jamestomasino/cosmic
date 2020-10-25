@@ -94,7 +94,7 @@ menu:comms:Communication:Reach out and touch someone
      exit:E_xit
 
 menu:games:Fun & Games:Games and fun distractions
-    exec:_Among Sus::/usr/bin/rlwrap nc tilde.team 1234
+    exec:_Among Sus::/usr/bin/rlwrap nc 167.114.7.65 1234
     exec:_Bastard Tetris::/usr/games/bastet
     exec:_Botany::/usr/local/bin/botany
     group:_Crossword..
