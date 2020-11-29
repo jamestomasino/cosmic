@@ -43,6 +43,12 @@ parse_input () {
         flag_debug=1
         arg_log=0
         ;;
+      c)
+        YELLOW=""
+        GREEN=""
+        RED=""
+        RESET=""
+        ;;
       s)
         arg_ship="$OPTARG"
         ;;
@@ -69,12 +75,10 @@ show_help () {
   printf "%s [-hvd] [-s shipname]\\n\\n" "$(basename "$0")"
   printf "  -h                          Show this help\\n"
   printf "  -v                          Show current version info\\n"
-  printf "  -d                          Debug mode\\n"
+  printf "  -c                          No-Color mode\\n"
   printf "  -s [shipname]               Only log messages for ship named\\n"
   printf "  -n [filename]               Create new message with filename\\n"
   printf "                              (Users with multiple ships must use -s)\\n"
-  printf "\\n"
-  printf "Passing no options will enter interactive mode.\\n\\n"
   printf "\\n"
 }
 
@@ -193,7 +197,7 @@ main() {
   flag_file=0
   flag_title=0
 
-  arg_options="hvdt:f:s:z"
+  arg_options="hvdct:f:s:z"
   arg_log=1
   arg_ship=""
   arg_file=""
