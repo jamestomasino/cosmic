@@ -311,6 +311,8 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
   # copy cosmic banner
   cp "/var/cosmic/files/cosmicbanner.png" "${html_dir}"
   cp "/var/cosmic/files/paper.png" "${html_dir}"
+  cp "/var/cosmic/files/inconsolata-regular-webfont.woff" "${html_dir}"
+  cp "/var/cosmic/files/inconsolata-regular-webfont.woff2" "${html_dir}"
 
   # generate tilde.json
   userlist=$(voyagers | awk '{print "{\"username\":\"" $0 "\"}," }')
