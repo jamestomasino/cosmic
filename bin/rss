@@ -16,13 +16,14 @@ if [ "$run_user" -eq 0 ]; then
     printf "\\n<title>Cosmic Voyage</title>\\n"
     printf "<link>https://cosmic.voyage</link>\\n"
     printf "<description>Messages from the human stellar diaspora</description>\\n"
+    printf "<ttl>1440</ttl>\\n"
   } > "${file_rss}"
 
   # Loop through listings gophermap
   loop=0
   while read -r line; do
     loop=$((loop+1))
-    if [ "$loop" -lt 50 ]; then
+    if [ "$loop" -lt 20 ]; then
       log=$(printf "%s" "$line" | awk -F'\t' '{print $2}')
       title=$(printf "%s" "$line" | awk -F'\t' '{print $1}' | sed 's|^.||')
       owner=$(stat -c %U "/var/gopher${log}")

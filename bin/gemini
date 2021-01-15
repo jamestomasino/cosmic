@@ -10,15 +10,15 @@ if [ "$run_user" = "gemini" ]; then
   cp -R /var/gopher/* /var/gemini > /dev/null 2>&1
 
   # generate index pages
-  curl -s gopher://cosmic.voyage | /var/cosmic/awk/gophermap2gemini.awk > /var/gemini/index.gmi
-  curl -s gopher://cosmic.voyage/1/log | /var/cosmic/awk/gophermap2gemini.awk > /var/gemini/log/index.gmi
-  curl -s gopher://cosmic.voyage/1/ships | /var/cosmic/awk/gophermap2gemini.awk > /var/gemini/ships/index.gmi
+  curl -s gopher://localhost | /var/cosmic/awk/gophermap2gemini.awk > /var/gemini/index.gmi
+  curl -s gopher://localhost/1/log | /var/cosmic/awk/gophermap2gemini.awk > /var/gemini/log/index.gmi
+  curl -s gopher://localhost/1/ships | /var/cosmic/awk/gophermap2gemini.awk > /var/gemini/ships/index.gmi
   sed 's?gopher://cosmic.voyage/0/?gemini://cosmic.voyage/?' /var/gopher/rss.xml | sed 's?<link>gopher://cosmic.voyage?<link>gemini://cosmic.voyage?' > /var/gemini/rss.xml
 
   # create ship directories
   find "/var/gopher/" -maxdepth 1 ! -path "/var/gopher/" ! -path "/var/gopher/ships" ! -path "/var/gopher/log" -type d | sed 's|/var/gopher/||' | sort | while read -r ship
   do
-    curl -s "gopher://cosmic.voyage/1/ships/${ship}" | /var/cosmic/awk/gophermap2gemini.awk > "/var/gemini/ships/${ship}/index.gmi"
+    curl -s "gopher://localhost/1/ships/${ship}" | /var/cosmic/awk/gophermap2gemini.awk > "/var/gemini/ships/${ship}/index.gmi"
   done
   # Let user's know it's done
   printf "Gemini and gemini RSS rebuilt successfully.\\n"
