@@ -10,7 +10,9 @@ if [ "$run_user" = "gemini" ]; then
   cp -R /var/gopher/* /var/gemini > /dev/null 2>&1
 
   # generate index pages
-  curl -s gopher://localhost | /var/cosmic/awk/gophermap2gemini.awk > /var/gemini/index.gmi
+  # curl -s gopher://localhost | /var/cosmic/awk/gophermap2gemini.awk > /var/gemini/index.gmi
+  cp /var/cosmic/templates/geminiintro.tmpl /var/gemini/index.gmi
+  curl -s gopher://localhost/1/listing.gophermap | /var/cosmic/awk/gophermap2gemini.awk >> /var/gemini/index.gmi
   curl -s gopher://localhost/1/log | /var/cosmic/awk/gophermap2gemini.awk > /var/gemini/log/index.gmi
   curl -s gopher://localhost/1/ships | /var/cosmic/awk/gophermap2gemini.awk > /var/gemini/ships/index.gmi
   sed 's?gopher://cosmic.voyage/0/?gemini://cosmic.voyage/?' /var/gopher/rss.xml | sed 's?<link>gopher://cosmic.voyage?<link>gemini://cosmic.voyage?' > /var/gemini/rss.xml
