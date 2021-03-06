@@ -1,0 +1,112 @@
+#!/bin/sh
+
+run_user=$(id -u)
+if [ "$run_user" -eq 0 ]; then
+  file_atom="/var/www/html/atom.xml"
+  gopher_atom="/var/gopher/atom.xml"
+
+  ###################################################################### 
+  ############################# HTML VERSION ########################### 
+  ###################################################################### 
+
+  # Add header info to xml output
+  {
+    printf "<?xml version=\"1.0\" encoding=\"utf-8\"?>\\n"
+    printf "<feed xmlns=\"http://www.w3.org/2005/Atom\">\\n"
+    printf "<title>Cosmic Voyage</title>\\n"
+    printf "<subtitle>Messages from the human stellar diaspora</subtitle>\\n"
+    printf "<link rel=\"alternate\" href=\"https://cosmic.voyage/\"/>\\n"
+    printf "<link rel=\"self\" href=\"https://cosmic.voyage/atom.xml\" />\\n"
+    firstlog=$(head -n1 "/var/gopher/listing.gophermap" | awk -F'\t' '{print $2}')
+    printf "<updated>%s</updated>\\n" "$(date -d "$(stat -c %y "/var/gopher${firstlog}")" +'%Y-%m-%dT%H:%M:%SZ')"
+    printf "<rights>©2021 All rights reserved</rights>\\n"
+    printf "<id>https://cosmic.voyage/</id>\\n"
+  } > "${file_atom}"
+
+  # Loop through listings gophermap
+  loop=0
+  while read -r line; do
+    loop=$((loop+1))
+    if [ "$loop" -lt 20 ]; then
+      log=$(printf "%s" "$line" | awk -F'\t' '{print $2}')
+      title=$(printf "%s" "$line" | awk -F'\t' '{print $1}' | sed 's|^.||')
+      owner=$(stat -c %U "/var/gopher${log}")
+
+      # print item entry for each log
+      {
+        printf "<entry>\\n"
+        printf "  <title>%s</title>\\n" "$title"
+        printf "  <author>\\n"
+        printf "    <name>%s</name>\\n" "$owner"
+        printf "  </author>\\n"
+        printf "  <link rel=\"alternate\" href=\"https://cosmic.voyage%s\"/>\\n" "$(printf "%s" "$log" | sed 's|.txt$|.html|' | sed 's|\ |%20|g')"
+        printf "  <id>https://cosmic.voyage%s</id>\\n" "$(printf "%s" "$log" | sed 's|.txt$|.html|' | sed 's|\ |%20|g')"
+        printf "  <updated>%s</updated>\\n" "$(date -d "$(stat -c %y "/var/gopher${log}")" +'%Y-%m-%dT%H:%M:%SZ')"
+        printf "  <content type=\"html\"><![CDATA[<pre>\\n"
+        sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g; s/'"'"'/\&#39;/g' "/var/gopher${log}"
+        printf "</pre>]]></content>\\n"
+        printf "</entry>\\n"
+
+      } >> "${file_atom}"
+    fi
+  done < "/var/gopher/listing.gophermap"
+
+  # close up the footer
+  {
+    printf "</feed>\\n"
+  } >> "${file_atom}"
+
+  ###################################################################### 
+  ########################## GOPHER  VERSION ########################### 
+  ###################################################################### 
+
+  # Add header info to xml output
+  {
+    printf "<?xml version=\"1.0\" encoding=\"utf-8\"?>\\n"
+    printf "<feed xmlns=\"http://www.w3.org/2005/Atom\">\\n"
+    printf "<title>Cosmic Voyage</title>\\n"
+    printf "<subtitle>Messages from the human stellar diaspora</subtitle>\\n"
+    printf "<link rel=\"alternate\" href=\"gopher://cosmic.voyage/\"/>\\n"
+    printf "<link rel=\"self\" href=\"gopher://cosmic.voyage/atom.xml\" />\\n"
+    firstlog=$(head -n1 "/var/gopher/listing.gophermap" | awk -F'\t' '{print $2}')
+    printf "<updated>%s</updated>\\n" "$(date -d "$(stat -c %y "/var/gopher${firstlog}")" +'%Y-%m-%dT%H:%M:%SZ')"
+    printf "<rights>©2021 All rights reserved</rights>\\n"
+    printf "<id>gopher://cosmic.voyage/</id>\\n"
+  } > "${gopher_atom}"
+
+  # Loop through listings gophermap
+  loop=0
+  while read -r line; do
+    loop=$((loop+1))
+    if [ "$loop" -lt 20 ]; then
+      log=$(printf "%s" "$line" | awk -F'\t' '{print $2}')
+      title=$(printf "%s" "$line" | awk -F'\t' '{print $1}' | sed 's|^.||')
+      owner=$(stat -c %U "/var/gopher${log}")
+
+      # print item entry for each log
+      {
+        printf "<entry>\\n"
+        printf "  <title>%s</title>\\n" "$title"
+        printf "  <author>\\n"
+        printf "    <name>%s</name>\\n" "$owner"
+        printf "  </author>\\n"
+        printf "  <link rel=\"alternate\" href=\"gopher://cosmic.voyage/0%s\"/>\\n" "$(printf "%s" "$log" | sed 's|\ |%20|g')"
+        printf "  <id>gopher://cosmic.voyage/0%s</id>\\n" "$(printf "%s" "$log" | sed 's|\ |%20|g')"
+        printf "  <updated>%s</updated>\\n" "$(date -d "$(stat -c %y "/var/gopher${log}")" +'%Y-%m-%dT%H:%M:%SZ')"
+        printf "  <content type=\"html\"><![CDATA[<pre>\\n"
+        sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g; s/'"'"'/\&#39;/g' "/var/gopher${log}"
+        printf "</pre>]]></content>\\n"
+        printf "</entry>\\n"
+
+      } >> "${gopher_atom}"
+    fi
+  done < "/var/gopher/listing.gophermap"
+
+  # close up the footer
+  {
+    printf "</feed>\\n"
+  } >> "${gopher_atom}"
+
+else
+  exec sudo "$0" "$@"
+fi

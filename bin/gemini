@@ -16,6 +16,7 @@ if [ "$run_user" = "gemini" ]; then
   curl -s gopher://localhost/1/log | /var/cosmic/awk/gophermap2gemini.awk > /var/gemini/log/index.gmi
   curl -s gopher://localhost/1/ships | /var/cosmic/awk/gophermap2gemini.awk > /var/gemini/ships/index.gmi
   sed 's?gopher://cosmic.voyage/0/?gemini://cosmic.voyage/?' /var/gopher/rss.xml | sed 's?<link>gopher://cosmic.voyage?<link>gemini://cosmic.voyage?' > /var/gemini/rss.xml
+  sed 's?gopher://cosmic.voyage/0/?gemini://cosmic.voyage/?' /var/gopher/atom.xml | sed 's?<link>gopher://cosmic.voyage?<link>gemini://cosmic.voyage?' > /var/gemini/atom.xml
 
   # create ship directories
   find "/var/gopher/" -maxdepth 1 ! -path "/var/gopher/" ! -path "/var/gopher/ships" ! -path "/var/gopher/log" -type d | sed 's|/var/gopher/||' | sort | while read -r ship
@@ -23,7 +24,7 @@ if [ "$run_user" = "gemini" ]; then
     curl -s "gopher://localhost/1/ships/${ship}" | /var/cosmic/awk/gophermap2gemini.awk > "/var/gemini/ships/${ship}/index.gmi"
   done
   # Let user's know it's done
-  printf "Gemini and gemini RSS rebuilt successfully.\\n"
+  printf "Gemini and gemini feeds rebuilt successfully.\\n"
 else
   exec sudo -u gemini "$0" "$@"
 fi

@@ -67,6 +67,10 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
   # shellcheck source=rss
   # shellcheck disable=SC1091
   . "${SCRIPTPATH}/rss"
+  # Generate RSS
+  # shellcheck source=atom
+  # shellcheck disable=SC1091
+  . "${SCRIPTPATH}/atom"
 
   # prep directories
   mkdir -p "$(dirname "${log_html}")"
@@ -78,6 +82,7 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
     printf "<title>Cosmic Voyage - Messages from Humanity's Stellar Diaspora</title>"
     printf "<link rel=\"canonical\" href=\"https://cosmic.voyage\">"
     printf "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"Cosmic Voyage\" href=\"/rss.xml\">"
+    printf "<link rel=\"alternate\" type=\"application/atom+xml\" title=\"Cosmic Voyage\" href=\"/atom.xml\">"
     printf "<meta name=\"description\" content=\"Cosmic Voyage is a public-access unix system and 'tilde' community based around a collaborative science-fiction universe. Users write stories as the people aboard ships, colonies, and outposts, using the only remaining free, interconnected network that unites the dispersed peoples of the stars.\">"
     cat "$web_styles_html"
     printf "</head>"
@@ -90,7 +95,8 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
     printf "\\n<a href=\"/join.html\"><span class=\"dim\">&gt;&gt;</span> How to Join Cosmic Voyage</a>\\n"
     printf "<a href=\"/log\"><span class=\"dim\">&gt;&gt;</span> Complete Transmission Log</a>\\n"
     printf "<a href=\"/ships\"><span class=\"dim\">&gt;&gt;</span> Ships, Colonies, Outposts</a>\\n"
-    printf "<a href=\"/rss.xml\"><span class=\"dim\">&gt;&gt;</span> RSS Feed</a>\\n\\n"
+    printf "<a href=\"/rss.xml\"><span class=\"dim\">&gt;&gt;</span> RSS Feed</a>\\n"
+    printf "<a href=\"/atom.xml\"><span class=\"dim\">&gt;&gt;</span> Atom Feed</a>\\n\\n"
     # Logs
     printf "Most recent log entries:\\n"
   } >> "${root_index_html}"
@@ -318,7 +324,7 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
   printf '{"name": "cosmic.voyage", "url": "https://cosmic.voyage", "signup_url": "https://cosmic.voyage/join.html", "user_count": %s, "want_users": true, "admin_email": "james@tomasino.org", "description": "Cosmic Voyage is a public-access unix system and tilde community based around a collaborative science-fiction universe. Users write stories as the people aboard ships, colonies, and outposts, using the only remaining free, interconnected network that unites the dispersed peoples of the stars.", "users": [%s]}' "$(grep -E '1[0-9]{3}' "/etc/passwd" | grep -c 'home')" "${userlist%?}" > "${html_dir}/tilde.json"
 
   # Let user's know it's done
-  printf "Web and RSS rebuilt.\\n"
+  printf "Web and Feeds rebuilt.\\n"
 else
   exec sudo -u publish "$0" "$@"
 fi
