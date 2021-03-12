@@ -64,7 +64,11 @@ BEGIN {
 			print "```"
 			isFenced=0
 		}
-		printf("=> gemini://%s%s %s\n", server, path, label)
+		if (server) {
+			printf("=> gemini://%s%s %s\n", server, path, label)
+		} else {
+			printf("=> %s %s\n", path, label)
+		}
 	}
 }
 
