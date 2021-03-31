@@ -97,6 +97,7 @@ menu:games:Fun & Games:Games and fun distractions
     exec:_Among Sus::/usr/bin/rlwrap nc sus.tildeverse.org 1234
     exec:_Bastard Tetris::/usr/games/bastet
     exec:_Botany::/usr/local/bin/botany
+    exec:_cbonsai::/usr/local/bin/cbonsai --live
     group:_Crossword..
      exec::makemenu: \
      echo "menu:crossword:Crossword:Play Crossword Puzzles"; \

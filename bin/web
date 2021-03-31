@@ -10,7 +10,7 @@ entry_index () {
   itemnum=$((logcount-index+1))
   page=$(( index / logs_per_page + 1 ))
   if [ "$page" -ne 1 ]; then
-    entry_index_html="/var/www/html/log/index-${page}.html"
+    entry_index_html="${temp_dir}/log/index-${page}.html"
   else
     entry_index_html="${log_html}"
   fi
@@ -21,8 +21,8 @@ entry_index () {
   printf "<a href=\"%s.html\">%s <span class=\"dim\">&gt;&gt;</span> %s</a>\\n" "$loghtml" "$itemnum" "$title" >> "${entry_index_html}"
 
   # create entry
-  entry_html="${html_dir}${loghtml}.html"
-  mkdir -p "${html_dir}${logdir}"
+  entry_html="${temp_dir}${loghtml}.html"
+  mkdir -p "${temp_dir}${logdir}"
   cat "$web_header_html" > "${entry_html}"
   {
     printf "    <title>%s</title>\\n" "$title"
@@ -41,15 +41,16 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
   SCRIPT=$(readlink -f "$0")
   SCRIPTPATH=$(dirname "$SCRIPT")
 
-  root_index_html="/var/www/html/index.html"
-  log_html="/var/www/html/log/index.html"
-  web_header_html="/etc/templates/webheader.tmpl"
-  web_styles_html="/etc/templates/webstyles.tmpl"
-  ships_html="/var/www/html/ships/index.html"
-  error_html="/var/www/html/error.html"
-  join_html="/var/www/html/join.html"
   html_dir="/var/www/html"
   gopher_dir="/var/gopher"
+  temp_dir=$(mktemp -d -t "web.XXXXXXXX") || exit 1
+  root_index_html="${temp_dir}/index.html"
+  log_html="${temp_dir}/log/index.html"
+  web_header_html="/etc/templates/webheader.tmpl"
+  web_styles_html="/etc/templates/webstyles.tmpl"
+  ships_html="${temp_dir}/ships/index.html"
+  error_html="${temp_dir}/error.html"
+  join_html="${temp_dir}/join.html"
   logcount=$(wc -l "${gopher_dir}/listing.gophermap" | awk '{print $1}')
   logs_per_page=100
 
@@ -61,17 +62,6 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
       exit
     fi
   fi
-  # Clear web folder
-  rm -rf "/var/www/html/*"
-  # Generate RSS
-  # shellcheck source=rss
-  # shellcheck disable=SC1091
-  . "${SCRIPTPATH}/rss"
-  # Generate RSS
-  # shellcheck source=atom
-  # shellcheck disable=SC1091
-  . "${SCRIPTPATH}/atom"
-
   # prep directories
   mkdir -p "$(dirname "${log_html}")"
 
@@ -105,7 +95,7 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
   for i in $(seq 1 $pages); do
     local_log_html="${log_html}"
     if [ "$i" -gt 1 ]; then
-      local_log_html="/var/www/html/log/index-${i}.html"
+      local_log_html="${temp_dir}/log/index-${i}.html"
     fi
     cat "$web_header_html" > "${local_log_html}"
     # Custom header elements and body start
@@ -134,7 +124,7 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
     next=$((i+1))
     prev=$((i-1))
     if [ "$i" -gt 1 ]; then
-      local_log_html="/var/www/html/log/index-${i}.html"
+      local_log_html="${temp_dir}/log/index-${i}.html"
     else
       local_log_html="${log_html}"
     fi
@@ -168,7 +158,7 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
   } >> "${root_index_html}"
 
   # Generate ship pages
-  mkdir -p "${html_dir}/ships"
+  mkdir -p "${temp_dir}/ships"
   # Add header info to html output
   cat "$web_header_html" > "${ships_html}"
   # Custom header elements and body start
@@ -197,8 +187,8 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
     if [ "$entry_num" != "0" ]; then
       printf "<a href=\"/ships/%s/\"><span class=\"dim\">&gt;&gt;</span> %s <span class=\"dim\">(%s logs)</span></a>\\n" "$ship" "$ship" "$entry_num" >> "$ships_html"
       # Create individual ship log page
-      ship_html="${html_dir}/ships/${ship}/index.html"
-      mkdir -p "${html_dir}/ships/${ship}"
+      ship_html="${temp_dir}/ships/${ship}/index.html"
+      mkdir -p "${temp_dir}/ships/${ship}"
       # Add header info to html output
       cat "$web_header_html" > "${ship_html}"
       # Custom header elements and body start
@@ -223,7 +213,7 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
         # Ship about page
         about="${gopher_dir}/${ship}/ABOUT"
         if [ -f "$about" ]; then
-          about_html="${html_dir}/ships/${ship}/about.html"
+          about_html="${temp_dir}/ships/${ship}/about.html"
           cat "$web_header_html" > "${about_html}"
           {
             printf "<title>Cosmic Voyage - About %s</title>" "${ship}"
@@ -250,7 +240,7 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
         # Author copyright and optional link
         auth="/var/gopher/${ship}/AUTHOR"
         if [ -f "$auth" ]; then
-          author_html="${html_dir}/ships/${ship}/author.html"
+          author_html="${temp_dir}/ships/${ship}/author.html"
           cat "$web_header_html" > "${author_html}"
           {
             printf "<title>Cosmic Voyage - \"%s\" Author</title>" "${ship}"
@@ -272,7 +262,7 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
         # License
         lic="/var/gopher/${ship}/LICENSE"
         if [ -f "$lic" ]; then
-          cp "$lic" "${html_dir}/ships/${ship}/LICENSE.txt"
+          cp "$lic" "${temp_dir}/ships/${ship}/LICENSE.txt"
           printf "<a href=\"%s\">%s</a>" "/ships/${ship}/LICENSE.txt" "$(head -n 1 "$lic")"
         else
           printf "All rights reserved.\\n"
@@ -312,19 +302,23 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
   } >> "${join_html}"
 
   # copy favicon
-  cp "/var/cosmic/favicons/"* "${html_dir}"
+  install -m 775 -o publish -g publish "/var/cosmic/favicons/"* "${temp_dir}"
 
   # copy cosmic banner
-  cp "/var/cosmic/files/cosmicbanner.png" "${html_dir}"
-  cp "/var/cosmic/files/inconsolata-regular-webfont.woff" "${html_dir}"
-  cp "/var/cosmic/files/inconsolata-regular-webfont.woff2" "${html_dir}"
+  install -m 775 -o publish -g publish "/var/cosmic/files/cosmicbanner.png" "${temp_dir}"
+  install -m 775 -o publish -g publish "/var/cosmic/files/inconsolata-regular-webfont.woff" "${temp_dir}"
+  install -m 775 -o publish -g publish "/var/cosmic/files/inconsolata-regular-webfont.woff2" "${temp_dir}"
 
   # generate tilde.json
   userlist=$(voyagers | awk '{print "{\"username\":\"" $0 "\"}," }')
-  printf '{"name": "cosmic.voyage", "url": "https://cosmic.voyage", "signup_url": "https://cosmic.voyage/join.html", "user_count": %s, "want_users": true, "admin_email": "james@tomasino.org", "description": "Cosmic Voyage is a public-access unix system and tilde community based around a collaborative science-fiction universe. Users write stories as the people aboard ships, colonies, and outposts, using the only remaining free, interconnected network that unites the dispersed peoples of the stars.", "users": [%s]}' "$(grep -E '1[0-9]{3}' "/etc/passwd" | grep -c 'home')" "${userlist%?}" > "${html_dir}/tilde.json"
+  printf '{"name": "cosmic.voyage", "url": "https://cosmic.voyage", "signup_url": "https://cosmic.voyage/join.html", "user_count": %s, "want_users": true, "admin_email": "james@tomasino.org", "description": "Cosmic Voyage is a public-access unix system and tilde community based around a collaborative science-fiction universe. Users write stories as the people aboard ships, colonies, and outposts, using the only remaining free, interconnected network that unites the dispersed peoples of the stars.", "users": [%s]}' "$(grep -E '1[0-9]{3}' "/etc/passwd" | grep -c 'home')" "${userlist%?}" > "${temp_dir}/tilde.json"
+
+  # Overwirte web directory with temp
+  rsync -r --delete "${temp_dir}/" "${html_dir}/"
+  rm -rf "${temp_dir}"
 
   # Let user's know it's done
-  printf "Web and Feeds rebuilt.\\n"
+  printf "Web rebuilt.\\n"
 else
   exec sudo -u publish "$0" "$@"
 fi
