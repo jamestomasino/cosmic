@@ -6,4 +6,7 @@ steps:
     - name: shellcheck
       image: koalaman/shellcheck-alpine:stable
       commands:
-          - bash -c 'shopt -s globstar; shellcheck {bin,efingerd,completion,update-motd}/*'
+          - shellcheck bin/*
+          - shellcheck efingerd/*
+          - shellcheck completion/*
+          - shellcheck update-motd/*
