@@ -317,8 +317,17 @@ if [ "$run_user" = "root" ] || [ "$run_user" = "publish" ]; then
   rsync -r --delete "${temp_dir}/" "${html_dir}/"
   rm -rf "${temp_dir}"
 
+  # Generate RSS
+  # shellcheck source=rss
+  # shellcheck disable=SC1091
+  . "${SCRIPTPATH}/rss"
+  # Generate RSS
+  # shellcheck source=atom
+  # shellcheck disable=SC1091
+  . "${SCRIPTPATH}/atom"
+
   # Let user's know it's done
-  printf "Web rebuilt.\\n"
+  printf "Web and Feeds rebuilt.\\n"
 else
   exec sudo -u publish "$0" "$@"
 fi

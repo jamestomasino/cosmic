@@ -1,10 +1,5 @@
 #!/bin/sh
 
-YELLOW="$(tput setaf 12)"
-GREEN="$(tput setaf 10)"
-RED="$(tput setaf 9)"
-RESET="$(tput sgr0)"
-
 die () {
   msg="$1"
   code="$2"
@@ -44,10 +39,7 @@ parse_input () {
         arg_log=0
         ;;
       c)
-        YELLOW=""
-        GREEN=""
-        RED=""
-        RESET=""
+        flag_nocolor=1
         ;;
       s)
         arg_ship="$OPTARG"
@@ -58,6 +50,7 @@ parse_input () {
       f)
         arg_log=0
         flag_file=1
+        flag_nocolor=1
         arg_file="$OPTARG"
         ;;
       t)
@@ -196,6 +189,7 @@ main() {
   flag_shortlist=0
   flag_file=0
   flag_title=0
+  flag_nocolor=0
 
   arg_options="hvdct:f:s:z"
   arg_log=1
@@ -204,6 +198,18 @@ main() {
   arg_title=""
 
   parse_input "$@"
+
+  if [ $flag_nocolor -gt 0 ]; then
+    YELLOW=""
+    GREEN=""
+    RED=""
+    RESET=""
+  else
+    YELLOW="$(tput setaf 12)"
+    GREEN="$(tput setaf 10)"
+    RED="$(tput setaf 9)"
+    RESET="$(tput sgr0)"
+  fi
 
   # debug
   if [ $flag_debug -gt 0 ]; then
